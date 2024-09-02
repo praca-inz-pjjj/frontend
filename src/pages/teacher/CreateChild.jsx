@@ -4,8 +4,8 @@ import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
 import { BACKEND_ADDRESS, FRONTEND_ADDRESS } from '../../constances';
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
