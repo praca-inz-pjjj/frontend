@@ -35,7 +35,6 @@ export const ParentsOfChild = () => {
   const handlePerson = (person) => {
     setSearchTerm(`${person.first_name} ${person.last_name}`);
     setSelectedPersonId(person.id);
-    console.log(selectedPersonId)
   };
 
   const handleSearch = (e) => {
@@ -78,9 +77,9 @@ export const ParentsOfChild = () => {
               <div>
                 <h3 className="text-xl font-semibold mb-2">Lista Rodziców:</h3>
                 <ul className="list-disc list-inside space-y-2">
-                  {Object.entries(parents).map(([id, parent]) => (
-                    <li key={id} className="flex justify-between items-center">
-                      <span>{parseInt(id) + 1}. {parent.first_name} {parent.last_name}</span>
+                  {Object.entries(parents).map(([id, parent], index) => (
+                    <li key={parent.id} className="flex justify-between items-center">
+                      <span>{index + 1}. {parent.first_name} {parent.last_name}</span>
                       <button onClick={() => handleDeleteParent(parent.id)} className="ml-4 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                           Usuń
                       </button>
@@ -122,7 +121,7 @@ export const ParentsOfChild = () => {
               )}
               </div>
               <div>
-              <button onClick={() => handleAddParent(selectedPersonId)} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Dodaj rodzica</button>
+                <button onClick={() => handleAddParent(selectedPersonId)} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Dodaj rodzica</button>
               </div>
             </div>
           </div>
