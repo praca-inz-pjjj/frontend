@@ -49,7 +49,7 @@ export const Class = () => {
                 {Object.entries(children).map(([id, child]) => (
                   <li key={id} className="flex justify-between items-center">
                     <span>{id}. {child.name} {child.surname}</span>
-                    <Link to={`${FRONTEND_ADDRESS}/child/edit/${child.id}`} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    <Link to={`${FRONTEND_ADDRESS}/teacher/child/${id}`} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                       Edytuj
                     </Link>
                   </li>

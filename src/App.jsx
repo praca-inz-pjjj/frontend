@@ -9,6 +9,7 @@ import { Class } from "./pages/teacher/Class";
 import { CreateClass } from "./pages/teacher/CreateClass";
 import { CreateChild } from "./pages/teacher/CreateChild";
 import { Home as ParentHome } from "./pages/parent/Home";
+import { ParentsOfChild } from "./pages/teacher/ParentsChild";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/parent",
     element: <ParentHome />
+  },
+  {
+    path: "/teacher/child/:id",
+    element: <ParentsOfChild />
   }
 ]);
 
