@@ -20,14 +20,12 @@ export const ParentsOfChild = () => {
         setParents(response.data.parents);
         setAllParents(response.data.all_parents);
         setChild(response.data.child);
-        console.log(parents);
       } catch (error) {
         console.error('Error:', error);
       }
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const filteredPeople = Object.entries(allParents).filter(([id, person]) =>
