@@ -27,6 +27,7 @@ export const ParentsOfChild = () => {
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const filteredPeople = Object.entries(allParents).filter(([id, person]) =>
