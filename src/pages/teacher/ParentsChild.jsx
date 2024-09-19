@@ -1,13 +1,11 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Navigation } from "../../components/Navigation";
-import { useParams, Link } from 'react-router-dom';
-import {BACKEND_ADDRESS, FRONTEND_ADDRESS} from '../../constances';
-import { useNavigate } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
+import {BACKEND_ADDRESS} from '../../constances';
 
 export const ParentsOfChild = () => {
   let {id} = useParams();
-  const navigate = useNavigate();
   const [parents, setParents] = useState('');
   const [allParents, setAllParents] = useState('');
   const [child, setChild] = useState('');
@@ -48,7 +46,7 @@ export const ParentsOfChild = () => {
 
   const handleAddParent = async (parentId) => {
     try {
-      const response = await axios.post(BACKEND_ADDRESS + `/teacher/child/${id}`, {
+      await axios.post(BACKEND_ADDRESS + `/teacher/child/${id}`, {
         'id': parentId
       });
     }
@@ -60,7 +58,7 @@ export const ParentsOfChild = () => {
 
   const handleDeleteParent = async (parentId) => {
     try {
-      const response = await axios.delete(BACKEND_ADDRESS + `/teacher/child/${id}`, {
+      await axios.delete(BACKEND_ADDRESS + `/teacher/child/${id}`, {
         data: {
           'id': parentId
         }
