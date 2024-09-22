@@ -1,14 +1,16 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
-import {BACKEND_ADDRESS, FRONTEND_ADDRESS} from "../../constances";
+import {BACKEND_ADDRESS} from "../../constances";
+import {Link, useNavigate} from "react-router-dom";
 
 export const Home = () => {
+     const navigate = useNavigate();
      const [name, setName] = useState('');
      const [classes, setClasses] = useState('');
      useEffect(() => {
         if(localStorage.getItem('access_token') === null){                   
-            window.location.href = '/login'
+            navigate('/teacher/login')
         }
         else{
          (async () => {
@@ -25,12 +27,12 @@ export const Home = () => {
          }
         )()
       };
-     }, []);
+     }, [navigate]);
 
      const handleCreateClass = () => {
       // Logika do tworzenia nowej klasy
       // Można przekierować użytkownika do formularza tworzenia nowej klasy
-      window.location.href = `${FRONTEND_ADDRESS}/teacher/create-class`;
+        navigate('/teacher/create-class');
     };
 
     return (
@@ -46,7 +48,9 @@ export const Home = () => {
                   <li key={id} className="flex justify-between items-center">
                     <span>{el}</span>
                     <button className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                      <a href={FRONTEND_ADDRESS + '/teacher/class/' + id}>Modyfikuj</a>
+                        <Link to={`/teacher/class/${id}`} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        Modyfikuj
+                        </Link>
                     </button>
                   </li>
                 ))}
