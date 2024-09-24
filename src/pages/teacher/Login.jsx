@@ -3,23 +3,20 @@ import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
+import {BACKEND_ADDRESS} from "../../constances";
+import {useNavigate} from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email jest wymagany').email('Niepoprawny adres email'),
     password: Yup.string().required('Hasło jest wymagane')
-        .min(8, 'Hasło musi mieć co najmniej 8 znaków')
-        .matches(/(?=.*[0-9])/, 'Hasło musi zawierać co najmniej jedną cyfrę')
-        .matches(/(?=.*[a-z])/, 'Hasło musi zawierać co najmniej jedną małą literę')
-        .matches(/(?=.*[A-Z])/, 'Hasło musi zawierać co najmniej jedną dużą literę')
-        .matches(/(?=.*[!@#$%^&*])/, 'Hasło musi zawierać co najmniej jeden znak specjalny')
 });
 
 export const Login = () => {
-
+    const navigate = useNavigate();
     useEffect(() => {
         const access_token = localStorage.getItem('access_token');
         if (access_token) {
-            window.location.href = '/teacher'
+            navigate('/teacher')
         }
     });
 
@@ -31,7 +28,7 @@ export const Login = () => {
 
         try {
             const { data } = await
-                axios.post('http://localhost:8000/teacher/token',
+                axios.post(BACKEND_ADDRESS+'/teacher/token',
                     user, {
                     headers:
                         { 'Content-Type': 'application/json' }
@@ -48,7 +45,7 @@ export const Login = () => {
             localStorage.setItem('refresh_token', data.refresh);
             axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
             console.log(`Bearer ${data['access']}`)
-            window.location.href = '/teacher'
+            navigate('/teacher')
         } catch (error) {
             console.log(error);
             setStatus('Wystąpił Błąd. Spróbuj ponownie.')

@@ -3,9 +3,9 @@ import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
-import { BACKEND_ADDRESS, FRONTEND_ADDRESS } from '../../constances';
+import { BACKEND_ADDRESS} from '../../constances';
+import {useNavigate, useParams} from 'react-router-dom';
 // import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
@@ -14,9 +14,9 @@ const validationSchema = Yup.object().shape({
 });
 
 export const CreateChild = () => {
+    const navigate = useNavigate();
     let {id} = useParams();
     const submit = async (values) => {
-      console.log("weszzłeś");
       const newChild = {
         name: values.first_name,
         surname: values.last_name,
@@ -40,7 +40,7 @@ export const CreateChild = () => {
         }
 
         // Przekierowanie do strony głównej nauczyciela
-        window.location.href = FRONTEND_ADDRESS + `/teacher/class/${id}`;
+       navigate(`/teacher/class/${id}`);
       } catch (error) {
         console.log(error);
         // setStatus('Wystąpił Błąd. Spróbuj ponownie.');

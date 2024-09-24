@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Navigation } from "../../components/Navigation";
 import { useParams, Link } from 'react-router-dom';
-import {BACKEND_ADDRESS, FRONTEND_ADDRESS} from '../../constances';
+import {BACKEND_ADDRESS} from '../../constances';
 import { useNavigate } from 'react-router-dom';
 
 export const Class = () => {
@@ -49,7 +49,7 @@ export const Class = () => {
                 {Object.entries(children).map(([id, child]) => (
                   <li key={id} className="flex justify-between items-center">
                     <span>{id}. {child.name} {child.surname}</span>
-                    <Link to={`${FRONTEND_ADDRESS}/teacher/child/${id}`} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    <Link to={`/teacher/child/${id}`} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                       Edytuj
                     </Link>
                   </li>

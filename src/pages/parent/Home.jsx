@@ -2,13 +2,15 @@ import {useEffect} from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
 import {BACKEND_ADDRESS} from "../../constances";
+import {useNavigate} from "react-router-dom";
 
 export const Home = () => {
     //  const [message, setMessage] = useState('');
     //  const [classes, setClasses] = useState('');
+    const navigate = useNavigate();
      useEffect(() => {
         if(localStorage.getItem('access_token') === null){                   
-            window.location.href = '/login'
+            navigate('/parent/login')
         }
         else{
          (async () => {
@@ -25,7 +27,7 @@ export const Home = () => {
          }
         )()
       };
-     }, []);
+     }, [navigate]);
      return (
       <div>
         <Navigation />
