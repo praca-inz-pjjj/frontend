@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
 import {BACKEND_ADDRESS} from "../../constances";
 import {useNavigate} from "react-router-dom";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email jest wymagany').email('Niepoprawny adres email'),
@@ -13,7 +14,10 @@ const validationSchema = Yup.object().shape({
 
 export const Login = () => {
     const navigate = useNavigate();
+    const [ isLoading, setLoading ] = useState(false);
+
     const submit = async (values, { setStatus }) => {
+        setLoading(true)
         const user = {
             email: values.email,
             password: values.password
@@ -43,8 +47,9 @@ export const Login = () => {
             console.log(error);
             setStatus('Wystąpił Błąd. Spróbuj ponownie.')
             return;
+        } finally {
+            setLoading(false)
         }
-
     }
     return (
     <div>
@@ -79,7 +84,9 @@ export const Login = () => {
                                         <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
                                     </div>
                                     {!!status && <div className="text-red-600">{status}</div>}
+                                    { isLoading ? <LoadingSpinner/> :
                                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Zaloguj się</button>
+                                    }
                                 </form>
                             )}
                         </Formik>

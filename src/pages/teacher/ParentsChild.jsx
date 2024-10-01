@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Navigation } from "../../components/Navigation";
-import { useParams} from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import {BACKEND_ADDRESS} from '../../constances';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 export const ParentsOfChild = () => {
+  const navigate = useNavigate();
+  const [ isLoading, setLoading ] = useState(false);
   let {id} = useParams();
   const [parents, setParents] = useState('');
   const [allParents, setAllParents] = useState('');
@@ -14,14 +17,24 @@ export const ParentsOfChild = () => {
   const [selectedPersonId, setSelectedPersonId] = useState('');
 
   useEffect(() => {
+    const token = localStorage.getItem('access_token');
+      if (!token) {
+          navigate('/teacher/login');
+          return;
+      }
     const fetchData = async () => {
+      setLoading(true)
       try {
-        const response = await axios.get(BACKEND_ADDRESS + `/teacher/child/${id}`);
+        const response = await axios.get(BACKEND_ADDRESS + `/teacher/child/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setParents(response.data.parents);
         setAllParents(response.data.all_parents);
         setChild(response.data.child);
       } catch (error) {
         console.error('Error:', error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -70,6 +83,7 @@ export const ParentsOfChild = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navigation />
+      { isLoading ? <LoadingSpinner marginTop={10}/> :
       <div className="flex flex-col items-center justify-center mt-10">
           <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-3xl">
             <h2 className="text-2xl font-semibold mb-4">Profil dziecka {child.name} {child.surname}</h2>
@@ -127,6 +141,7 @@ export const ParentsOfChild = () => {
           </div>
         </div>
       </div>
+      }
     </div>
   );
 }

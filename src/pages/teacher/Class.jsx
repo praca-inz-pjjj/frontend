@@ -4,26 +4,40 @@ import { Navigation } from "../../components/Navigation";
 import { useParams, Link } from 'react-router-dom';
 import {BACKEND_ADDRESS} from '../../constances';
 import { useNavigate } from 'react-router-dom';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 export const Class = () => {
   let {id} = useParams();
   const navigate = useNavigate();
-  const [classData, setClassData] = useState('');
-  const [children, setChildren] = useState('');
+  const [ isLoading, setLoading ] = useState(false)
+  const [classData, setClassData] = useState(null);
 
   useEffect(() => {
+    setLoading(true)
+    const token = localStorage.getItem('access_token');
+    
+    if (!token) {
+        navigate('/teacher/login');
+        return;
+    }
     const fetchData = async () => {
       try {
-        const response = await axios.get(BACKEND_ADDRESS + `/teacher/class/${id}`);
-        setClassData(response.data);
-        setChildren(response.data.children);
+        const { data } = await axios.get(BACKEND_ADDRESS + `/teacher/class/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setClassData(data);
       } catch (error) {
         console.error('Error:', error);
+      } finally {
+        setLoading(false)
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleAddChild = () => {
     // Logika do dodania nowego dziecka
@@ -40,13 +54,14 @@ export const Class = () => {
     <div className="min-h-screen bg-gray-100">
       <Navigation />
       <div className="flex flex-col items-center justify-center mt-10">
-        {classData && (
+      { isLoading ? <LoadingSpinner marginTop={10}/> :
+        classData && (
           <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-3xl">
             <h2 className="text-2xl font-semibold mb-4">Klasa: {classData.class_name}</h2>
             <div>
               <h3 className="text-xl font-semibold mb-2">Lista dzieci:</h3>
               <ul className="list-disc list-inside space-y-2">
-                {Object.entries(children).map(([id, child]) => (
+                {Object.entries(classData.children).map(([id, child]) => (
                   <li key={id} className="flex justify-between items-center">
                     <span>{id}. {child.name} {child.surname}</span>
                     <Link to={`/teacher/child/${id}`} className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
@@ -67,6 +82,7 @@ export const Class = () => {
           </div>
         )}
       </div>
+      
     </div>
   );
 }
