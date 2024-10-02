@@ -39,7 +39,7 @@ export const ParentsOfChild = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, navigate]);
 
   const filteredPeople = Object.entries(allParents).filter(([id, person]) =>
     `${person.first_name} ${person.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())
