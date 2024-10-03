@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
 import { BACKEND_ADDRESS } from '../../constances';
 import {useNavigate} from "react-router-dom";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const validationSchema = Yup.object().shape({
   className: Yup.string().required('Nazwa klasy jest wymagana')
@@ -12,20 +13,25 @@ const validationSchema = Yup.object().shape({
 
 export const CreateClass = () => {
   const navigate = useNavigate();
+  const [ isLoading, setLoading ] = useState(false);
   const submit = async (values, { setStatus }) => {
     const newClass = {
       name: values.className,
       user_id: localStorage.getItem('user_id') // Zakładamy, że user_id jest przechowywany w localStorage
     };
 
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        navigate('/teacher/login');
+        return;
+    }
     try {
+      setLoading(true)
       // Utworzenie nowej klasy i przypisanie jej do zalogowanego nauczyciela
       const { data } = await 
-        axios.post(BACKEND_ADDRESS+'/teacher/class/create',
-        newClass, {
-        headers:
-          { 'Content-Type': 'application/json' },
-        }, { withCredentials: true});
+        axios.post(BACKEND_ADDRESS+'/teacher/class/create', newClass, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
       if (!data) {
         console.log('Nie udało się stworzyć klasy');
@@ -39,6 +45,8 @@ export const CreateClass = () => {
       console.log(error);
       setStatus('Wystąpił Błąd. Spróbuj ponownie.');
       return;
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -69,7 +77,9 @@ export const CreateClass = () => {
                     <ErrorMessage name="className" component="div" className="text-red-600 text-sm" />
                   </div>
                   {!!status && <div className="text-red-600">{status}</div>}
+                  { isLoading ? <LoadingSpinner/> :
                   <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Utwórz klasę</button>
+                  }
                 </form>
               )}
             </Formik>

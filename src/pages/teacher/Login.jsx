@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
 import {BACKEND_ADDRESS} from "../../constances";
 import {useNavigate} from "react-router-dom";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email jest wymagany').email('Niepoprawny adres email'),
@@ -13,6 +14,8 @@ const validationSchema = Yup.object().shape({
 
 export const Login = () => {
     const navigate = useNavigate();
+    const [ isLoading, setLoading ] = useState(false);
+
     useEffect(() => {
         const access_token = localStorage.getItem('access_token');
         if (access_token) {
@@ -21,38 +24,44 @@ export const Login = () => {
     });
 
     const submit = async (values, { setStatus }) => {
+        setLoading(true)
         const user = {
             email: values.email,
             password: values.password
         };
 
         try {
-            const { data } = await
-                axios.post(BACKEND_ADDRESS+'/teacher/token',
-                    user, {
-                    headers:
-                        { 'Content-Type': 'application/json' }
-                },
-                    { withCredentials: true });
-            if (!data) {
-                console.log('Niepoprawny login lub hasło');
+            const { data } = await axios.post(`${BACKEND_ADDRESS}/teacher/token`, user, {
+                headers: { 'Content-Type': 'application/json' }
+            },
+            {
+                withCredentials: true
+            });
+    
+            if (!data || !data.access || !data.refresh) {
                 setStatus('Niepoprawny login lub hasło');
                 return;
             }
-            // Initialize the access & refresh token in localstorage.      
-            localStorage.clear();
-            localStorage.setItem('access_token', data.access);
-            localStorage.setItem('refresh_token', data.refresh);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
-            console.log(`Bearer ${data['access']}`)
-            navigate('/teacher')
+    
+            storeTokens(data.access, data.refresh);
+    
+            axios.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
+    
+            navigate('/teacher');
         } catch (error) {
             console.log(error);
             setStatus('Wystąpił Błąd. Spróbuj ponownie.')
             return;
+        } finally {
+            setLoading(false)
         }
-
-    }
+    };
+    
+    const storeTokens = (accessToken, refreshToken) => {
+        localStorage.clear();
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+    };
     return (
     <div>
         <Navigation />
@@ -86,7 +95,9 @@ export const Login = () => {
                                         <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
                                     </div>
                                     {!!status && <div className="text-red-600">{status}</div>}
+                                    { isLoading ? <LoadingSpinner/> :
                                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Zaloguj się</button>
+                                    }
                                 </form>
                             )}
                         </Formik>

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { Login as TeacherLogin } from './pages/teacher/Login';
 import { Logout } from './pages/Logout';
 import { Login } from './pages/Login';
@@ -10,14 +10,13 @@ import { CreateClass } from "./pages/teacher/CreateClass";
 import { CreateChild } from "./pages/teacher/CreateChild";
 import { Home as ParentHome } from "./pages/parent/Home";
 import { ParentsOfChild } from "./pages/teacher/ParentsChild";
-import { REACT_APP_BASENAME } from "./constances"
 
 export const TEACHER_PATH = "/teacher"
 export const PARENT_PATH = "/parent"
 export const TEACHER_CLASS_PATH = TEACHER_PATH + "/class/:id"
 export const CHILD_PATH = TEACHER_PATH + "/child/:id"
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Root />
@@ -62,10 +61,7 @@ const router = createBrowserRouter([
     path: CHILD_PATH,
     element: <ParentsOfChild />
   }
-],
-  {
-    basename: "/"+REACT_APP_BASENAME
-  },
+]
 );
 
 function App() {
