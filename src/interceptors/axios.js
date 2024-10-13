@@ -6,7 +6,7 @@ axios.interceptors.response.use(resp => resp, async error => {
      refresh = true;
      console.log(localStorage.getItem('refresh_token'))
      const response = await   
-           axios.post(BACKEND_ADDRESS + '/teacher/token/refresh', {
+           axios.post(BACKEND_ADDRESS + '/refresh/', {
                       refresh:localStorage.getItem('refresh_token')
                       }, { headers: 
                       {'Content-Type': 'application/json' }
