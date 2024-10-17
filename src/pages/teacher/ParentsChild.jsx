@@ -4,6 +4,8 @@ import { Navigation } from "../../components/Navigation";
 import { useNavigate, useParams} from 'react-router-dom';
 import {BACKEND_ADDRESS} from '../../constances';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../recoil-state/auth';
 
 export const ParentsOfChild = () => {
   const navigate = useNavigate();
@@ -15,10 +17,11 @@ export const ParentsOfChild = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersonId, setSelectedPersonId] = useState('');
+  const auth = useRecoilValue(authState);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-      if (!token) {
+      if (auth.userType !== 'teacher') {
           navigate('/teacher/login');
           return;
       }
@@ -39,7 +42,7 @@ export const ParentsOfChild = () => {
     };
 
     fetchData();
-  }, [id, navigate]);
+  }, [id, navigate, auth.userType]);
 
   const filteredPeople = Object.entries(allParents).filter(([id, person]) =>
     `${person.first_name} ${person.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())

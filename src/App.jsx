@@ -10,6 +10,7 @@ import { CreateClass } from "./pages/teacher/CreateClass";
 import { CreateChild } from "./pages/teacher/CreateChild";
 import { Home as ParentHome } from "./pages/parent/Home";
 import { ParentsOfChild } from "./pages/teacher/ParentsChild";
+import { RecoilRoot } from "recoil";
 
 export const TEACHER_PATH = "/teacher"
 export const PARENT_PATH = "/parent"
@@ -19,7 +20,7 @@ export const CHILD_PATH = TEACHER_PATH + "/child/:id"
 const router = createHashRouter([
   {
     path: "/",
-    element: <Root />
+    element: <Root />,
   },
   {
     path: "/login",
@@ -67,9 +68,11 @@ const router = createHashRouter([
 function App() {
 
   return (
+    <RecoilRoot>
     <div className="App">
       <RouterProvider router={router} />
     </div>
+    </RecoilRoot>
   );
 }
 

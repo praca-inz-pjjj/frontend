@@ -1,20 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
 import {BACKEND_ADDRESS} from "../../constances";
 import {Link, useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { authState } from "../../recoil-state/auth";
+import { useRecoilValue } from "recoil";
 
 export const Home = () => {
   const [ isLoading, setLoading ] = useState(false)
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [classes, setClasses] = useState('');
-  
+  const auth = useRecoilValue(authState)
+  // dodaj recoil
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    
-    if (!token) {
+
+    if (auth.userType !== 'teacher') {
         navigate('/teacher/login');
         return;
     }
@@ -39,7 +42,7 @@ export const Home = () => {
     };
 
     fetchTeacherData();
-  }, [navigate]);
+  }, [navigate, auth.userType]);
 
   const handleCreateClass = () => {
   // Logika do tworzenia nowej klasy

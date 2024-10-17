@@ -4,9 +4,12 @@ import {BACKEND_ADDRESS} from "../constances";
 import {useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { Navigation } from "../components/Navigation";
+import { useSetRecoilState } from "recoil";
+import { authState } from "../recoil-state/auth";
 
 export const Logout = () => {
   const navigate = useNavigate();
+  const setAuth = useSetRecoilState(authState);
 
   useEffect(() => {
     const logout = async () => {
@@ -19,6 +22,7 @@ export const Logout = () => {
 
           console.log('Logout successful');
 
+          setAuth({ userType: 'none' });
           localStorage.clear();
           delete axios.defaults.headers.common['Authorization'];
 
@@ -29,7 +33,7 @@ export const Logout = () => {
     };
 
     logout();
-  }, [navigate]);
+  }, [navigate, setAuth]);
 
   return (
     <div>

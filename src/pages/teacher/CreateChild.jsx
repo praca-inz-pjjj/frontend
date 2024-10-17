@@ -6,6 +6,8 @@ import { Navigation } from "../../components/Navigation";
 import { BACKEND_ADDRESS} from '../../constances';
 import {useNavigate, useParams} from 'react-router-dom';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../recoil-state/auth";
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
@@ -16,6 +18,7 @@ const validationSchema = Yup.object().shape({
 export const CreateChild = () => {
     const navigate = useNavigate();
     const [ isLoading, setLoading ] = useState(false);
+    const auth = useRecoilValue(authState)
     
     let {id} = useParams();
     const submit = async (values, { setStatus }) => {
@@ -27,7 +30,7 @@ export const CreateChild = () => {
       };
 
       const token = localStorage.getItem('access_token');
-      if (!token) {
+      if (auth.userType !== 'teacher') {
           navigate('/teacher/login');
           return;
       }

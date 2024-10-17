@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -6,6 +6,8 @@ import { Navigation } from "../../components/Navigation";
 import {BACKEND_ADDRESS} from "../../constances";
 import {useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { useRecoilState } from "recoil";
+import { authState } from "../../recoil-state/auth";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email jest wymagany').email('Niepoprawny adres email'),
@@ -15,6 +17,13 @@ const validationSchema = Yup.object().shape({
 export const Login = () => {
     const navigate = useNavigate();
     const [ isLoading, setLoading ] = useState(false);
+    const [auth, setAuth] = useRecoilState(authState);
+
+    useEffect(() => {
+        if (auth.userType === 'parent') {
+            navigate('/parent');
+        }
+    })
 
     const submit = async (values, { setStatus }) => {
         setLoading(true)
@@ -31,6 +40,7 @@ export const Login = () => {
                         { 'Content-Type': 'application/json' }
                 },
                     { withCredentials: true });
+
             if (!data) {
                 console.log('Niepoprawny login lub hasło');
                 setStatus('Niepoprawny login lub hasło');
@@ -40,8 +50,10 @@ export const Login = () => {
             localStorage.clear();
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
+            localStorage.setItem('userType', 'parent');
             axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
             console.log(`Bearer ${data['access']}`)
+            setAuth({ userType: 'parent' });
             navigate('/parent')
         } catch (error) {
             console.log(error);
