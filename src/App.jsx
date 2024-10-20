@@ -13,6 +13,7 @@ import { ParentsOfChild } from "./pages/teacher/ParentsChild";
 import { RecoilRoot, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import { authState } from "./recoil-state/auth";
+import { CreateParent } from "./pages/teacher/CreateParent";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -62,9 +63,14 @@ const router = createHashRouter([
   },
   {
     path: CHILD_PATH,
-    element: <ParentsOfChild />,
+    element: <ParentsOfChild />
   },
-]);
+  {
+    path: TEACHER_PATH+"/create-parent",
+    element: <CreateParent />
+  }
+]
+);
 
 function App() {
   return (

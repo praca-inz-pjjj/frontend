@@ -43,6 +43,11 @@ export const Home = () => {
     navigate('/teacher/create-class');
   };
 
+  const handleCreateParent = () => {
+    // Logika do tworzenia nowego rodzica
+    navigate('/teacher/create-parent');
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
         <Navigation />
@@ -61,8 +66,11 @@ export const Home = () => {
                 </li>
               ))}
             </ul>
-            <button onClick={handleCreateClass} className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            <button onClick={handleCreateClass} className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4">
               Utwórz nową klasę
+            </button>
+            <button onClick={handleCreateParent} className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+              Utwórz Rodzica
             </button>
           </div>
         </div>
