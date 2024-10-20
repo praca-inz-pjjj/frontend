@@ -3,7 +3,6 @@ import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
-import { BACKEND_ADDRESS} from '../../constances';
 import {useNavigate, useParams} from 'react-router-dom';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
@@ -29,7 +28,6 @@ export const CreateChild = () => {
         classroom: id
       };
 
-      const token = localStorage.getItem('access_token');
       if (auth.userType !== 'teacher') {
           navigate('/teacher/login');
           return;
@@ -38,9 +36,7 @@ export const CreateChild = () => {
         setLoading(true)
         // Utworzenie nowego ucznia i przypisanie go do klasy
         const { data } = await 
-          axios.post(BACKEND_ADDRESS+`/teacher/class/${id}/create`, newChild, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          axios.post(`/teacher/class/${id}/create`, newChild);
 
         if (!data) {
           console.log('Nie udało się dodać dziecka');

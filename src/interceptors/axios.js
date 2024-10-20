@@ -24,7 +24,6 @@ axios.interceptors.response.use(
 
         localStorage.setItem("access_token", response.data.access);
         localStorage.setItem("refresh_token", response.data.refresh);
-        localStorage.setItem("userType", response.data.userType);
         return axios(error.config);
       } else {
         console.log("Refresh token expired");

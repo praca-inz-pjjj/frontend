@@ -20,7 +20,6 @@ export const ParentsOfChild = () => {
   const auth = useRecoilValue(authState);
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
       if (auth.userType !== 'teacher') {
           navigate('/teacher/login');
           return;
@@ -28,9 +27,7 @@ export const ParentsOfChild = () => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const response = await axios.get(BACKEND_ADDRESS + `/teacher/child/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(`/teacher/child/${id}`);
         setParents(response.data.parents);
         setAllParents(response.data.all_parents);
         setChild(response.data.child);

@@ -1,9 +1,8 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Navigation } from "../../components/Navigation";
-import { BACKEND_ADDRESS } from "../../constances";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { authState } from "../../recoil-state/auth";
@@ -35,8 +34,8 @@ export const Login = () => {
     };
 
     try {
-      const { data } = await axios.post(
-        `${BACKEND_ADDRESS}/teacher/token`,
+      const res = await axios.post(
+        `/teacher/token`,
         user,
         {
           headers: { "Content-Type": "application/json" },
@@ -45,7 +44,15 @@ export const Login = () => {
           withCredentials: true,
         }
       );
+      if(res.name === "AxiosError"){
+        const {data} = res.response
+        if (data?.non_field_errors?.length > 0) {
+          setStatus(data.non_field_errors);
+          return;
+        }
+      }
 
+      const { data } = res;
       if (!data || !data.access || !data.refresh) {
         setStatus("Niepoprawny login lub hasło");
         return;

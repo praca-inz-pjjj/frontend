@@ -1,7 +1,6 @@
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
-import {BACKEND_ADDRESS} from "../../constances";
 import {Link, useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { authState } from "../../recoil-state/auth";
@@ -15,8 +14,6 @@ export const Home = () => {
   const auth = useRecoilValue(authState)
   // dodaj recoil
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-
     if (auth.userType !== 'teacher') {
         navigate('/teacher/login');
         return;
@@ -25,17 +22,13 @@ export const Home = () => {
     const fetchTeacherData = async () => {
         setLoading(true)
         try {
-            const { data } = await axios.get(`${BACKEND_ADDRESS}/teacher`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const { data } = await axios.get(`/teacher`);
             
             setName(data.name);
             setClasses(data.classes);
         } catch (error) {
             console.error('Authentication failed:', error);
-            navigate('/teacher/login');
+            navigate('/login');
         } finally {
           setLoading(false)
         }
