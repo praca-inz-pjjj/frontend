@@ -10,6 +10,7 @@ import { CreateClass } from "./pages/teacher/CreateClass";
 import { CreateChild } from "./pages/teacher/CreateChild";
 import { Home as ParentHome } from "./pages/parent/Home";
 import { ParentsOfChild } from "./pages/teacher/ParentsChild";
+import { CreateParent } from "./pages/teacher/CreateParent";
 
 export const TEACHER_PATH = "/teacher"
 export const PARENT_PATH = "/parent"
@@ -60,6 +61,10 @@ const router = createHashRouter([
   {
     path: CHILD_PATH,
     element: <ParentsOfChild />
+  },
+  {
+    path: TEACHER_PATH+"/create-parent",
+    element: <CreateParent />
   }
 ]
 );
