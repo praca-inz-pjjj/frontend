@@ -5,8 +5,6 @@ import { Navigation } from "../../components/Navigation";
 import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
-  //  const [message, setMessage] = useState('');
-  //  const [classes, setClasses] = useState('');
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -16,8 +14,6 @@ export const Home = () => {
         try {
           const { data } = await axios.get("/parent");
           console.log(data);
-          //  setMessage(data.data);
-          //  setClasses(data.classes);
         } catch (e) {
           console.log("not auth");
         }
