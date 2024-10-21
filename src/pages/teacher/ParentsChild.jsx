@@ -4,6 +4,8 @@ import { Navigation } from "../../components/Navigation";
 import { useNavigate, useParams} from 'react-router-dom';
 import {BACKEND_ADDRESS} from '../../constances';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../recoil-state/auth';
 
 export const ParentsOfChild = () => {
   const navigate = useNavigate();
@@ -15,19 +17,17 @@ export const ParentsOfChild = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersonId, setSelectedPersonId] = useState('');
+  const auth = useRecoilValue(authState);
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-      if (!token) {
+      if (auth.userType !== 'teacher') {
           navigate('/teacher/login');
           return;
       }
     const fetchData = async () => {
       setLoading(true)
       try {
-        const response = await axios.get(BACKEND_ADDRESS + `/teacher/child/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(`/teacher/child/${id}`);
         setParents(response.data.parents);
         setAllParents(response.data.all_parents);
         setChild(response.data.child);
@@ -39,7 +39,7 @@ export const ParentsOfChild = () => {
     };
 
     fetchData();
-  }, [id, navigate]);
+  }, [id, navigate, auth.userType]);
 
   const filteredPeople = Object.entries(allParents).filter(([id, person]) =>
     `${person.first_name} ${person.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())

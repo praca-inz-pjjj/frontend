@@ -3,9 +3,11 @@ import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
-import { BACKEND_ADDRESS } from '../../constances';
+
 import {useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../recoil-state/auth";
 
 const validationSchema = Yup.object().shape({
   className: Yup.string().required('Nazwa klasy jest wymagana')
@@ -14,14 +16,14 @@ const validationSchema = Yup.object().shape({
 export const CreateClass = () => {
   const navigate = useNavigate();
   const [ isLoading, setLoading ] = useState(false);
+  const auth = useRecoilValue(authState)
   const submit = async (values, { setStatus }) => {
     const newClass = {
       name: values.className,
       user_id: localStorage.getItem('user_id') // Zakładamy, że user_id jest przechowywany w localStorage
     };
 
-    const token = localStorage.getItem('access_token');
-    if (!token) {
+    if (auth.userType !== 'teacher') {
         navigate('/teacher/login');
         return;
     }
@@ -29,9 +31,7 @@ export const CreateClass = () => {
       setLoading(true)
       // Utworzenie nowej klasy i przypisanie jej do zalogowanego nauczyciela
       const { data } = await 
-        axios.post(BACKEND_ADDRESS+'/teacher/class/create', newClass, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        axios.post('/teacher/class/create', newClass);
 
       if (!data) {
         console.log('Nie udało się stworzyć klasy');
