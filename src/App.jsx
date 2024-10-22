@@ -3,6 +3,8 @@ import { Login as TeacherLogin } from "./pages/teacher/Login";
 import { Logout } from "./pages/Logout";
 import { Login } from "./pages/Login";
 import { Login as ParentLogin } from "./pages/parent/Login";
+import { ChildDetails as ParentChildDetails} from "./pages/parent/ChildDetails";
+import { CreatePermission } from "./pages/parent/CreatePermission";
 import { Root } from "./pages/Root";
 import { Home as TeacherHome } from "./pages/teacher/Home";
 import { Class } from "./pages/teacher/Class";
@@ -17,8 +19,6 @@ import { CreateParent } from "./pages/teacher/CreateParent";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
-export const TEACHER_CLASS_PATH = TEACHER_PATH + "/class/:id";
-export const CHILD_PATH = TEACHER_PATH + "/child/:id";
 
 const router = createHashRouter([
   {
@@ -42,7 +42,7 @@ const router = createHashRouter([
     element: <TeacherLogin />,
   },
   {
-    path: TEACHER_CLASS_PATH,
+    path: TEACHER_PATH + "/class/:id",
     element: <Class />,
   },
   {
@@ -50,7 +50,7 @@ const router = createHashRouter([
     element: <CreateClass />,
   },
   {
-    path: TEACHER_CLASS_PATH + "/create",
+    path: TEACHER_PATH + "/class/:id/create",
     element: <CreateChild />,
   },
   {
@@ -62,11 +62,19 @@ const router = createHashRouter([
     element: <ParentHome />,
   },
   {
-    path: CHILD_PATH,
+    path: PARENT_PATH + "/child/:id",
+    element: <ParentChildDetails />,
+  },
+  {
+    path: PARENT_PATH + "/child/:id/create-permission",
+    element: <CreatePermission />,
+  },
+  {
+    path: TEACHER_PATH + "/child/:id",
     element: <ParentsOfChild />
   },
   {
-    path: TEACHER_PATH+"/create-parent",
+    path: TEACHER_PATH + "/create-parent",
     element: <CreateParent />
   }
 ]
