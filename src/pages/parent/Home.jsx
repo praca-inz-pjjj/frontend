@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { authState } from "../../recoil-state/auth";
 import { useRecoilValue } from "recoil";
-import { ChildrenTable } from "./components/ChildrenTable";
-import { PermittedUsersTable } from "./components/PermittedUsersTable";
-import { PickUpsTable } from "./components/PickUpsTable";
+import { ChildrenTable } from "./tables/ChildrenTable";
+import { PermittedUsersTable } from "./tables/PermittedUsersTable";
+import { PickUpsTable } from "./tables/PickUpsTable";
 
 export const Home = () => {
   const [isLoading, setLoading] = useState(false)
@@ -53,8 +53,8 @@ export const Home = () => {
         <div className="flex flex-col items-center justify-center mt-6">
           <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-7xl">
             <h3 className="text-2xl font-semibold mb-4">Witaj, {parent_name}!</h3>
-             {children && <PickUpsTable title={"Ostatnie Odbiory"} pickups_data={[]} no_data_message={"- Brak zarejestrowanych odbiorów lub wystąpił błąd -"}/>}
-             {children && <ChildrenTable title={"Twoje Dzieci"} children={children} no_data_message={"- Twoje dzieci nie zostały jeszcze wpisane do bazy uczniów lub wystąpił błąd -"}/>}
+             {children && <PickUpsTable title={"Ostatnie Odbiory"} pick_ups_data={[]} no_data_message={"- Brak zarejestrowanych odbiorów lub wystąpił błąd -"}/>}
+             {children && <ChildrenTable title={"Twoje Dzieci"} children_data={children} no_data_message={"- Twoje dzieci nie zostały jeszcze wpisane do bazy uczniów lub wystąpił błąd -"}/>}
              {children && <PermittedUsersTable title={"Zdefiniowani Odbierający"} permitted_users_data={permitted_users} no_data_message={"- Nie dodałeś jeszcze żadnego odbierającego lub wystąpił błąd -"} />}
             <button className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4">
               Placeholder

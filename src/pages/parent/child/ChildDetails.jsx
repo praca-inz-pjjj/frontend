@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { authState } from "../../../recoil-state/auth";
-import { PermittedUsersTable } from "./PermittedUsersTable";
+import { ChildPermittedUsersTable } from "./ChildPermittedUsersTable";
 
 export const ChildDetails = () => {
     let { id } = useParams();
@@ -58,7 +58,7 @@ export const ChildDetails = () => {
                                 <Link to='/parent'>Dzieci</Link>{` > `}<Link to={`/parent/child/${childData.child_id}`}>{childData.child_name}</Link>
                             </h2>
                             <div>
-                                {childData?.permitted_users && <PermittedUsersTable title={"Zdefiniowani Odbierający"} permitted_users_data={childData?.permitted_users}/> }
+                                {childData?.permitted_users && <ChildPermittedUsersTable title={"Zdefiniowani Odbierający"} permitted_users_data={childData?.permitted_users}/> }
 
                                 <h3 className="text-xl font-semibold mb-2">Lista uprawnień:</h3>
                                 <ul className="list-disc list-inside space-y-2">
