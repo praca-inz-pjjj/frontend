@@ -57,6 +57,20 @@ export const Login = () => {
         setStatus("Niepoprawny login lub hasło");
         return;
       }
+      if (data.temp_password) {
+        // Ustawienie tymczasowych danych w pamięci i przekierowanie na stronę zmiany hasła
+        localStorage.clear();
+        console.log(data);
+        localStorage.setItem("temp_user_id", data.user);
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
+        localStorage.setItem("userType", "parent");
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${data["access"]}`;
+        navigate("/parent/change-password");
+        return
+      }
       // Initialize the access & refresh token in localstorage.
       localStorage.clear();
       localStorage.setItem("access_token", data.access);

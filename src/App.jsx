@@ -16,6 +16,7 @@ import { RecoilRoot, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import { authState } from "./recoil-state/auth";
 import { CreateParent } from "./pages/teacher/CreateParent";
+import { ChangePassword } from "./pages/parent/ChangePassword";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -76,6 +77,10 @@ const router = createHashRouter([
   {
     path: TEACHER_PATH + "/create-parent",
     element: <CreateParent />
+  },
+  {
+    path: PARENT_PATH + "/change-password",
+    element: <ChangePassword />
   }
 ]
 );
