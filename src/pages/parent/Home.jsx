@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { authState } from "../../recoil-state/auth";
 import { useRecoilValue } from "recoil";
@@ -13,7 +13,6 @@ export const Home = () => {
   const [isLoading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [parent_name, setParentName] = useState('');
-  const [parent_id, setParentId] = useState(null);
   const [children, setChildren] = useState([]);
   const [permitted_users, setPermittedUsers] = useState([]);
   const auth = useRecoilValue(authState)
@@ -31,7 +30,6 @@ export const Home = () => {
         if (response.status === 200) {
           const { data } = response;
           setParentName(data.parent_name);
-          setParentId(data.parent_id)
           setChildren(data.children);
           setPermittedUsers(data.permitted_users)
         }
