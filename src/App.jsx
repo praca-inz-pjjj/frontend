@@ -3,7 +3,7 @@ import { Login as TeacherLogin } from "./pages/teacher/Login";
 import { Logout } from "./pages/Logout";
 import { Login } from "./pages/Login";
 import { Login as ParentLogin } from "./pages/parent/Login";
-import { ChildDetails as ParentChildDetails} from "./pages/parent/ChildDetails";
+import { ChildDetails as ParentChildDetails} from "./pages/parent/child/ChildDetails";
 import { CreatePermission } from "./pages/parent/CreatePermission";
 import { Root } from "./pages/Root";
 import { Home as TeacherHome } from "./pages/teacher/Home";
