@@ -46,14 +46,19 @@ export const Class = () => {
   };
 
   const handleDownloadParents = async () => {
-    const { data } = await axios.get(`/teacher/class/${id}/download`, {
-      responseType: "blob",
-    });
+    try {
+      const { data } = await axios.get(`/teacher/class/${id}/download`, {
+        responseType: "blob",
+      });
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(data);
-    link.download = `rodzice_klasy_${id}.csv`;
-    link.click();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(data);
+      link.download = `rodzice_klasy_${id}.csv`;
+      link.click();
+    }
+    catch (error){
+      alert(error)
+    }
   };
 
   return (
