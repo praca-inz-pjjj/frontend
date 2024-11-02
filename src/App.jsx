@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { authState } from "./recoil-state/auth";
 import { CreateParent } from "./pages/teacher/CreateParent";
 import { ChangePassword } from "./pages/parent/ChangePassword";
+import { Receivers } from "./pages/parent/receiver/Receivers";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -81,6 +82,10 @@ const router = createHashRouter([
   {
     path: PARENT_PATH + "/change-password",
     element: <ChangePassword />
+  },
+  {
+    path: PARENT_PATH + "/receivers",
+    element: <Receivers />
   }
 ]
 );

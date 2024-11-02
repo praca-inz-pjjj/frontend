@@ -105,15 +105,3 @@ export const ChildDetails = () => {
         </div>
     );
 };
-
-
-// const handleCreateClass = () => {
-//     // Logika do tworzenia nowej klasy
-//     // Można przekierować użytkownika do formularza tworzenia nowej klasy
-//     navigate('/teacher/create-class');
-//   };
-
-//   const handleCreateParent = () => {
-//     // Logika do tworzenia nowego rodzica
-//     navigate('/teacher/create-parent');
-//   };

@@ -1,0 +1,1 @@
+export const BTN_CLASSES = "font-medium text-sm px-5 py-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-50"
