@@ -5,8 +5,6 @@ import * as Yup from "yup";
 import { Navigation } from "../../components/Navigation";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { authState } from "../../recoil-state/auth";
-import { useRecoilState } from "recoil";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -18,13 +16,18 @@ const validationSchema = Yup.object().shape({
 export const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
-  const [auth, setAuth] = useRecoilState(authState);
+  const storeTokens = (accessToken, refreshToken) => {
+    localStorage.clear();
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
+  };
 
   useEffect(() => {
-    if (auth.userType === "teacher") {
+    if (localStorage.getItem("userType") === "teacher") {
       navigate("/teacher");
+      return;
     }
-  });
+  }, []); // eslint-disable-line
 
   const submit = async (values, { setStatus }) => {
     setLoading(true);
@@ -34,49 +37,32 @@ export const Login = () => {
     };
 
     try {
-      const res = await axios.post(
-        `/teacher/token`,
-        user,
-        {
-          headers: { "Content-Type": "application/json" },
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      if(res.name === "AxiosError"){
-        const {data} = res.response
-        if (data?.non_field_errors?.length > 0) {
-          setStatus(data.non_field_errors);
-          return;
-        }
-      }
+      const res = await axios.post(`/teacher/token`, user);
 
       const { data } = res;
       if (!data || !data.access || !data.refresh) {
-        setStatus("Niepoprawny login lub hasło");
+        setStatus("Wystąpił Błąd. Spróbuj ponownie.");
         return;
       }
-
       storeTokens(data.access, data.refresh);
-
+      localStorage.setItem("userType", "teacher");
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
-      setAuth({ userType: "teacher" });
       navigate("/teacher");
     } catch (error) {
-      console.log(error);
+      const {data} = error.response
+      if (data?.non_field_errors?.length > 0) {
+        setStatus(`${data.non_field_errors[0]}.`);
+        return;
+      }
+      if (error?.response?.status === 401){
+        setStatus("Niepoprawny login lub hasło.");
+        return;
+      }
       setStatus("Wystąpił Błąd. Spróbuj ponownie.");
       return;
     } finally {
       setLoading(false);
     }
-  };
-
-  const storeTokens = (accessToken, refreshToken) => {
-    localStorage.clear();
-    localStorage.setItem("access_token", accessToken);
-    localStorage.setItem("refresh_token", refreshToken);
-    localStorage.setItem("userType", "teacher");
   };
   return (
     <div>
@@ -94,6 +80,7 @@ export const Login = () => {
                   password: "",
                 }}
                 validationSchema={validationSchema}
+                onSubmit={submit}
               >
                 {({
                   values,
@@ -108,7 +95,7 @@ export const Login = () => {
                     className="space-y-4 md:space-y-6"
                     onSubmit={(e) => {
                       e.preventDefault();
-                      submit(values, { setStatus });
+                      handleSubmit()
                     }}
                   >
                     <div>

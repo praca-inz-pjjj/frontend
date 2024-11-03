@@ -1,30 +1,20 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Navigation } from "../../../components/Navigation";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../../recoil-state/auth";
 import { ReceiversTable } from "../tables/ReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
 import GreenLinkButton from "../../../components/buttons/GreenLinkButton";
 import OrangeLinkButton from "../../../components/buttons/OrangeLinkButton";
 
 export const Receivers = () => {
-    const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
-    const auth = useRecoilValue(authState);
     const [permitted_receivers, setPermittedReceivers] = useState(null)
     const [not_permitted_receivers, setNotPermittedReceivers] = useState(null)
 
     useEffect(() => {
         setLoading(true);
-
-        if (auth.userType !== "parent") {
-            navigate("/parent/login");
-            return;
-        }
         const fetchData = async () => {
             try {
                 const response = await axios.get('/parent/receivers');
@@ -33,15 +23,13 @@ export const Receivers = () => {
                     setPermittedReceivers(receivers.filter(({signature}) => signature));
                     setNotPermittedReceivers(receivers.filter(({signature}) => !signature))
                 }
-            } catch (error) {
-                console.error("Error:", error);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [navigate, auth.userType]);
+    }, []); // eslint-disable-line
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -71,7 +59,7 @@ export const Receivers = () => {
                         receivers_data={not_permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego nieuprawionego Odbierającego."}
                         buttons={[
-                            <GreenLinkButton to={"/parent/receiver/new"} text={"Dodaj Odbierającego"}/>
+                            <GreenLinkButton to={"/parent/create-receiver"} text={"Nowy Odbierający"}/>
                         ]}
                     />
                     )}

@@ -1,49 +1,36 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { authState } from "../../recoil-state/auth";
-import { useRecoilValue } from "recoil";
 import { ChildrenTable } from "./tables/ChildrenTable";
 import { ReceiversTable } from "./tables/ReceiversTable";
 import { PickUpsTable } from "./tables/PickUpsTable";
-import GreenLinkButton from "../../components/buttons/GreenLinkButton";
 
 export const Home = () => {
   const [isLoading, setLoading] = useState(false)
-  const navigate = useNavigate();
   const [parent_name, setParentName] = useState('');
   const [children, setChildren] = useState([]);
   const [receivers_data, setReceiversData] = useState([]);
-  const auth = useRecoilValue(authState)
 
   useEffect(() => {
-    if (auth.userType !== 'parent') {
-      navigate('/login');
-      return;
-    }
-
     const fetchParentData = async () => {
       setLoading(true)
       try {
         const response = await axios.get(`/parent`);
-        if (response.status === 200) {
+        if (response?.data) {
           const { data } = response;
           setParentName(data.parent_name);
           setChildren(data.children);
           setReceiversData(data.receivers)
         }
-      } catch (error) {
-        console.error('Authentication failed:', error);
-        navigate('/parent/login');
       } finally {
         setLoading(false)
       }
     };
 
     fetchParentData();
-  }, [navigate, auth.userType]);
+  }, []); // eslint-disable-line
 
   return (
     <div className="min-h-screen bg-gray-100">
