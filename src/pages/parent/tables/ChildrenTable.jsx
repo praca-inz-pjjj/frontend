@@ -20,8 +20,8 @@ export const ChildrenTable: FC<ChildrenTableProps> = ({ title, children_data, no
     useEffect(()=>{
       const children_data_rows: Array[never] = children_data?.map((child, index)=>[
         index+1,
-        child.name,
-        child.surname,
+        child.first_name,
+        child.last_name,
         child.classroom_name,
         <Link to={`/parent/child/${child.id}`} className="text-blue-500 hover:underline">
           Szczegóły
