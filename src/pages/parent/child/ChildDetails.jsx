@@ -65,7 +65,7 @@ export const ChildDetails = () => {
                                     {Object.entries(childData.permissions).map(([id, permission]) => (
                                         <li key={id} className="flex justify-between items-center">
                                             <span>
-                                                {id}. Osoba upoważniona: {permission.user}. Start: {permission.start_date}. Koniec: {permission.end_date}.
+                                                {Number(id)+1}. Osoba upoważniona: {permission.user_name}. Start: {permission.start_date}. Koniec: {permission.end_date}.
                                             </span>
                                             {console.log(permission.state)}
                                             {permission.state !== "PERMAMENT" &&
