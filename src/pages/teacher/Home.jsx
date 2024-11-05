@@ -18,8 +18,10 @@ export const Home = () => {
             
             setName(data.name);
             setClasses(data.classes);
+        } catch (error) {
+            return;
         } finally {
-          setLoading(false)
+            setLoading(false)
         }
     };
 

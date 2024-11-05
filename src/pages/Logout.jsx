@@ -12,13 +12,15 @@ export const Logout = () => {
     const logout = async () => {
       try {
           const refresh_token = localStorage.getItem('refresh_token')
-          const axios_auth = axios.defaults.headers.common['Authorization']
-          if (axios_auth && refresh_token) {
+          const access_token = localStorage.getItem('access_token')
+          if (access_token && refresh_token) {
             await axios.post('/logout/', {
                 refresh: refresh_token,
             });
             console.log('Logout successful');
           }
+      } catch (error) {
+        return;
       } finally {
         delete axios.defaults.headers.common['Authorization'];
         localStorage.clear();

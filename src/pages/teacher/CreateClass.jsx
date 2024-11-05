@@ -33,13 +33,11 @@ export const CreateClass = () => {
       // Przekierowanie do strony głównej nauczyciela
       navigate('/teacher');
     } catch (error) {
-      console.log(error);
       if (error?.response?.status === 400){
         setStatus('Nie udało się stworzyć klasy.');
         return;
       }
       setStatus('Wystąpił Błąd. Spróbuj ponownie.');
-      return;
     } finally {
       setLoading(false)
     }

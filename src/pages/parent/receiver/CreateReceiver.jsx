@@ -44,7 +44,7 @@ export const CreateReceiver = () => {
                     setChildrenList(children_data)
                 }
             } catch (error) {
-                console.error("Error:", error);
+                return;
             }
         };
 

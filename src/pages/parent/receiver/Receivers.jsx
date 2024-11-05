@@ -23,6 +23,8 @@ export const Receivers = () => {
                     setPermittedReceivers(receivers.filter(({signature}) => signature));
                     setNotPermittedReceivers(receivers.filter(({signature}) => !signature))
                 }
+            } catch (error) {
+                return;
             } finally {
                 setLoading(false);
             }

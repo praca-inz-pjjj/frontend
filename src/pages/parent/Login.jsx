@@ -23,7 +23,9 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("userType") === "parent") {
+    const accessToken = localStorage.getItem("access_token");
+    const isParent = localStorage.getItem("userType") === "parent";
+    if (accessToken && isParent) {
       navigate("/parent");
     }
   }, []); // eslint-disable-line
@@ -61,7 +63,7 @@ export const Login = () => {
         return;
       }
       if (error?.response?.status === 401) {
-        setStatus("Niepoprawny login lub hasło.");
+        setStatus("Niepoprawny adres email lub hasło.");
         return;
       }
       setStatus("Wystąpił Błąd. Spróbuj ponownie.");

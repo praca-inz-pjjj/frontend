@@ -28,7 +28,7 @@ export const CreatePermission = () => {
           const response = await axios.get(`/parent/child/${id}/permitted-users`);
           setPermittedUsers(response.data.permitted_users);
         } catch (error) {
-          console.error('Error:', error);
+          return;
         } finally {
           setLoading(false)
         }

@@ -46,7 +46,6 @@ export const ChangePassword = () => {
       localStorage.clear();
       navigate("/login");
     } catch (error) {
-      console.error("Błąd podczas zmiany hasła:", error);
       setStatus("Wystąpił błąd. Spróbuj ponownie.");
     } finally {
       setLoading(false);

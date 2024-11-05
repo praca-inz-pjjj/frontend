@@ -24,6 +24,8 @@ export const ParentsOfChild = () => {
           setAllParents(response.data.all_parents);
           setChild(response.data.child);
         }
+      } catch (error) {
+        return;
       } finally {
         setLoading(false)
       }
