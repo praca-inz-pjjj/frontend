@@ -19,8 +19,8 @@ export const CreateChild = () => {
     let {id} = useParams();
     const submit = async (values, { setStatus }) => {
       const newChild = {
-        name: values.first_name,
-        surname: values.second_name,
+        first_name: values.first_name,
+        last_name: values.second_name,
         birth_date: values.birth_date,
         classroom: id
       };
@@ -28,7 +28,7 @@ export const CreateChild = () => {
         setLoading(true)
         // Utworzenie nowego ucznia i przypisanie go do klasy
         const { data } = await 
-          axios.post(`/teacher/class/${id}/create`, newChild);
+          axios.post(`/teacher/class/${id}/child`, newChild);
 
         if (!data) {
           setStatus('Nie udało się dodać dziecka.');
