@@ -3,11 +3,8 @@ import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Navigation } from "../../components/Navigation";
-import { BACKEND_ADDRESS } from "../../constances";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { useRecoilState } from "recoil";
-import { authState } from "../../recoil-state/auth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -19,13 +16,17 @@ const validationSchema = Yup.object().shape({
 export const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
-  const [auth, setAuth] = useRecoilState(authState);
+  const storeTokens = (accessToken, refreshToken) => {
+    localStorage.clear();
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
+  };
 
   useEffect(() => {
-    if (auth.userType === "parent") {
+    if (localStorage.getItem("userType") === "parent") {
       navigate("/parent");
     }
-  });
+  }, []); // eslint-disable-line
 
   const submit = async (values, { setStatus }) => {
     setLoading(true);
@@ -35,61 +36,41 @@ export const Login = () => {
     };
 
     try {
-      const res = await axios.post(
-        BACKEND_ADDRESS + "/parent/token",
-        user,
-        {
-          headers: { "Content-Type": "application/json" },
-        },
-        { withCredentials: true }
-      );
+      const res = await axios.post("/parent/token", user);
 
-      if (res.name === "AxiosError") {
-        const { data } = res.response;
-        if (data?.non_field_errors?.length > 0) {
-          setStatus(data.non_field_errors);
-          return;
-        }
-      }
       const { data } = res;
-      if (!data) {
-        console.log("Niepoprawny login lub hasło");
-        setStatus("Niepoprawny login lub hasło");
+      if (!data || !data.access || !data.refresh) {
+        setStatus("Wystąpił Błąd. Spróbuj ponownie.");
         return;
       }
+      storeTokens(data.access, data.refresh);
+      localStorage.setItem("userType", "parent");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
+
       if (data.temp_password) {
         // Ustawienie tymczasowych danych w pamięci i przekierowanie na stronę zmiany hasła
-        localStorage.clear();
-        console.log(data);
         localStorage.setItem("temp_user_id", data.user);
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
-        localStorage.setItem("userType", "parent");
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${data["access"]}`;
         navigate("/parent/change-password");
         return
       }
-      // Initialize the access & refresh token in localstorage.
-      localStorage.clear();
-      localStorage.setItem("access_token", data.access);
-      localStorage.setItem("refresh_token", data.refresh);
-      localStorage.setItem("userType", "parent");
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${data["access"]}`;
-      console.log(`Bearer ${data["access"]}`);
-      setAuth({ userType: "parent" });
       navigate("/parent");
     } catch (error) {
-      console.log(error);
+      const { data } = error?.response
+      if (data?.non_field_errors?.length > 0) {
+        setStatus(`${data.non_field_errors[0]}.`);
+        return;
+      }
+      if (error?.response?.status === 401) {
+        setStatus("Niepoprawny login lub hasło.");
+        return;
+      }
       setStatus("Wystąpił Błąd. Spróbuj ponownie.");
       return;
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div>
       <Navigation />
@@ -106,6 +87,7 @@ export const Login = () => {
                   password: "",
                 }}
                 validationSchema={validationSchema}
+                onSubmit={submit}
               >
                 {({
                   values,
@@ -120,7 +102,7 @@ export const Login = () => {
                     className="space-y-4 md:space-y-6"
                     onSubmit={(e) => {
                       e.preventDefault();
-                      submit(values, { setStatus });
+                      handleSubmit()
                     }}
                   >
                     <div>

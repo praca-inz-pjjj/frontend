@@ -4,36 +4,26 @@ import { Navigation } from "../../components/Navigation";
 import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../recoil-state/auth";
 
 export const Class = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [classData, setClassData] = useState(null);
-  const auth = useRecoilValue(authState);
 
   useEffect(() => {
     setLoading(true);
-
-    if (auth.userType !== "teacher") {
-      navigate("/teacher/login");
-      return;
-    }
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`/teacher/class/${id}`);
         setClassData(data);
-      } catch (error) {
-        console.error("Error:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [id, navigate, auth.userType]);
+  }, []); // eslint-disable-line
 
   const handleAddChild = () => {
     // Logika do dodania nowego dziecka

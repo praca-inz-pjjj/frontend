@@ -4,8 +4,8 @@ import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
 import { BACKEND_ADDRESS } from '../../constances';
-import { useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { generatePassword } from "../../helpers/generatePassword";
 
 // Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({
@@ -17,18 +17,7 @@ const validationSchema = Yup.object().shape({
     .required('Numer telefonu jest wymagany'),
 });
 
-// Funkcja generująca losowe hasło
-const generatePassword = () => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-  let password = '';
-  for (let i = 0; i < 10; i++) {
-    password += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return password;
-}
-
 export const CreateParent = () => {
-  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [createdUser, setCreatedUser] = useState(null); // Przechowywanie informacji o stworzonym użytkowniku
 
@@ -43,21 +32,13 @@ export const CreateParent = () => {
       password: generatedPassword, // Hasło jest generowane automatycznie
     };
 
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      navigate('/teacher/login');
-      return;
-    }
     try {
       setLoading(true);
       // Utworzenie nowego rodzica
-      const { data } = await axios.post(`${BACKEND_ADDRESS}/teacher/create-parent`, newParent, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.post(`${BACKEND_ADDRESS}/teacher/create-parent`, newParent);
 
       if (!data) {
-        console.log('Nie udało się dodać rodzica');
-        setStatus('Nie udało się dodać rodzica');
+        setStatus('Nie udało się dodać rodzica.');
         return;
       }
 
@@ -66,9 +47,11 @@ export const CreateParent = () => {
 
       // Wyświetlenie informacji o użytkowniku zamiast przekierowania
     } catch (error) {
-      console.log(error);
+      if (error?.response?.status === 400){
+        setStatus('Nie udało się dodać rodzica.');
+        return;
+      }
       setStatus('Wystąpił Błąd. Spróbuj ponownie.');
-      return;
     } finally {
       setLoading(false);
     }

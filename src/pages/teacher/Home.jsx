@@ -3,22 +3,14 @@ import axios from "axios";
 import { Navigation } from "../../components/Navigation";
 import {Link, useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { authState } from "../../recoil-state/auth";
-import { useRecoilValue } from "recoil";
 
 export const Home = () => {
   const [ isLoading, setLoading ] = useState(false)
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [classes, setClasses] = useState('');
-  const auth = useRecoilValue(authState)
-  // dodaj recoil
+ 
   useEffect(() => {
-    if (auth.userType !== 'teacher') {
-        navigate('/teacher/login');
-        return;
-    }
-
     const fetchTeacherData = async () => {
         setLoading(true)
         try {
@@ -26,16 +18,13 @@ export const Home = () => {
             
             setName(data.name);
             setClasses(data.classes);
-        } catch (error) {
-            console.error('Authentication failed:', error);
-            navigate('/login');
         } finally {
           setLoading(false)
         }
     };
 
     fetchTeacherData();
-  }, [navigate, auth.userType]);
+  }, []); // eslint-disable-line
 
   const handleCreateClass = () => {
   // Logika do tworzenia nowej klasy

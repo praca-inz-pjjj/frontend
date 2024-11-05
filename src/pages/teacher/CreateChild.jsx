@@ -5,8 +5,6 @@ import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
 import {useNavigate, useParams} from 'react-router-dom';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../recoil-state/auth";
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
@@ -17,7 +15,6 @@ const validationSchema = Yup.object().shape({
 export const CreateChild = () => {
     const navigate = useNavigate();
     const [ isLoading, setLoading ] = useState(false);
-    const auth = useRecoilValue(authState)
     
     let {id} = useParams();
     const submit = async (values, { setStatus }) => {
@@ -27,11 +24,6 @@ export const CreateChild = () => {
         birth_date: values.birth_date,
         classroom: id
       };
-
-      if (auth.userType !== 'teacher') {
-          navigate('/teacher/login');
-          return;
-      }
       try {
         setLoading(true)
         // Utworzenie nowego ucznia i przypisanie go do klasy
@@ -39,15 +31,17 @@ export const CreateChild = () => {
           axios.post(`/teacher/class/${id}/create`, newChild);
 
         if (!data) {
-          console.log('Nie udało się dodać dziecka');
-          setStatus('Nie udało się dodać dziecka');
+          setStatus('Nie udało się dodać dziecka.');
           return;
         }
 
         // Przekierowanie do strony głównej nauczyciela
        navigate(`/teacher/class/${id}`);
       } catch (error) {
-        console.log(error);
+        if (error?.response?.status === 400){
+          setStatus('Nie udało się dodać dziecka.');
+          return;
+        }
         setStatus('Wystąpił Błąd. Spróbuj ponownie.');
         return;
       } finally {

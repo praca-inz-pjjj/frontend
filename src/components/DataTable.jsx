@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 export interface TableProps {
-    title: String,
+    title: any,
     no_data_message: String,
+    buttons?: ReactNode[]
 }
 
 export interface DataTableProps extends TableProps {
@@ -12,32 +13,63 @@ export interface DataTableProps extends TableProps {
 
 const DataTable: FC<DataTableProps> = ({
     title = "Brak Tytułu",
-    no_data_message = "- Brak danych -",
+    no_data_message = "Brak danych. Spróbuj odświeżyć stronę.",
     labels = [],
-    data_rows = []
+    data_rows = [],
+    buttons = []
 }) => {
     if (data_rows?.length === 0) {
         return (
-            <>
-                <h3 className="text-xl font-semibold mb-4">{title}</h3>
-                <p className="text-gray-600 mb-8">{no_data_message}</p>
-            </>
-        )
+            <div className="overflow-x-auto mb-16 shadow-lg rounded-lg border border-gray-200">
+                <div className="flex justify-between items-center px-4 py-3 bg-blue-50 rounded-t-lg">
+                    <h3 className="text-xl">{title}</h3>
+                    <div className="flex space-x-2">
+                        {buttons.map((button, index) => (
+                            <div key={index}>{button}</div>
+                        ))}
+                    </div>
+                </div>
+                <p className="px-4 py-3 text-gray-500 text-left border-b border-gray-300">{no_data_message}</p>
+            </div>
+        );
     }
     return (
-        <div className="overflow-x-auto mb-8">
-            <h3 className="text-xl font-semibold mb-4">{title}</h3>
-            <table className="min-w-full bg-white border border-gray-300">
+        <div className="overflow-x-auto mb-16 shadow-lg rounded-lg border border-gray-200">
+            <div className="flex justify-between items-center px-4 py-3 bg-blue-50 rounded-t-lg">
+                <h3 className="text-xl">{title}</h3>
+                <div className="flex space-x-2">
+                    {buttons.map((button, index) => (
+                        <div key={index}>{button}</div>
+                    ))}
+                </div>
+            </div>
+            <table className="min-w-full bg-white rounded-lg">
                 <thead>
-                    <tr>
-                        {labels?.map((label) => <th className="px-4 py-2 border-b border-gray-300 text-left">{label}</th>
-                        )}
+                    <tr className="bg-blue-100 text-gray-800">
+                        {labels?.map((label, index) => (
+                            <th 
+                                key={index} 
+                                className="px-4 py-3 text-left font-semibold border-b border-gray-300"
+                            >
+                                {label}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {data_rows?.map((row, index) => (
-                        <tr key={row[0]} className="hover:bg-gray-100">
-                            {row.map((value) => <td className="px-4 py-2 border-b border-gray-300">{value}</td>)}
+                    {data_rows?.map((row, rowIndex) => (
+                        <tr 
+                            key={rowIndex} 
+                            className={`${rowIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50 transition-colors`}
+                        >
+                            {row.map((value, cellIndex) => (
+                                <td 
+                                    key={cellIndex} 
+                                    className="px-4 py-3 border-b border-gray-200 text-gray-700"
+                                >
+                                    {value}
+                                </td>
+                            ))}
                         </tr>
                     ))}
                 </tbody>
