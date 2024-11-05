@@ -1,42 +1,74 @@
 import axios from "axios";
 import { BACKEND_ADDRESS } from "../constances";
 
-let refresh = false;
-axios.defaults.baseURL = BACKEND_ADDRESS;
-axios.interceptors.response.use(
-  (resp) => resp,
-  async (error) => {
-    if (error.response.status === 401 && !refresh) {
-      refresh = true;
-      console.log(localStorage.getItem("refresh_token"));
-      const response = await axios.post(
-        BACKEND_ADDRESS + "/refresh/",
-        {
-          refresh: localStorage.getItem("refresh_token"),
-        },
-        { headers: { "Content-Type": "application/json" } },
-        { withCredentials: true }
-      );
-      if (response.status === 200) {
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data["access"]}`;
-        console.log(response.data);
+let isRefreshing = false;
 
-        localStorage.setItem("access_token", response.data.access);
-        localStorage.setItem("refresh_token", response.data.refresh);
-        return axios(error.config);
-      } else {
-        console.log("Refresh token expired");
-        localStorage.clear();
-        delete axios.defaults.headers.common["Authorization"];
-        if (
-          ["/parent/login", "/teacher/login"].includes(window.location.pathname)
-        )
-          window.location.href = "/login";
+axios.defaults.baseURL = BACKEND_ADDRESS;
+
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.config && error.config.method === "get") {
+      const status = error.response?.status;
+      if (status === 403) {
+        window.location.hash = "/forbidden";
+      } else if (status === 500) {
+        window.location.hash = "/error";
       }
     }
-    refresh = false;
-    return error;
+
+    // Don't attempt to refresh if it's a login error
+    if (originalRequest.url.includes("/token")) {
+      return Promise.reject(error); 
+    }
+
+    if (!isRefreshing && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refresh_token = localStorage.getItem("refresh_token");
+        const response = await axios.post('/refresh/', {
+          refresh: refresh_token,
+        });
+
+        const { access: newAccessToken, refresh: newRefreshToken } = response.data;
+
+        localStorage.setItem("access_token", newAccessToken);
+        localStorage.setItem("refresh_token", newRefreshToken);
+
+        axios.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+
+        return axios(originalRequest); // Retry the original request with the new token
+      } catch (refreshError) {
+        const userType = localStorage.getItem("userType") || "none"
+        delete axios.defaults.headers.common["Authorization"]
+        localStorage.clear();
+        console.error("Token refresh failed:", refreshError);
+        if (["parent", "teacher"].includes(userType)){
+          window.location.hash = `#/${userType}/login`;
+          return Promise.reject(refreshError);
+        }
+        window.location.hash = '#/login';
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
   }
 );

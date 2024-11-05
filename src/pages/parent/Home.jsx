@@ -1,54 +1,40 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigation } from "../../components/Navigation";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { authState } from "../../recoil-state/auth";
-import { useRecoilValue } from "recoil";
 import { ChildrenTable } from "./tables/ChildrenTable";
-import { PermittedUsersTable } from "./tables/PermittedUsersTable";
+import { ReceiversTable } from "./tables/ReceiversTable";
 import { PickUpsTable } from "./tables/PickUpsTable";
-import ReceiveHistory from "../../components/ReceiveHistory";
 
 export const Home = () => {
-  const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [children, setChildren] = useState("");
-  const auth = useRecoilValue(authState);
+  const [isLoading, setLoading] = useState(false)
+  const [parent_name, setParentName] = useState('');
+  const [children, setChildren] = useState([]);
+  const [receivers_data, setReceiversData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
-  const [permitted_users, setPermittedUsers] = useState([]);
 
   useEffect(() => {
-    if (auth.userType !== "parent") {
-      navigate("/parent/login");
-      return;
-    }
-
     const fetchParentData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/parent`);
-        if (res.status === 200) {
-          const { data } = res;
-          setName(data.name);
+        const response = await axios.get(`/parent`);
+        if (response?.data) {
+          const { data } = response;
+          setParentName(data.parent_name);
           setChildren(data.children);
+          setReceiversData(data.receivers)
           setHistoryData(data.history);
-          setPermittedUsers(data.permitted_users);
-        }
-        if (res.status === 401) {
-          console.error("Authentication failed");
-          navigate("/login");
         }
       } catch (error) {
-        console.error("Failed to fetch parent data");
+        return;
       } finally {
         setLoading(false);
       }
     };
 
     fetchParentData();
-  }, [navigate, auth.userType]);
+  }, []); // eslint-disable-line
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -58,41 +44,26 @@ export const Home = () => {
       ) : (
         <div className="flex flex-col items-center justify-center mt-6">
           <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-7xl">
-            <h3 className="text-2xl font-semibold mb-4">Witaj, {name}!</h3>
+            <h3 className="text-2xl mb-12">Witaj, {parent_name}!</h3>
             {children && (
-              <PickUpsTable
-                title={"Ostatnie Odbiory"}
-                pick_ups_data={[]}
-                no_data_message={
-                  "- Brak zarejestrowanych odbiorów lub wystąpił błąd -"
-                }
-              />
-            )}
-            {children && (
-              <ChildrenTable
-                title={"Twoje Dzieci"}
+              <ChildrenTable 
+                title={"Twoje dzieci"}
                 children_data={children}
-                no_data_message={
-                  "- Twoje dzieci nie zostały jeszcze wpisane do bazy uczniów lub wystąpił błąd -"
-                }
+                no_data_message={"Nie znaleziono żadnych dzieci."} />
+                )}
+            {receivers_data && (
+              <ReceiversTable
+                title={<Link to="/parent/receivers">Odbierający</Link>}
+                receivers_data={receivers_data}
+                no_data_message={"Nie znaleziono żadnego Odbierającego."}
               />
-            )}
+              )}
             {children && (
-              <PermittedUsersTable
-                title={"Zdefiniowani Odbierający"}
-                permitted_users_data={permitted_users}
-                no_data_message={
-                  "- Nie dodałeś jeszcze żadnego odbierającego lub wystąpił błąd -"
-                }
-              />
+            <PickUpsTable 
+              title={"Ostatnie odbiory"}
+              pick_ups_data={historyData}
+              no_data_message={"Brak zarejestrowanych odbiorów."} />
             )}
-            <ReceiveHistory data={historyData} limit={5} />
-            <button className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4">
-              Placeholder
-            </button>
-            <button className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-              Placeholder
-            </button>
           </div>
         </div>
       )}

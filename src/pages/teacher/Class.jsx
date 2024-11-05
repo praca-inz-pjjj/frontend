@@ -4,36 +4,28 @@ import { Navigation } from "../../components/Navigation";
 import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../recoil-state/auth";
 
 export const Class = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [classData, setClassData] = useState(null);
-  const auth = useRecoilValue(authState);
 
   useEffect(() => {
     setLoading(true);
-
-    if (auth.userType !== "teacher") {
-      navigate("/teacher/login");
-      return;
-    }
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`/teacher/class/${id}`);
         setClassData(data);
       } catch (error) {
-        console.error("Error:", error);
+        return;
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [id, navigate, auth.userType]);
+  }, []); // eslint-disable-line
 
   const handleAddChild = () => {
     // Logika do dodania nowego dziecka
@@ -43,6 +35,22 @@ export const Class = () => {
 
   const handleImportClass = () => {
     // Logika do importu listy dzieci z pliku
+  };
+
+  const handleDownloadParents = async () => {
+    try {
+      const { data } = await axios.get(`/teacher/class/${id}/download`, {
+        responseType: "blob",
+      });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(data);
+      link.download = `rodzice_klasy_${id}.csv`;
+      link.click();
+    }
+    catch (error){
+      alert(error)
+    }
   };
 
   return (
@@ -87,6 +95,13 @@ export const Class = () => {
                   className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
                 >
                   Importuj listę dzieci
+                </button>
+
+                <button
+                  onClick={handleDownloadParents}
+                  className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Pobierz listę rodziców
                 </button>
               </div>
             </div>

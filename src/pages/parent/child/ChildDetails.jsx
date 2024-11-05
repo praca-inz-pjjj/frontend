@@ -4,8 +4,6 @@ import { Navigation } from "../../../components/Navigation";
 import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../../recoil-state/auth";
 import { ChildPermittedUsersTable } from "./ChildPermittedUsersTable";
 
 export const ChildDetails = () => {
@@ -13,31 +11,25 @@ export const ChildDetails = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [childData, setChildData] = useState(null);
-    const auth = useRecoilValue(authState);
 
     useEffect(() => {
         setLoading(true);
-
-        if (auth.userType !== "parent") {
-            navigate("/parent/login");
-            return;
-        }
         const fetchData = async () => {
             try {
                 const response = await axios.get(`/parent/child/${id}`);
-                if (response.status === 200) {
+                if (response?.data) {
                     const { data } = response;
                     setChildData(data);
                 }
             } catch (error) {
-                console.error("Error:", error);
+                return;
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [id, navigate, auth.userType]);
+    }, []); // eslint-disable-line
 
     const handleAddPermision = () => {
         // Logika do dodania nowej permisji
@@ -65,7 +57,7 @@ export const ChildDetails = () => {
                                     {Object.entries(childData.permissions).map(([id, permission]) => (
                                         <li key={id} className="flex justify-between items-center">
                                             <span>
-                                                {id}. Osoba upoważniona: {permission.user}. Start: {permission.start_date}. Koniec: {permission.end_date}.
+                                                {Number(id)+1}. Osoba upoważniona: {permission.user_name}. Start: {permission.start_date}. Koniec: {permission.end_date}.
                                             </span>
                                             {console.log(permission.state)}
                                             {permission.state !== "PERMAMENT" &&
@@ -105,15 +97,3 @@ export const ChildDetails = () => {
         </div>
     );
 };
-
-
-// const handleCreateClass = () => {
-//     // Logika do tworzenia nowej klasy
-//     // Można przekierować użytkownika do formularza tworzenia nowej klasy
-//     navigate('/teacher/create-class');
-//   };
-
-//   const handleCreateParent = () => {
-//     // Logika do tworzenia nowego rodzica
-//     navigate('/teacher/create-parent');
-//   };

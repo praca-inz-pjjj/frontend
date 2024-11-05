@@ -3,11 +3,8 @@ import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
-
 import {useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../recoil-state/auth";
 
 const validationSchema = Yup.object().shape({
   className: Yup.string().required('Nazwa klasy jest wymagana')
@@ -16,17 +13,11 @@ const validationSchema = Yup.object().shape({
 export const CreateClass = () => {
   const navigate = useNavigate();
   const [ isLoading, setLoading ] = useState(false);
-  const auth = useRecoilValue(authState)
   const submit = async (values, { setStatus }) => {
     const newClass = {
       name: values.className,
       user_id: localStorage.getItem('user_id') // Zakładamy, że user_id jest przechowywany w localStorage
     };
-
-    if (auth.userType !== 'teacher') {
-        navigate('/teacher/login');
-        return;
-    }
     try {
       setLoading(true)
       // Utworzenie nowej klasy i przypisanie jej do zalogowanego nauczyciela
@@ -42,9 +33,11 @@ export const CreateClass = () => {
       // Przekierowanie do strony głównej nauczyciela
       navigate('/teacher');
     } catch (error) {
-      console.log(error);
+      if (error?.response?.status === 400){
+        setStatus('Nie udało się stworzyć klasy.');
+        return;
+      }
       setStatus('Wystąpił Błąd. Spróbuj ponownie.');
-      return;
     } finally {
       setLoading(false)
     }

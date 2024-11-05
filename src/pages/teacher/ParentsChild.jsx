@@ -1,14 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Navigation } from "../../components/Navigation";
-import { useNavigate, useParams} from 'react-router-dom';
-import {BACKEND_ADDRESS} from '../../constances';
+import { useParams} from 'react-router-dom';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
-import { useRecoilValue } from 'recoil';
-import { authState } from '../../recoil-state/auth';
 
 export const ParentsOfChild = () => {
-  const navigate = useNavigate();
   const [ isLoading, setLoading ] = useState(false);
   let {id} = useParams();
   const [parents, setParents] = useState('');
@@ -17,29 +13,26 @@ export const ParentsOfChild = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersonId, setSelectedPersonId] = useState('');
-  const auth = useRecoilValue(authState);
 
   useEffect(() => {
-      if (auth.userType !== 'teacher') {
-          navigate('/teacher/login');
-          return;
-      }
     const fetchData = async () => {
       setLoading(true)
       try {
         const response = await axios.get(`/teacher/child/${id}`);
-        setParents(response.data.parents);
-        setAllParents(response.data.all_parents);
-        setChild(response.data.child);
+        if (response?.data){
+          setParents(response.data.parents);
+          setAllParents(response.data.all_parents);
+          setChild(response.data.child);
+        }
       } catch (error) {
-        console.error('Error:', error);
+        return;
       } finally {
         setLoading(false)
       }
     };
 
     fetchData();
-  }, [id, navigate, auth.userType]);
+  }, []); // eslint-disable-line
 
   const filteredPeople = Object.entries(allParents).filter(([id, person]) =>
     `${person.first_name} ${person.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())
@@ -57,7 +50,7 @@ export const ParentsOfChild = () => {
 
   const handleAddParent = async (parentId) => {
     try {
-      await axios.post(BACKEND_ADDRESS + `/teacher/child/${id}`, {
+      await axios.post(`/teacher/child/${id}`, {
         'id': parentId
       });
     }
@@ -69,7 +62,7 @@ export const ParentsOfChild = () => {
 
   const handleDeleteParent = async (parentId) => {
     try {
-      await axios.delete(BACKEND_ADDRESS + `/teacher/child/${id}`, {
+      await axios.delete(`/teacher/child/${id}`, {
         data: {
           'id': parentId
         }

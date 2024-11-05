@@ -4,7 +4,7 @@ import { Logout } from "./pages/Logout";
 import { Login } from "./pages/Login";
 import { Login as ParentLogin } from "./pages/parent/Login";
 import { ChildDetails as ParentChildDetails} from "./pages/parent/child/ChildDetails";
-import { CreatePermission } from "./pages/parent/CreatePermission";
+import { CreatePermission } from "./pages/parent/child/CreatePermission";
 import { Root } from "./pages/Root";
 import { Home as TeacherHome } from "./pages/teacher/Home";
 import { Class } from "./pages/teacher/Class";
@@ -16,6 +16,12 @@ import { RecoilRoot, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import { authState } from "./recoil-state/auth";
 import { CreateParent } from "./pages/teacher/CreateParent";
+import { ChangePassword } from "./pages/parent/ChangePassword";
+import { Receivers } from "./pages/parent/receiver/Receivers";
+import { CreateReceiver } from "./pages/parent/receiver/CreateReceiver";
+import { ForbiddenPage } from "./pages/errors/ForbiddenPage";
+import { ServerError } from "./pages/errors/ServerError";
+import { NotFoundPage } from "./pages/errors/NotFound";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -24,6 +30,14 @@ const router = createHashRouter([
   {
     path: "/",
     element: <Root />,
+  },
+  {
+    path: "/forbidden",
+    element: <ForbiddenPage />,
+  },
+  {
+    path: "/error",
+    element: <ServerError />,
   },
   {
     path: "/login",
@@ -76,7 +90,23 @@ const router = createHashRouter([
   {
     path: TEACHER_PATH + "/create-parent",
     element: <CreateParent />
-  }
+  },
+  {
+    path: PARENT_PATH + "/change-password",
+    element: <ChangePassword />
+  },
+  {
+    path: PARENT_PATH + "/receivers",
+    element: <Receivers />
+  },
+  {
+    path: PARENT_PATH + "/create-receiver",
+    element: <CreateReceiver />
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ]
 );
 
