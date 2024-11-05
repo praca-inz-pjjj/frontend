@@ -1,37 +1,50 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Navigation } from "../../../components/Navigation";
 import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
-import { ReceiversTable } from "../tables/ReceiversTable";
+import { PermittedReceiversTable } from "./PermittedReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
 import GreenLinkButton from "../../../components/buttons/GreenLinkButton";
 import OrangeLinkButton from "../../../components/buttons/OrangeLinkButton";
+import ErrorNotification from "../../../components/ErrorNotification";
+import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
 
 export const Receivers = () => {
     const [isLoading, setLoading] = useState(false);
-    const [permitted_receivers, setPermittedReceivers] = useState(null)
-    const [not_permitted_receivers, setNotPermittedReceivers] = useState(null)
+    const [permitted_receivers, setPermittedReceivers] = useState(null);
+    const [not_permitted_receivers, setNotPermittedReceivers] = useState(null);
+    const [error, setError] = useState(null);
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get('/parent/receivers');
+            if (response.status === 200) {
+                const { data: receivers } = response;
+                setPermittedReceivers(receivers.filter(({ signature }) => signature));
+                setNotPermittedReceivers(receivers.filter(({ signature }) => !signature));
+            }
+        } catch (error) {
+            setError("Błąd podczas ładowania odbiorców.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        setLoading(true);
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/parent/receivers');
-                if (response.status === 200) {
-                    const { data: receivers } = response;
-                    setPermittedReceivers(receivers.filter(({signature}) => signature));
-                    setNotPermittedReceivers(receivers.filter(({signature}) => !signature))
-                }
-            } catch (error) {
-                return;
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchData();
-    }, []); // eslint-disable-line
+    }, []);
+
+    const handleSignatureSubmit = useCallback((receiver_id, child_id) => async () => {
+        try {
+            setError(null);
+            await axios.post(`/parent/receiver/${receiver_id}/signature`, { child_id });
+            fetchData();
+        } catch (error) {
+            setError(error?.response?.data?.message || "Błąd podczas dostarczania zgody.");
+        }
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -45,28 +58,30 @@ export const Receivers = () => {
                         {' > '}
                         <Link to={'/parent/receivers'}>Odbierający</Link>
                     </h2>
-                    { permitted_receivers && (
-                    <ReceiversTable
+                    {permitted_receivers && (
+                    <PermittedReceiversTable
                         title={"Uprawnieni Odbierający"}
                         receivers_data={permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego uprawnionego Odbierającego."}
                         buttons={[
-                            <OrangeLinkButton to={"/parent/receiver/new"} text={"Odbierz uprawnienia"}/>
+                            <BlueLinkButton to={"/parent/history"} text={"Historia odbiorów"} />
                         ]}
                     />
                     )}
-                    { not_permitted_receivers && (
+                    {not_permitted_receivers && (
                     <NotPermitedReceiversTable
                         title={"Nieuprawnieni Odbierający"}
                         receivers_data={not_permitted_receivers}
-                        no_data_message={"Nie znaleziono żadnego nieuprawionego Odbierającego."}
+                        no_data_message={"Nie znaleziono żadnego nieuprawnionego Odbierającego."}
                         buttons={[
-                            <GreenLinkButton to={"/parent/create-receiver"} text={"Nowy Odbierający"}/>
+                            <GreenLinkButton to={"/parent/create-receiver"} text={"Nowy Odbierający"} />
                         ]}
+                        handleSignatureSubmit={handleSignatureSubmit}
                     />
                     )}
                 </div>
-            )}
+                )}
+                {error && <ErrorNotification message={error} />}
             </div>
         </div>
     );

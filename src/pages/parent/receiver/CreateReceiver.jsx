@@ -7,7 +7,7 @@ import { BACKEND_ADDRESS } from '../../../constances';
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { generatePassword } from "../../../helpers/generatePassword";
 import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
-import GreenLinkButton from "../../../components/buttons/GreenLinkButton";
+import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
 // Validation schema for form fields using Yup
 const validationSchema = Yup.object().shape({
@@ -31,7 +31,7 @@ const resultClass = "text-gray-900 dark:text-gray-300";
 
 export const CreateReceiver = () => {
     const [isLoading, setLoading] = useState(false);
-    const [created_user, setCreatedUser] = useState({first_name: "", second_name: "", email: "", phone: "", password: ""});
+    const [created_user, setCreatedUser] = useState(null);
     const [user_creation_success, setUserCreationSuccess] = useState(false)
     const [childrenList, setChildrenList] = useState([]);
 
@@ -96,8 +96,11 @@ export const CreateReceiver = () => {
                             <p className={resultClass}><strong>Wygenerowane hasło:</strong> {created_user?.password || ""}</p>
                         </div>
                         <div className="pt-4 flex flex-row justify-between">
-                            <BlueLinkButton to="/parent/create-receiver" text="Zapisz dane"/>
-                            <GreenLinkButton to="/parent/receivers" text="Utwórz kolejne"/>
+                            <BlueLinkButton to="/parent/receivers" text="Powrót"/>
+                            <ColorfulButton text="Utórz kolejne" color="green" onClick={() => {
+                                setUserCreationSuccess(false)
+                                setCreatedUser(null)
+                            }} />
                         </div>
                         </>
                         ) : (
@@ -152,7 +155,7 @@ export const CreateReceiver = () => {
                                         { childrenList?.length > 0 ? (
                                             childrenList.map(child => (
                                             <option key={child.id} value={child.id}>
-                                                {child.name} {child.surname}
+                                                {child.first_name} {child.last_name}
                                             </option>
                                         ))) : (
                                             <option disabled value="">
