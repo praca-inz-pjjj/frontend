@@ -23,7 +23,9 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("userType") === "teacher") {
+    const isTeacher = localStorage.getItem("userType") === "teacher";
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken && isTeacher) {
       navigate("/teacher");
       return;
     }
@@ -55,11 +57,10 @@ export const Login = () => {
         return;
       }
       if (error?.response?.status === 401){
-        setStatus("Niepoprawny login lub hasło.");
+        setStatus("Niepoprawny adres email lub hasło.");
         return;
       }
       setStatus("Wystąpił Błąd. Spróbuj ponownie.");
-      return;
     } finally {
       setLoading(false);
     }

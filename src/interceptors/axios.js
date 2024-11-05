@@ -21,6 +21,15 @@ axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    if (error.config && error.config.method === "get") {
+      const status = error.response?.status;
+      if (status === 403) {
+        window.location.hash = "/forbidden";
+      } else if (status === 500) {
+        window.location.hash = "/error";
+      }
+    }
+
     // Don't attempt to refresh if it's a login error
     if (originalRequest.url.includes("/token")) {
       return Promise.reject(error); 

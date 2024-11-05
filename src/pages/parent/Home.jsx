@@ -24,6 +24,8 @@ export const Home = () => {
           setChildren(data.children);
           setReceiversData(data.receivers)
         }
+      } catch (error) {
+        return;
       } finally {
         setLoading(false)
       }

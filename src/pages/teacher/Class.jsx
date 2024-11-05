@@ -17,6 +17,8 @@ export const Class = () => {
       try {
         const { data } = await axios.get(`/teacher/class/${id}`);
         setClassData(data);
+      } catch (error) {
+        return;
       } finally {
         setLoading(false);
       }

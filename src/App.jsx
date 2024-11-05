@@ -19,6 +19,9 @@ import { CreateParent } from "./pages/teacher/CreateParent";
 import { ChangePassword } from "./pages/parent/ChangePassword";
 import { Receivers } from "./pages/parent/receiver/Receivers";
 import { CreateReceiver } from "./pages/parent/receiver/CreateReceiver";
+import { ForbiddenPage } from "./pages/errors/ForbiddenPage";
+import { ServerError } from "./pages/errors/ServerError";
+import { NotFoundPage } from "./pages/errors/NotFound";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -27,6 +30,14 @@ const router = createHashRouter([
   {
     path: "/",
     element: <Root />,
+  },
+  {
+    path: "/forbidden",
+    element: <ForbiddenPage />,
+  },
+  {
+    path: "/error",
+    element: <ServerError />,
   },
   {
     path: "/login",
@@ -91,7 +102,11 @@ const router = createHashRouter([
   {
     path: PARENT_PATH + "/create-receiver",
     element: <CreateReceiver />
-  }
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ]
 );
 

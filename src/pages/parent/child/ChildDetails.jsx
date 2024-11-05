@@ -21,6 +21,8 @@ export const ChildDetails = () => {
                     const { data } = response;
                     setChildData(data);
                 }
+            } catch (error) {
+                return;
             } finally {
                 setLoading(false);
             }

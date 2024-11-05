@@ -6,11 +6,13 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("userType") === "teacher") {
+    const accessToken = localStorage.getItem("access_token");
+    const userType = localStorage.getItem("userType");
+    if (accessToken && userType === "teacher") {
       navigate("/teacher");
       return;
     }
-    if (localStorage.getItem("userType") === "parent") {
+    if (accessToken && userType === "parent") {
       navigate("/parent");
     }
   }, []); // eslint-disable-line
