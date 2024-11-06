@@ -38,7 +38,7 @@ export const ReceiversTable: FC<ReceiversTableProps> = ({
           {data.signature ? "Dostarczony" : "Niedostarczony"}
         </span>,
         <BlueLinkButton
-        to={`/parent/receiver/${data.receiver_id}`}
+        to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
         text={"Historia"}
         />
       ])
