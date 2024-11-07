@@ -2,33 +2,28 @@
 import React, { FC, useEffect, useState } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable"
 import { Link } from "react-router-dom";
-import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
 
 interface ReceiversData {
   receiver_id: String,
   receiver_name: String,
   child_name: String,
-  child_id: String,
   parent_name: String,
   date: String,
   signature: Boolean,
   is_parent: Boolean
 }
 
-export interface NotPermittedReceiversTableProps extends TableProps {
+export interface PermittedReceiversTableProps extends TableProps {
   receivers_data: ReceiversData[],
-  handleSignatureSubmit: (receiver_id: String, child_id: String) => void
 }
 
-export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({  
+export const PermittedReceiversTable: FC<PermittedReceiversTableProps> = ({ 
     receivers_data,
-    handleSignatureSubmit,
     ...props
   }) => {
-    const [data_rows, setDataRows] = useState([])
-    const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status podpisu", "Dostarcz zgodę"]
-
+  const [data_rows, setDataRows] = useState([])
+  const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status podpisu"]
 
   useEffect(()=>{
     const permitted_user_data_rows: Array[never] = receivers_data?.filter(({is_parent}) => !is_parent)
@@ -41,24 +36,19 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
         <span className={(data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
           {data.signature ? "Dostarczony" : "Niedostarczony"}
         </span>,
-        <ColorfulButton
-          onClick={handleSignatureSubmit(data.receiver_id, data.child_id)}
-          text={"Dostarcz"}
-          color="blue"
-        />
       ])
     setDataRows(permitted_user_data_rows)
-  }, [receivers_data, handleSignatureSubmit])
+  }, [receivers_data])
 
   return (
-    <div>
-      <DataTable 
-        title={props?.title}
-        no_data_message={props?.no_data_message}
-        labels={labels}
-        data_rows={data_rows}
-        buttons={props?.buttons}
-        />
-    </div>
+    <DataTable 
+      title={props?.title}
+      no_data_message={props?.no_data_message}
+      labels={labels}
+      data_rows={data_rows}
+      buttons={props?.buttons}
+      />
   )
 };
+
+

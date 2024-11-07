@@ -24,26 +24,27 @@ export const ReceiversTable: FC<ReceiversTableProps> = ({
     ...props
   }) => {
   const [data_rows, setDataRows] = useState([])
-  const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status podpisu", "Historia odbiorów"]
+  const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Historia odbiorów"]
 
-  useEffect(()=>{
-    const permitted_user_data_rows: Array[never] = receivers_data?.filter(({is_parent}) => !is_parent)
-      .map((data, index)=>[
-        index+1,
-        <Link to={`/parent/receiver/${data.receiver_id}`}>{data.receiver_name}</Link>,
+  useEffect(() => {
+    const permitted_user_data_rows = receivers_data
+      ?.filter(({ is_parent }) => !is_parent)
+      .map((data, index) => [
+        index + 1,
+        <Link to={`/parent/receiver/${data.receiver_id}`} key={data.receiver_id}>
+          {data.receiver_name}
+        </Link>,
         data.child_name,
         data.parent_name,
         data.date,
-        <span className={(data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
-          {data.signature ? "Dostarczony" : "Niedostarczony"}
-        </span>,
         <BlueLinkButton
         to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
         text={"Historia"}
         />
-      ])
-    setDataRows(permitted_user_data_rows)
-  }, [receivers_data])
+      ]);
+  
+    setDataRows(permitted_user_data_rows);
+  }, [receivers_data]);
 
   return (
     <DataTable 
