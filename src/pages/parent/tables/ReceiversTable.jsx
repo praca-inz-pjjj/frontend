@@ -38,9 +38,8 @@ export const ReceiversTable: FC<ReceiversTableProps> = ({
         data.parent_name,
         data.date,
         <BlueLinkButton
-          to={`/parent/receiver/${data.receiver_id}`}
-          text={"Historia"}
-          key={`button-${data.receiver_id}`}
+        to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
+        text={"Historia"}
         />
       ]);
   

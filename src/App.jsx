@@ -22,6 +22,7 @@ import { CreateReceiver } from "./pages/parent/receiver/CreateReceiver";
 import { ForbiddenPage } from "./pages/errors/ForbiddenPage";
 import { ServerError } from "./pages/errors/ServerError";
 import { NotFoundPage } from "./pages/errors/NotFound";
+import { Receiver } from "./pages/parent/receiver/Receiver";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -102,6 +103,10 @@ const router = createHashRouter([
   {
     path: PARENT_PATH + "/create-receiver",
     element: <CreateReceiver />
+  },
+  {
+    path: PARENT_PATH + "/receiver/:id",
+    element: <Receiver />
   },
   {
     path: "*",

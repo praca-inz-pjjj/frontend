@@ -9,32 +9,33 @@ import { PickUpsTable } from "./tables/PickUpsTable";
 import Body from "../../components/Body";
 
 export const Home = () => {
-  const [isLoading, setLoading] = useState(false)
-  const [parent_name, setParentName] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const [parent_name, setParentName] = useState("");
   const [children, setChildren] = useState([]);
   const [receivers_data, setReceiversData] = useState([]);
+  const [historyData, setHistoryData] = useState([]);
 
   useEffect(() => {
     const fetchParentData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const response = await axios.get(`/parent`);
         if (response?.data) {
           const { data } = response;
           setParentName(data.parent_name);
           setChildren(data.children);
-          setReceiversData(data.receivers)
+          setReceiversData(data.receivers);
+          setHistoryData(data.history);
         }
       } catch (error) {
         return;
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
 
     fetchParentData();
   }, []); // eslint-disable-line
-
   return (
     <Body>
       <Navigation />
@@ -51,24 +52,26 @@ export const Home = () => {
               <ChildrenTable 
                 title={"Dzieci"}
                 children_data={children}
-                no_data_message={"Nie znaleziono żadnych dzieci."} />
-                )}
+                no_data_message={"Nie znaleziono żadnych dzieci."}
+              />
+            )}
             {receivers_data && (
               <ReceiversTable
                 title={<Link to="/parent/receivers">Upoważnienia</Link>}
                 receivers_data={receivers_data}
                 no_data_message={"Nie znaleziono żadnego Odbierającego."}
               />
-              )}
+            )}
             {children && (
-            <PickUpsTable 
-              title={"Ostatnie odbiory"}
-              pick_ups_data={[]}
-              no_data_message={"Brak zarejestrowanych odbiorów."} />
+              <PickUpsTable
+                title={"Ostatnie odbiory"}
+                pick_ups_data={historyData}
+                no_data_message={"Brak zarejestrowanych odbiorów."}
+              />
             )}
           </div>
         </div>
       )}
     </Body>
   );
-}
+};
