@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigation } from "../../../components/Navigation";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { PickUpsTable } from "../tables/PickUpsTable";
 import axios from "axios";
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams, useParams, Link } from "react-router-dom";
+import Body from "../../../components/Body";
 
 export function Receiver() {
   const [isLoading, setLoading] = useState(false);
@@ -34,12 +35,16 @@ export function Receiver() {
     fetchData();
   }, [childId, id]);
   return (
-    <div className="min-h-screen bg-gray-100">
+    <Body>
       <Navigation />
       <div className="flex flex-col items-center justify-center mt-6">
         {isLoading && <LoadingSpinner marginTop={10} />}
         {isLoading || (
-          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-7xl">
+          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+            <h2 className="text-gray-600 text-lg mb-12">
+              <Link to='/parent'>Panel Rodzica</Link>{` > `}
+              <Link className="text-black" to={`/parent/receiver/${id}?child=${childId}`}>Historia Odbiorów</Link>
+            </h2>
             <PickUpsTable
               title={"Ostatnie odbiory"}
               pick_ups_data={historyData}
@@ -48,6 +53,6 @@ export function Receiver() {
           </div>
         )}
       </div>
-    </div>
+    </Body>
   );
 }
