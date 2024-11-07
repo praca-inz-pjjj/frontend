@@ -1,9 +1,7 @@
 // ChildrenTable.jsx
 import React, { FC, useEffect, useState } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable"
-import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
 import { Link } from "react-router-dom";
-import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
 
 interface ReceiversData {
@@ -25,7 +23,7 @@ export const PermittedReceiversTable: FC<PermittedReceiversTableProps> = ({
     ...props
   }) => {
   const [data_rows, setDataRows] = useState([])
-  const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status podpisu", "Odbierz uprawnienia"]
+  const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status podpisu"]
 
   useEffect(()=>{
     const permitted_user_data_rows: Array[never] = receivers_data?.filter(({is_parent}) => !is_parent)
@@ -38,11 +36,6 @@ export const PermittedReceiversTable: FC<PermittedReceiversTableProps> = ({
         <span className={(data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
           {data.signature ? "Dostarczony" : "Niedostarczony"}
         </span>,
-        <ColorfulButton
-          onClick={() => {}}
-          text={"Odbierz"}
-          color="red"
-        />
       ])
     setDataRows(permitted_user_data_rows)
   }, [receivers_data])

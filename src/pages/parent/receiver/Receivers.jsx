@@ -6,9 +6,9 @@ import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { PermittedReceiversTable } from "./PermittedReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
 import GreenLinkButton from "../../../components/buttons/GreenLinkButton";
-import OrangeLinkButton from "../../../components/buttons/OrangeLinkButton";
 import ErrorNotification from "../../../components/ErrorNotification";
 import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
+import Body from "../../../components/Body";
 
 export const Receivers = () => {
     const [isLoading, setLoading] = useState(false);
@@ -47,35 +47,33 @@ export const Receivers = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <Body>
             <Navigation />
             <div className="flex flex-col items-center justify-center mt-6">
                 {isLoading && <LoadingSpinner marginTop={10} />}
                 {isLoading || (
-                <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-7xl">
-                    <h2 className="text-2xl font-semibold mb-12">
+                <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+                    <h2 className="text-gray-600 text-lg mb-12">
                         <Link to='/parent'>Panel Rodzica</Link>
                         {' > '}
-                        <Link to={'/parent/receivers'}>Odbierający</Link>
+                        <Link className="text-black" to={'/parent/receivers'}>Upoważnienia</Link>
                     </h2>
                     {permitted_receivers && (
                     <PermittedReceiversTable
-                        title={"Uprawnieni Odbierający"}
+                        title={"Upoważnienia"}
                         receivers_data={permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego uprawnionego Odbierającego."}
                         buttons={[
+                            <GreenLinkButton to={"/parent/create-receiver"} text={"Nowy Odbierający"} />,
                             <BlueLinkButton to={"/parent/history"} text={"Historia odbiorów"} />
                         ]}
                     />
                     )}
                     {not_permitted_receivers && (
                     <NotPermitedReceiversTable
-                        title={"Nieuprawnieni Odbierający"}
+                        title={"Upoważnienia bez ważnego podpisu"}
                         receivers_data={not_permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego nieuprawnionego Odbierającego."}
-                        buttons={[
-                            <GreenLinkButton to={"/parent/create-receiver"} text={"Nowy Odbierający"} />
-                        ]}
                         handleSignatureSubmit={handleSignatureSubmit}
                     />
                     )}
@@ -83,6 +81,6 @@ export const Receivers = () => {
                 )}
                 {error && <ErrorNotification message={error} />}
             </div>
-        </div>
+        </Body>
     );
 };

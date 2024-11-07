@@ -8,6 +8,7 @@ import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { generatePassword } from "../../../helpers/generatePassword";
 import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
+import Body from "../../../components/Body";
 
 // Validation schema for form fields using Yup
 const validationSchema = Yup.object().shape({
@@ -80,8 +81,9 @@ export const CreateReceiver = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
+        <Body>
             <Navigation />
+            <div className="mt-[82px]">
             <section className="flex-grow flex items-center justify-center overflow-y-auto">
                 <div className={containerClass}>
                     <div className="p-6 space-y-4 sm:p-8">
@@ -178,6 +180,7 @@ export const CreateReceiver = () => {
                     </div>
                 </div>
             </section >
-        </div >
+            </div>
+        </Body>
     );
 }
