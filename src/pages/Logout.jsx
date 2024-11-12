@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { Navigation } from "../components/Navigation";
 import React from "react";
+import Body from "../components/Body";
 
 export const Logout = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export const Logout = () => {
   }, []); // eslint-disable-line
 
   return (
-    <div>
+    <Body>
       <Navigation />
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 ">
           <div className="bg-white p-8 shadow-md rounded-lg mt-[-100px]">
@@ -40,6 +41,6 @@ export const Logout = () => {
               <h1 className="text-3xl font-bold text-gray-800 mt-5">Wylogowywanie...</h1>
           </div>
         </div>
-    </div>
+    </Body>
   );
 };

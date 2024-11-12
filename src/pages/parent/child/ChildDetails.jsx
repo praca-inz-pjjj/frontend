@@ -32,7 +32,7 @@ export const ChildDetails = () => {
         };
 
         fetchData();
-    }, []); // eslint-disable-line
+    }, [id]); // eslint-disable-line
 
     const handleAddPermision = () => {
         // Logika do dodania nowej permisji

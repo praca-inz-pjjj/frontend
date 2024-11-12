@@ -2,13 +2,13 @@ import React, { FC, ReactNode } from "react";
 
 export interface TableProps {
   title: any;
-  no_data_message: String;
+  no_data_message: string;
   buttons?: ReactNode[];
 }
 
 export interface DataTableProps extends TableProps {
-  labels: String[];
-  data_rows: Array[];
+  labels: string[];
+  data_rows: any[][];
 }
 
 const DataTable: FC<DataTableProps> = ({
@@ -21,7 +21,7 @@ const DataTable: FC<DataTableProps> = ({
   if (data_rows?.length === 0) {
     return (
       <div className="overflow-x-auto mb-16 shadow-lg rounded-lg border border-gray-200">
-        <div className="flex justify-between items-center px-4 py-3 bg-blue-50 rounded-t-lg">
+        <div className="flex justify-between items-center px-4 py-3 rounded-t-lg bg-blue-50">
           <h3 className="text-xl">{title}</h3>
           <div className="flex space-x-2">
             {buttons.map((button, index) => (
@@ -35,6 +35,7 @@ const DataTable: FC<DataTableProps> = ({
       </div>
     );
   }
+
   return (
     <div className="overflow-x-auto mb-16 shadow-lg rounded-lg border border-gray-200 flex flex-col">
       <div className="flex justify-between items-center px-4 py-3 bg-blue-50">
@@ -47,11 +48,13 @@ const DataTable: FC<DataTableProps> = ({
       </div>
       <table className="min-w-full bg-white rounded-lg">
         <thead>
-          <tr className="bg-blue-100 text-gray-800">
+          <tr className="text-gray-800">
             {labels?.map((label, index) => (
               <th
                 key={index}
-                className="px-4 py-3 text-left font-semibold border-b border-gray-300"
+                className={`px-4 py-3 text-left font-semibold border-b border-gray-300 ${
+                    index === labels.length - 1 ? "text-right" : "text-left"
+                  }`}
               >
                 {label}
               </th>
@@ -69,7 +72,9 @@ const DataTable: FC<DataTableProps> = ({
               {row.map((value, cellIndex) => (
                 <td
                   key={cellIndex}
-                  className="px-4 py-3 border-b border-gray-200 text-gray-700"
+                  className={`px-4 py-3 border-b border-gray-200 text-gray-700 ${
+                    cellIndex === row.length - 1 ? "text-right" : "text-left"
+                  }`}
                 >
                   {value}
                 </td>

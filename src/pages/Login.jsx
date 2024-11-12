@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navigation } from "../components/Navigation";
+import Body from "../components/Body";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -18,9 +19,9 @@ export const Login = () => {
   }, []); // eslint-disable-line
 
   return (
-    <div>
+    <Body>
       <Navigation />
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 ">
+      <div className="min-h-screen flex flex-col items-center justify-center">
         <div className="bg-white p-8 shadow-md rounded-lg mt-[-100px]">
           <h1 className="text-3xl font-bold text-gray-800 mb-8">Logowanie</h1>
           <div className="flex space-x-4">
@@ -39,6 +40,6 @@ export const Login = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Body>
   );
 };
