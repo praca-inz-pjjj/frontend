@@ -7,11 +7,11 @@ import { ChildDetails as ParentChildDetails} from "./pages/parent/child/ChildDet
 import { CreatePermission } from "./pages/parent/child/CreatePermission";
 import { Root } from "./pages/Root";
 import { Home as TeacherHome } from "./pages/teacher/Home";
-import { Class } from "./pages/teacher/Class";
+import { Class } from "./pages/teacher/class/Class";
 import { CreateClass } from "./pages/teacher/CreateClass";
-import { CreateChild } from "./pages/teacher/CreateChild";
+import { CreateChild } from "./pages/teacher/class/CreateChild";
 import { Home as ParentHome } from "./pages/parent/Home";
-import { ParentsOfChild } from "./pages/teacher/ParentsChild";
+import { ParentsOfChild } from "./pages/teacher/class/child/ParentsChild";
 import { RecoilRoot, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import { authState } from "./recoil-state/auth";

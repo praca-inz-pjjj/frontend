@@ -6,6 +6,9 @@ import { Navigation } from "../../components/Navigation";
 import { BACKEND_ADDRESS } from '../../constances';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { generatePassword } from "../../helpers/generatePassword";
+import Body from "../../components/Body";
+import BlueLinkButton from "../../components/buttons/BlueLinkButton";
+import ColorfulButton from "../../components/buttons/ColorfulButton";
 
 // Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({
@@ -47,8 +50,8 @@ export const CreateParent = () => {
 
       // Wyświetlenie informacji o użytkowniku zamiast przekierowania
     } catch (error) {
-      if (error?.response?.status === 400){
-        setStatus('Nie udało się dodać rodzica.');
+      if (error?.response?.status === 400) {
+        setStatus('Nie udało się utworzyć konta.');
         return;
       }
       setStatus('Wystąpił Błąd. Spróbuj ponownie.');
@@ -58,22 +61,28 @@ export const CreateParent = () => {
   }
 
   return (
-    <div>
+    <Body>
       <Navigation />
-      <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 mt-[-100px]">
-          <div className="p-6 space-y-4 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Dodaj rodzica
-            </h1>
+      <div className="mt-[160px]">
+        <section className="flex justify-center">
+          <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
+            <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Utwórz konto Rodzica</h1>
             {createdUser ? (
               <div>
-                <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Rodzic został pomyślnie dodany!</h2>
-                <p className="text-gray-900 dark:text-gray-300"><strong>Imię:</strong> {createdUser.first_name}</p>
-                <p className="text-gray-900 dark:text-gray-300"><strong>Nazwisko:</strong> {createdUser.second_name}</p>
-                <p className="text-gray-900 dark:text-gray-300"><strong>Email:</strong> {createdUser.email}</p>
-                <p className="text-gray-900 dark:text-gray-300"><strong>Telefon:</strong> {createdUser.phone}</p>
-                <p className="text-gray-900 dark:text-gray-300"><strong>Wygenerowane hasło:</strong> {createdUser.password}</p>
+                <h2 className="text-lg font-semibold mb-4 text-gray-900">Konto Rodzica zostało pomyślnie utworzone!</h2>
+                  <div className="flex flex-col space-y-2 mb-8">
+                  <p className="text-gray-900"><strong>Imię:</strong> {createdUser.first_name}</p>
+                  <p className="text-gray-900"><strong>Nazwisko:</strong> {createdUser.second_name}</p>
+                  <p className="text-gray-900"><strong>Email:</strong> {createdUser.email}</p>
+                  <p className="text-gray-900"><strong>Telefon:</strong> {createdUser.phone}</p>
+                  <p className="text-gray-900"><strong>Wygenerowane hasło:</strong> {createdUser.password}</p>
+                </div>
+                <div className="flex flex-row justify-between">
+                    <BlueLinkButton to="/teacher" text="Powrót"/>
+                    <ColorfulButton text="Utwórz kolejne" color="green" onClick={() => {
+                        setCreatedUser(null)
+                    }} />
+                </div>
               </div>
             ) : (
               <Formik
@@ -87,41 +96,79 @@ export const CreateParent = () => {
                 onSubmit={submit}
               >
                 {({ values, status, handleChange, handleBlur, handleSubmit }) => (
-                  <form className="space-y-4 md:space-y-6"
+                  <form
+                    className="space-y-4 md:space-y-6"
                     onSubmit={(e) => {
                       e.preventDefault();
                       handleSubmit();
                     }}
                   >
                     <div>
-                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imię</label>
-                      <input value={values.first_name} onChange={handleChange} onBlur={handleBlur} type="text" name="first_name" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" />
+                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">Imię</label>
+                      <input
+                        value={values.first_name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
+                      />
                       <ErrorMessage name="first_name" component="div" className="text-red-600 text-sm" />
 
-                      <label htmlFor="second_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nazwisko</label>
-                      <input value={values.second_name} onChange={handleChange} onBlur={handleBlur} type="text" name="second_name" id="second_name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" />
+                      <label htmlFor="second_name" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Nazwisko</label>
+                      <input
+                        value={values.second_name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        type="text"
+                        name="second_name"
+                        id="second_name"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
+                      />
                       <ErrorMessage name="second_name" component="div" className="text-red-600 text-sm" />
 
-                      <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                      <input value={values.email} onChange={handleChange} onBlur={handleBlur} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" />
+                      <label htmlFor="email" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Email</label>
+                      <input
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        type="email"
+                        name="email"
+                        id="email"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
+                      />
                       <ErrorMessage name="email" component="div" className="text-red-600 text-sm" />
 
-                      <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefon</label>
-                      <input value={values.phone} onChange={handleChange} onBlur={handleBlur} type="text" name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" />
+                      <label htmlFor="phone" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Telefon</label>
+                      <input
+                        value={values.phone}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
+                      />
                       <ErrorMessage name="phone" component="div" className="text-red-600 text-sm" />
                     </div>
 
                     {!!status && <div className="text-red-600">{status}</div>}
                     {isLoading ? <LoadingSpinner /> :
-                      <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Dodaj rodzica</button>
+                      <button
+                        type="submit"
+                        className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center"
+                      >
+                        Dodaj rodzica
+                      </button>
                     }
                   </form>
                 )}
               </Formik>
             )}
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </Body>
   );
 }
