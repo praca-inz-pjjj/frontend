@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import DataTable, { TableProps } from "../../../components/DataTable"
+import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
 
 
 export interface ChildPermittedUserData {
@@ -22,7 +22,7 @@ export const ChildPermittedUsersTable: FC<ChildPermittedUsersTableProps> = ({
     permitted_users_data 
   }) => {
   const [data_rows, setDataRows] = useState([])
-  const labels = ["#", "Odbierający", "Dodany przez", "Data dodania", "Status podpisu", "Więcej"]
+  const labels = ["#", "Odbierający", "Dodany przez", "Data dodania", "Status podpisu", "Historia odbiorów"]
 
   useEffect(()=>{
     const permitted_user_data_rows: Array[never] = permitted_users_data?.filter(({is_parent}) => !is_parent)
@@ -34,9 +34,9 @@ export const ChildPermittedUsersTable: FC<ChildPermittedUsersTableProps> = ({
         <span className={user_data?.signature ? "text-green-500" : "text-red-500"}>
           {user_data.signature ? "Dostarczony" : "Niedostarczony"}
         </span>,
-        <Link to={`/parent/receiver/${user_data.user_id}`} className="text-blue-500 hover:underline">
-          Szczegóły
-        </Link>
+        <BlueLinkButton to={`/parent/receiver/${user_data.user_id}`} className="text-blue-500 hover:underline"
+          text={"Historia"}
+        />
       ])
     setDataRows(permitted_user_data_rows)
   }, [permitted_users_data])

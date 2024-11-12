@@ -6,6 +6,7 @@ import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ChildrenTable } from "./tables/ChildrenTable";
 import { ReceiversTable } from "./tables/ReceiversTable";
 import { PickUpsTable } from "./tables/PickUpsTable";
+import Body from "../../components/Body";
 
 export const Home = () => {
   const [isLoading, setLoading] = useState(false);
@@ -36,24 +37,27 @@ export const Home = () => {
     fetchParentData();
   }, []); // eslint-disable-line
   return (
-    <div className="min-h-screen bg-gray-100">
+    <Body>
       <Navigation />
       {isLoading ? (
         <LoadingSpinner marginTop={10} />
       ) : (
         <div className="flex flex-col items-center justify-center mt-6">
-          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-7xl">
+          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+            <h2 className="text-gray-600 text-lg mb-4">
+              <Link to='/parent'>Panel Rodzica</Link>
+            </h2>
             <h3 className="text-2xl mb-12">Witaj, {parent_name}!</h3>
             {children && (
-              <ChildrenTable
-                title={"Twoje dzieci"}
+              <ChildrenTable 
+                title={"Dzieci"}
                 children_data={children}
                 no_data_message={"Nie znaleziono żadnych dzieci."}
               />
             )}
             {receivers_data && (
               <ReceiversTable
-                title={<Link to="/parent/receivers">Odbierający</Link>}
+                title={<Link to="/parent/receivers">Upoważnienia</Link>}
                 receivers_data={receivers_data}
                 no_data_message={"Nie znaleziono żadnego Odbierającego."}
               />
@@ -68,6 +72,6 @@ export const Home = () => {
           </div>
         </div>
       )}
-    </div>
+    </Body>
   );
 };
