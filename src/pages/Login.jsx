@@ -38,6 +38,8 @@ export const Login = () => {
               Panel Rodzica
             </Link>
           </div>
+          <Link to="/reset-password" className="text-blue-600 hover:underline ml-[5px]">
+            zapomniałem hasła</Link>
         </div>
       </div>
     </Body>
