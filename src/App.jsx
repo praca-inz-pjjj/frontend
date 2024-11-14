@@ -23,6 +23,8 @@ import { ForbiddenPage } from "./pages/errors/ForbiddenPage";
 import { ServerError } from "./pages/errors/ServerError";
 import { NotFoundPage } from "./pages/errors/NotFound";
 import { Receiver } from "./pages/parent/receiver/Receiver";
+import { ResetPassword } from "./pages/Reset";
+import { PasswordResetConfirm } from "./pages/ResetPasswordConfirm";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -112,6 +114,14 @@ const router = createHashRouter([
     path: "*",
     element: <NotFoundPage />,
   },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />
+  },
+  {
+    path: "/reset-password/:uid/:token",
+    element: < PasswordResetConfirm />
+  }
 ]
 );
 

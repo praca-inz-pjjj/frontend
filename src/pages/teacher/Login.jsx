@@ -3,7 +3,7 @@ import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Navigation } from "../../components/Navigation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import Body from "../../components/Body";
 
@@ -159,6 +159,8 @@ export const Login = () => {
                   </form>
                 )}
               </Formik>
+              <Link to="/reset-password" className="text-blue-600 hover:underline ml-[5px]">
+                    zapomniałem hasła</Link>
             </div>
           </div>
         </div>
