@@ -20,10 +20,10 @@ const validationSchema = Yup.object().shape({
 });
 
 // CSS class constants
-const containerClass = "w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700";
-const headingClass = "text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white";
-const labelClass = "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
-const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600";
+const containerClass = "w-full max-w-md bg-white rounded-lg shadow";
+const headingClass = "text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl";
+const labelClass = "block mb-2 text-sm font-medium text-gray-900";
+const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5";
 const errorClass = "text-red-600 text-sm";
 const buttonClass = "w-full text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center";
 
@@ -70,7 +70,7 @@ export const CreatePermission = () => {
   return (
     <Body>
       <Navigation />
-      <div className="mt-[82px]">
+      <div className="mt-[200px]">
         <section className="flex-grow flex items-center justify-center overflow-y-auto">
           <div className={containerClass}>
             <div className="p-6 space-y-4 sm:p-8">
