@@ -32,10 +32,6 @@ export const ResetPassword = () => {
       // Przekierowanie do strony głównej
       navigate('/');
     } catch (error) {
-      if (error?.response?.status === 400) {
-        setStatus('Nie udało się wysłać emaila.');
-        return;
-      }
       setStatus('Wystąpił błąd. Spróbuj ponownie.');
     } finally {
       setLoading(false);
