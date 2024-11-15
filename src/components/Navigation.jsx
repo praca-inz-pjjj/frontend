@@ -41,15 +41,6 @@ export function Navigation() {
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul className="flex flex-col p-4 md:flex-row md:space-x-8 md:p-0">
             <li>
-              <Link
-                to="/"
-                className={`${baseLinkClass} ${defaultTextClass}`}
-                aria-current="page"
-              >
-                Strona Główna
-              </Link>
-            </li>
-            <li>
               <Link to="/teacher/login" className={teacherLinkClass}>
                 {isAuth && isTeacher ? 'Panel Nauczyciela (Zalogowany)' : 'Panel Nauczyciela'}
               </Link>

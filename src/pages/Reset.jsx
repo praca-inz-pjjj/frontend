@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { Navigation } from "../components/Navigation";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import Body from "../components/Body";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required('Email jest wymagany')
@@ -39,10 +40,9 @@ export const ResetPassword = () => {
   }
 
   return (
-    <div>
+    <Body>
       <Navigation />
-      <div className="bg-gradient-to-b from-sky-50 to-sky-100 min-h-screen flex flex-col">
-      <div className="mt-[200px]">
+      <div className="mt-[260px]">
         <section className="flex justify-center">
           <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
             <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Zapomniałem hasła</h1>
@@ -90,7 +90,6 @@ export const ResetPassword = () => {
           </div>
         </section>
       </div>
-      </div>
-    </div>
+    </Body>
   );
 }
