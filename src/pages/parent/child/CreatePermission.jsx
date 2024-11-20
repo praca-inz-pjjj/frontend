@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
   permitted_user: Yup.string().required("Odbierający jest wymagany"),
   start_date: Yup.date()
     .required("Data początkowa jest wymagana")
-    .min(new Date(), "Data początkowa nie może być w przeszłości"),
+    .min(new Date(new Date().getTime() - 5 * 60 * 1000), "Data początkowa nie może być w przeszłości"),
   end_date: Yup.date()
     .required("Data końcowa jest wymagana")
     .min(Yup.ref("start_date"), "Data końcowa nie może być wcześniejsza niż początkowa"),
@@ -58,6 +58,12 @@ export const CreatePermission = () => {
         return;
       }
 
+      if (values.two_factor_verification === true) {
+        // TODO additional: custom confirmation with user mail
+        navigate(`/parent/child/confirmation`);
+        return;
+      }
+
       navigate(`/parent/child/${id}`);
     } catch (error) {
       setStatus("Wystąpił Błąd. Spróbuj ponownie.");
@@ -79,7 +85,7 @@ export const CreatePermission = () => {
                 <LoadingSpinner />
               ) : (
                 <Formik
-                initialValues={{
+                  initialValues={{
                     permitted_user: "",
                     start_date: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString().slice(0, 16),
                     end_date: new Date(new Date().getTime() + 120 * 60 * 1000).toISOString().slice(0, 16),
@@ -87,7 +93,7 @@ export const CreatePermission = () => {
                   }}
                   validationSchema={validationSchema}
                   onSubmit={submit}
-                  >
+                >
                   {({ values, status, handleChange, handleBlur, handleSubmit }) => (
                     <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                       <div className="space-y-2">
@@ -116,7 +122,7 @@ export const CreatePermission = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={inputClass}
-                          />
+                        />
                         <ErrorMessage name="start_date" component="div" className={errorClass} />
 
                         <label htmlFor="end_date" className={labelClass}>Data końcowa</label>
@@ -128,7 +134,7 @@ export const CreatePermission = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={inputClass}
-                          />
+                        />
                         <ErrorMessage name="end_date" component="div" className={errorClass} />
 
                         <label htmlFor="two_factor_verification" className={labelClass}>Dwustopniowa weryfikacja</label>
@@ -140,7 +146,7 @@ export const CreatePermission = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className="h-5 w-5"
-                          />
+                        />
                         <ErrorMessage name="two_factor_verification" component="div" className={errorClass} />
                       </div>
 
