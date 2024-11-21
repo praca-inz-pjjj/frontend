@@ -41,7 +41,7 @@ export const PasswordResetConfirm = () => {
   return (
     <Body>
       <Navigation />
-        <div className="mt-[260px]">
+        <div className="mt-[200px]">
           <section className="flex justify-center">
             <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
               <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Zresetuj hasło</h1>

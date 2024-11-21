@@ -4,16 +4,20 @@ import { Navigation } from "../../components/Navigation";
 import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ChildrenTable } from "./tables/ChildrenTable";
-import { ReceiversTable } from "./tables/ReceiversTable";
 import { PickUpsTable } from "./tables/PickUpsTable";
 import Body from "../../components/Body";
+import InfoCard from "../../components/InfoCard";
+import InfoCardContainer from "../../components/InfoCardContainer";
+import NewUserIcon from "../../icons/NewUserIcon";
+import AddClassIcon from "../../icons/AddClassIcon";
+import HistoryIcon from "../../icons/HistoryIcon";
 
 export const Home = () => {
   const [isLoading, setLoading] = useState(false);
   const [parent_name, setParentName] = useState("");
   const [children, setChildren] = useState([]);
-  const [receivers_data, setReceiversData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
+  const getFirstName = () => parent_name?.split(" ")[0];
 
   useEffect(() => {
     const fetchParentData = async () => {
@@ -24,7 +28,6 @@ export const Home = () => {
           const { data } = response;
           setParentName(data.parent_name);
           setChildren(data.children);
-          setReceiversData(data.receivers);
           setHistoryData(data.history);
         }
       } catch (error) {
@@ -47,19 +50,12 @@ export const Home = () => {
             <h2 className="text-gray-600 text-lg mb-4">
               <Link to='/parent'>Panel Rodzica</Link>
             </h2>
-            <h3 className="text-2xl mb-12">Witaj, {parent_name}!</h3>
+            <h3 className="text-gray-800 text-2xl mb-12">{parent_name ? `Witaj, ${getFirstName()}!` : ""}</h3>
             {children && (
-              <ChildrenTable 
+              <ChildrenTable
                 title={"Dzieci"}
                 children_data={children}
                 no_data_message={"Nie znaleziono żadnych dzieci."}
-              />
-            )}
-            {receivers_data && (
-              <ReceiversTable
-                title={<Link to="/parent/receivers">Upoważnienia</Link>}
-                receivers_data={receivers_data}
-                no_data_message={"Nie znaleziono żadnego Odbierającego."}
               />
             )}
             {children && (
@@ -69,6 +65,29 @@ export const Home = () => {
                 no_data_message={"Brak zarejestrowanych odbiorów."}
               />
             )}
+            <InfoCardContainer title="Zarządzanie ogólne">
+              <InfoCard
+                title="Historia Odbiorów"
+                description="Przeglądaj historię odbiorów swoich dzieci."
+                color="blue"
+                onClick={() => {}}
+                icon={<HistoryIcon/>}
+              />
+              <InfoCard
+                title="Nowy Odbierający"
+                description="Utwórz nowe konto odbierającego."
+                color="green"
+                href="/parent/create-receiver"
+                icon={<NewUserIcon />}
+              />
+              <InfoCard
+                title="Upoważnienia"
+                description="Przeglądaj i zarządzaj upoważnieniami do odbioru swoich dzieci."
+                color="blue"
+                href="/parent/receivers"
+                icon={<AddClassIcon />}
+              />
+            </InfoCardContainer>
           </div>
         </div>
       )}

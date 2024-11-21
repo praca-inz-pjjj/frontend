@@ -65,7 +65,7 @@ export const CreateParent = () => {
       <Navigation />
       <div className="mt-[160px]">
         <section className="flex justify-center">
-          <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
+          <div className="w-full max-w-[400px] bg-white rounded-lg shadow p-10 space-y-4">
             <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Utwórz konto Rodzica</h1>
             {createdUser ? (
               <div>

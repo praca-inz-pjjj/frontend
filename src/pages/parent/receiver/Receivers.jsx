@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { PermittedReceiversTable } from "./PermittedReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
-import GreenLinkButton from "../../../components/buttons/GreenLinkButton";
 import ErrorNotification from "../../../components/ErrorNotification";
-import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
 import Body from "../../../components/Body";
 
 export const Receivers = () => {
@@ -56,28 +54,24 @@ export const Receivers = () => {
                     <h2 className="text-gray-600 text-lg mb-12">
                         <Link to='/parent'>Panel Rodzica</Link>
                         {' > '}
-                        <Link className="text-black" to={'/parent/receivers'}>Upoważnienia</Link>
+                        <Link className="text-black font-semibold text-xl" to={'/parent/receivers'}>Upoważnienia</Link>
                     </h2>
                     {permitted_receivers && (
                     <PermittedReceiversTable
-                        title={"Upoważnienia"}
+                        title={"Upoważnienia z ważną zgodą"}
                         receivers_data={permitted_receivers}
-                        no_data_message={"Nie znaleziono żadnego uprawnionego Odbierającego."}
-                        buttons={[
-                            <GreenLinkButton to={"/parent/create-receiver"} text={"Nowy Odbierający"} />,
-                            <BlueLinkButton to={"/parent/history"} text={"Historia odbiorów"} />
-                        ]}
+                        no_data_message={"Nie znaleziono żadnego upoważnienia."}
                     />
                     )}
                     {not_permitted_receivers && (
                     <NotPermitedReceiversTable
-                        title={"Upoważnienia bez ważnego podpisu"}
+                        title={"Upoważnienia bez ważnej zgody"}
                         receivers_data={not_permitted_receivers}
-                        no_data_message={"Nie znaleziono żadnego nieuprawnionego Odbierającego."}
+                        no_data_message={"Nie znaleziono żadnego upoważnienia."}
                         handleSignatureSubmit={handleSignatureSubmit}
                     />
                     )}
-                </div>
+              </div>
                 )}
                 {error && <ErrorNotification message={error} />}
             </div>

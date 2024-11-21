@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable, { TableProps } from "../../../components/DataTable"
-import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
+import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
 export interface ChildData {
     id: String,
@@ -16,14 +16,16 @@ export interface ChildrenTableProps extends TableProps {
 
 export const ChildrenTable: FC<ChildrenTableProps> = ({ title, children_data, no_data_message }) => {
     const [data_rows, setDataRows] = useState([])
-    const labels = ["#", "Imię i Nazwisko", "Klasa", "Więcej"]
+    const labels = ["#", "Imię i Nazwisko", "Klasa", "Dostępne opcje"]
 
     useEffect(()=>{
       const children_data_rows: Array[never] = children_data?.map((child, index)=>[
         index+1,
         <Link to={`/parent/child/${child.id}`}>{child.first_name + " " + child.last_name}</Link>,
         child.classroom_name,
-        <BlueLinkButton to={`/parent/child/${child.id}`} className="text-blue-500 hover:underline"
+        <ColorfulLinkButton
+          color="blue"
+          to={`/parent/child/${child.id}`}
           text={"Szczegóły"}
         />
       ])

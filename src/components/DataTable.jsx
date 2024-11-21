@@ -29,7 +29,7 @@ const DataTable: FC<DataTableProps> = ({
             ))}
           </div>
         </div>
-        <p className="px-4 py-3 text-gray-500 text-left border-b border-gray-300">
+        <p className="px-4 py-4 text-gray-500 text-left border-b border-gray-300 text-center min-h-[50px]">
           {no_data_message}
         </p>
       </div>
@@ -46,43 +46,45 @@ const DataTable: FC<DataTableProps> = ({
           ))}
         </div>
       </div>
-      <table className="min-w-full bg-white rounded-lg">
-        <thead>
-          <tr className="text-gray-800">
-            {labels?.map((label, index) => (
-              <th
-                key={index}
-                className={`px-4 py-3 text-left font-semibold border-b border-gray-300 ${
+      <div className="overflow-y-auto max-h-[277px]">
+        <table className="min-w-full bg-white rounded-lg">
+          <thead>
+            <tr className="text-gray-800">
+              {labels?.map((label, index) => (
+                <th
+                  key={index}
+                  className={`px-4 py-3 text-left font-semibold border-b border-gray-300 ${
                     index === labels.length - 1 ? "text-right" : "text-left"
                   }`}
-              >
-                {label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data_rows?.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className={`${
-                rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
-              } hover:bg-blue-50 transition-colors`}
-            >
-              {row.map((value, cellIndex) => (
-                <td
-                  key={cellIndex}
-                  className={`px-4 py-3 border-b border-gray-200 text-gray-700 ${
-                    cellIndex === row.length - 1 ? "text-right" : "text-left"
-                  }`}
                 >
-                  {value}
-                </td>
+                  {label}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data_rows?.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={`${
+                  rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
+                } hover:bg-blue-50 transition-colors`}
+              >
+                {row.map((value, cellIndex) => (
+                  <td
+                    key={cellIndex}
+                    className={`px-4 py-3 border-b border-gray-200 text-gray-700 ${
+                      cellIndex === row.length - 1 ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {value}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
