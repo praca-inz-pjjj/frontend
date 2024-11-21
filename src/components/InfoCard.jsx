@@ -16,7 +16,7 @@ const InfoCard: FC<InfoCardProps> = ({ title, description, color = "green", icon
     const ringColor = CARD_RING_CLASSES[color];
     const textColor = CARD_TEXT_CLASSES[color];
     const iconColor = CARD_ICON_CLASSES[color];
-    const cardClasses = `flex flex-col justify-start group block min-w-[100%] mx-auto rounded p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 ${bgColor} ${ringColor}`;
+    const cardClasses = `flex flex-col justify-start group block min-w-[100%] mx-auto rounded p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 transition-all duration-200 ease-in-out ${bgColor} ${ringColor}`;
     const headerClasses = `text-slate-900 text-sm font-semibold ${textColor}`;
     const descriptionClasses = `text-left text-slate-500 text-sm ${textColor}`;
 
@@ -25,20 +25,21 @@ const InfoCard: FC<InfoCardProps> = ({ title, description, color = "green", icon
     const wrapperProps = href ? { to: href } : { onClick };
 
     return (
-        <Wrapper
-            {...wrapperProps}
-            className={cardClasses}
-        >
+        React.createElement(
+            Wrapper,
+            { ...wrapperProps, className: cardClasses },
+            <>
             <div className="flex items-center space-x-3">
-                {icon && <span className={iconColor}>{icon}</span>}
-                <h3 className={headerClasses}>
-                    {title}
-                </h3>
-            </div>
+                 {icon && <span className={iconColor}>{icon}</span>}
+                 <h3 className={headerClasses}>
+                     {title}
+                 </h3>
+                </div>
             <p className={descriptionClasses}>
                 {description}
             </p>
-        </Wrapper>
+            </>
+        )
     );
 };
 

@@ -22,18 +22,12 @@ export const ResetPassword = () => {
     try {
       setLoading(true);
       // Wysyłanie adresu email na serwer
-      const { data } = await axios.post('/reset-password', emailData);
-
-      if (!data) {
-        console.log('Nie udało się wysłać emaila');
-        setStatus('Nie udało się wysłać emaila');
-        return;
-      }
-
+      await axios.post('/reset-password', emailData);
       // Przekierowanie do strony głównej
-      navigate('/');
+      navigate('/login');
     } catch (error) {
-      setStatus('Wystąpił błąd. Spróbuj ponownie.');
+      const msg = error.response?.data?.message || 'Wystąpił błąd. Spróbuj ponownie.';
+      setStatus(msg);
     } finally {
       setLoading(false);
     }
@@ -42,11 +36,11 @@ export const ResetPassword = () => {
   return (
     <Body>
       <Navigation />
-      <div className="mt-[260px]">
+      <div className="mt-[200px]">
         <section className="flex justify-center">
           <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
-            <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Zapomniałem hasła</h1>
-            <p className="text-sm">Na twój mail zostanie wysłany link do zmiany hasła</p>
+            <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Odzyskiwanie dostępu</h1>
+            <p className="text-sm">Na podany adres email zostanie wysłany link do zresetowania hasła</p>
             <Formik
               initialValues={{
                 email: ''

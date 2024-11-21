@@ -51,8 +51,8 @@ export const ChildDetails = () => {
                         <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
                             <h2 className="text-gray-600 text-lg mb-12">
                                 <Link to='/parent'>Panel Rodzica</Link>{` > `}
-                                <Link to='/parent'>Dzieci</Link>{` > `}
-                                <Link className="text-black" to={`/parent/child/${childData.child_id}`}>{childData.child_name}</Link>
+                                <span>Dzieci</span>{` > `}
+                                <Link className="text-black font-semibold text-xl" to={`/parent/child/${childData.child_id}`}>{childData.child_name}</Link>
                             </h2>
                             <div>
                                 {childData?.permissions && 
@@ -69,6 +69,7 @@ export const ChildDetails = () => {
                                     title={"Upoważnione osoby"}
                                     permitted_users_data={childData?.permitted_users}
                                     no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
+                                    child_id={childData.child_id}
                                 />}
                             </div>
                         </div>
