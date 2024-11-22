@@ -7,8 +7,8 @@ import { BACKEND_ADDRESS } from '../../constances';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { generatePassword } from "../../helpers/generatePassword";
 import Body from "../../components/Body";
-import BlueLinkButton from "../../components/buttons/BlueLinkButton";
 import ColorfulButton from "../../components/buttons/ColorfulButton";
+import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
 
 // Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({
@@ -78,7 +78,7 @@ export const CreateParent = () => {
                   <p className="text-gray-900"><strong>Wygenerowane hasło:</strong> {createdUser.password}</p>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <BlueLinkButton to="/teacher" text="Powrót"/>
+                    <ColorfulLinkButton color="blue" to="/parent/receivers" text="Powrót"/>
                     <ColorfulButton text="Utwórz kolejne" color="green" onClick={() => {
                         setCreatedUser(null)
                     }} />

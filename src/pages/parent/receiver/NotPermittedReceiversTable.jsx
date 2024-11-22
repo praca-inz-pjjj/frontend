@@ -27,11 +27,12 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
     ...props
   }) => {
     const [data_rows, setDataRows] = useState([])
-    const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status zgody", "Dostępne opcje"]
+    const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Pisemna zgoda", "Dostępne opcje"]
 
 
   useEffect(()=>{
-    const permitted_user_data_rows: Array[never] = receivers_data?.filter(({is_parent}) => !is_parent)
+    const permitted_user_data_rows: Array[never] = receivers_data
+      ?.filter(({is_parent}) => !is_parent)
       .map((data, index)=>[
         index+1,
         <Link to={`/parent/receiver/${data.receiver_id}?child=${data.child_id}`}>{data.receiver_name}</Link>,

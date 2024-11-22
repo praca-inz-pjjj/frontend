@@ -10,6 +10,8 @@ import InfoCard from "../../../components/InfoCard";
 import NewUserIcon from "../../../icons/NewUserIcon";
 import ImportIcon from "../../../icons/ImportIcon";
 import DownloadIcon from "../../../icons/DownloadIcon";
+import WideBox from "../../../components/WideBox";
+import DetailsCard from "../../../components/DetailsCard";
 
 export const Class = () => {
   let { id } = useParams();
@@ -47,56 +49,66 @@ export const Class = () => {
       link.download = `rodzice_klasy_${id}.csv`;
       link.click();
     }
-    catch (error){
+    catch (error) {
       alert(error)
     }
   };
 
   return (
     <Body>
-        <Navigation />
-        {isLoading ? (
-            <LoadingSpinner marginTop={10} />
-        ) : (
-            <div className="flex flex-col items-center justify-center mt-6">
-                <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
-                    <h2 className="text-gray-600 text-lg mb-12">
-                        <Link to='/teacher'>Panel Nauczyciela</Link>{" > "}
-                        <span>Klasy</span>{" > "}
-                        <span className="text-black font-semibold text-xl" >{classData?.class_name}</span>
-                    </h2>
-                    {classData && (
-                      <ChildrenTable
-                        title="Lista dzieci"
-                        no_data_message="Nie dodano jeszcze żadnych dzieci do tej klasy." 
-                        children={classData.children}/>
-                    )}
-                    <InfoCardContainer title="Zarządzanie klasą">
-                      <InfoCard
-                          title="Nowe Dziecko"
-                          description="Dodaj nowe dziecko do klasy."
-                          color="green"
-                          href={`/teacher/class/${id}/create`}
-                          icon={<NewUserIcon/>}
-                      />
-                      <InfoCard
-                          title="Importuj Listę Dzieci"
-                          description="Zaimportuj listę dzieci z pliku w formacie CSV."
-                          color="yellow"
-                          onClick={handleImportClass}
-                          icon={<ImportIcon/>}
-                      />
-                      <InfoCard
-                          title="Pobierz Dane Rodziców"
-                          description="Pobierz dane logowania rodziców dzieci z tej klasy w formacie CSV."
-                          color="orange"
-                          onClick={handleDownloadParents}
-                          icon={<DownloadIcon/>}
-                      />
-                    </InfoCardContainer>
+      <Navigation />
+      {isLoading ? (
+        <LoadingSpinner marginTop={10} />
+      ) : (
+        <div className="flex flex-col items-center justify-center mt-6">
+          <WideBox>
+            <h2 className="text-gray-600 text-lg mb-12">
+              <Link to='/teacher'>Panel Nauczyciela</Link>{" > "}
+              <span>Klasy</span>{" > "}
+              <span className="text-black font-semibold text-xl" >{classData?.class_name}</span>
+            </h2>
+            <DetailsCard
+              title="Dane Klasy"
+              headerContent={
+                <div className="flex flex-col items-start">
+                  <div className="text-lg font-semibold text-gray-800 mb-2">{classData?.class_name}</div>
                 </div>
-            </div>
-        )}
+              }
+            >
+              {classData && (
+              <ChildrenTable
+                title="Lista dzieci"
+                no_data_message="Nie dodano jeszcze żadnych dzieci do tej klasy."
+                children={classData.children} />
+            )}
+            </DetailsCard>
+            
+            <InfoCardContainer title="Zarządzanie klasą">
+              <InfoCard
+                title="Nowe Dziecko"
+                description="Dodaj nowe dziecko do klasy."
+                color="green"
+                href={`/teacher/class/${id}/create`}
+                icon={<NewUserIcon />}
+              />
+              <InfoCard
+                title="Importuj Listę Dzieci"
+                description="Zaimportuj listę dzieci z pliku w formacie CSV."
+                color="yellow"
+                onClick={handleImportClass}
+                icon={<ImportIcon />}
+              />
+              <InfoCard
+                title="Pobierz Dane Rodziców"
+                description="Pobierz dane logowania rodziców dzieci z tej klasy w formacie CSV."
+                color="orange"
+                onClick={handleDownloadParents}
+                icon={<DownloadIcon />}
+              />
+            </InfoCardContainer>
+          </WideBox>
+        </div>
+      )}
     </Body>
   );
 };

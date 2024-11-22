@@ -7,6 +7,7 @@ import { PermittedReceiversTable } from "./PermittedReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
 import ErrorNotification from "../../../components/ErrorNotification";
 import Body from "../../../components/Body";
+import WideBox from "../../../components/WideBox";
 
 export const Receivers = () => {
     const [isLoading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ export const Receivers = () => {
                 setNotPermittedReceivers(receivers.filter(({ signature }) => !signature));
             }
         } catch (error) {
-            setError("Błąd podczas ładowania odbiorców.");
+            setError("Błąd podczas pobierania upoważnień.");
         } finally {
             setLoading(false);
         }
@@ -50,7 +51,7 @@ export const Receivers = () => {
             <div className="flex flex-col items-center justify-center mt-6">
                 {isLoading && <LoadingSpinner marginTop={10} />}
                 {isLoading || (
-                <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+                <WideBox className="space-y-16">
                     <h2 className="text-gray-600 text-lg mb-12">
                         <Link to='/parent'>Panel Rodzica</Link>
                         {' > '}
@@ -58,20 +59,20 @@ export const Receivers = () => {
                     </h2>
                     {permitted_receivers && (
                     <PermittedReceiversTable
-                        title={"Upoważnienia z ważną zgodą"}
+                        title={"Upoważnienia z ważną pisemną zgodą"}
                         receivers_data={permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego upoważnienia."}
                     />
                     )}
                     {not_permitted_receivers && (
                     <NotPermitedReceiversTable
-                        title={"Upoważnienia bez ważnej zgody"}
+                        title={"Upoważnienia bez ważnej pisemnej zgody"}
                         receivers_data={not_permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego upoważnienia."}
                         handleSignatureSubmit={handleSignatureSubmit}
                     />
                     )}
-              </div>
+                </WideBox>
                 )}
                 {error && <ErrorNotification message={error} />}
             </div>

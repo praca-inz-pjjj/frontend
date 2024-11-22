@@ -9,6 +9,7 @@ import InfoCard from "../../components/InfoCard";
 import InfoCardContainer from "../../components/InfoCardContainer";
 import NewUserIcon from "../../icons/NewUserIcon";
 import AddClassIcon from "../../icons/AddClassIcon";
+import WideBox from "../../components/WideBox";
 
 export const Home = () => {
   const [ isLoading, setLoading ] = useState(false)
@@ -39,17 +40,19 @@ export const Home = () => {
         <Navigation />
         { isLoading ? <LoadingSpinner marginTop={10}/> :
         <div className="flex flex-col items-center justify-center mt-6">
-          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+          <WideBox>
             <h2 className="text-gray-600 text-lg mb-4">
               <Link to='/teacher'>Panel Nauczyciela</Link>
             </h2>
             <h3 className="text-gray-800 text-2xl mb-12">{name ? `Witaj, ${getFirstName()}!` : ""}</h3>
 
-            <ClassroomsTable 
-              title={"Klasy"}
-              no_data_message={"Nie znaleziono żadnych klas."} 
-              classrooms={classes}
-            />
+            <div className="mb-12">
+              <ClassroomsTable 
+                title={"Klasy"}
+                no_data_message={"Nie znaleziono żadnych klas."} 
+                classrooms={classes}
+              />
+            </div>
             <InfoCardContainer title="Zarządzanie ogólne">
               <InfoCard
                   title="Nowa Klasa"
@@ -66,7 +69,7 @@ export const Home = () => {
                   icon={<NewUserIcon/>}
               />
             </InfoCardContainer>
-          </div>
+          </WideBox>
         </div>
         }
     </Body>

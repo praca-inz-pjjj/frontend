@@ -6,6 +6,7 @@ import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
 export const PermissionsTable = ({ 
     permssions,
+    handleDeletePermission,
     ...props
   }) => {
   const [data_rows, setDataRows] = useState([])
@@ -21,11 +22,11 @@ export const PermissionsTable = ({
         <ColorfulButton
           text="Usuń zgodę"
           color="red"
-          onClick={()=>{console.log("Usuń zgodę")}} 
+          onClick={handleDeletePermission(permission.permission_id)}
         />
       ])
     setDataRows(permissions_data)
-  }, [permssions])
+  }, [permssions, handleDeletePermission])
 
   return (
     <DataTable 

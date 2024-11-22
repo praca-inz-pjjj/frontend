@@ -11,6 +11,7 @@ import InfoCardContainer from "../../components/InfoCardContainer";
 import NewUserIcon from "../../icons/NewUserIcon";
 import AddClassIcon from "../../icons/AddClassIcon";
 import HistoryIcon from "../../icons/HistoryIcon";
+import WideBox from "../../components/WideBox";
 
 export const Home = () => {
   const [isLoading, setLoading] = useState(false);
@@ -46,11 +47,12 @@ export const Home = () => {
         <LoadingSpinner marginTop={10} />
       ) : (
         <div className="flex flex-col items-center justify-center mt-6">
-          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+          <WideBox>
             <h2 className="text-gray-600 text-lg mb-4">
               <Link to='/parent'>Panel Rodzica</Link>
             </h2>
             <h3 className="text-gray-800 text-2xl mb-12">{parent_name ? `Witaj, ${getFirstName()}!` : ""}</h3>
+            <div className="space-y-12">
             {children && (
               <ChildrenTable
                 title={"Dzieci"}
@@ -88,7 +90,8 @@ export const Home = () => {
                 icon={<AddClassIcon />}
               />
             </InfoCardContainer>
-          </div>
+            </div>
+          </WideBox>
         </div>
       )}
     </Body>

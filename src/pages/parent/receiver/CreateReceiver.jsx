@@ -6,9 +6,9 @@ import { Navigation } from "../../../components/Navigation";
 import { BACKEND_ADDRESS } from '../../../constances';
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { generatePassword } from "../../../helpers/generatePassword";
-import BlueLinkButton from "../../../components/buttons/BlueLinkButton";
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
 import Body from "../../../components/Body";
+import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
 // Validation schema for form fields using Yup
 const validationSchema = Yup.object().shape({
@@ -99,7 +99,7 @@ export const CreateReceiver = () => {
                                     <p className={resultClass}><strong>Wygenerowane hasło:</strong> {created_user?.password || ""}</p>
                                 </div>
                                 <div className="flex flex-row justify-between">
-                                    <BlueLinkButton to="/parent/receivers" text="Powrót"/>
+                                    <ColorfulLinkButton color="blue" to="/parent/receivers" text="Powrót"/>
                                     <ColorfulButton text="Utwórz kolejne" color="green" onClick={() => {
                                         setUserCreationSuccess(false)
                                         setCreatedUser(null)
