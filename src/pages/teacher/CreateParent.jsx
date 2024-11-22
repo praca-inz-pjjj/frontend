@@ -7,8 +7,8 @@ import { BACKEND_ADDRESS } from '../../constances';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { generatePassword } from "../../helpers/generatePassword";
 import Body from "../../components/Body";
-import BlueLinkButton from "../../components/buttons/BlueLinkButton";
 import ColorfulButton from "../../components/buttons/ColorfulButton";
+import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
 
 // Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({
@@ -65,7 +65,7 @@ export const CreateParent = () => {
       <Navigation />
       <div className="mt-[160px]">
         <section className="flex justify-center">
-          <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
+          <div className="w-full max-w-[400px] bg-white rounded-lg shadow p-10 space-y-4">
             <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Utwórz konto Rodzica</h1>
             {createdUser ? (
               <div>
@@ -78,7 +78,7 @@ export const CreateParent = () => {
                   <p className="text-gray-900"><strong>Wygenerowane hasło:</strong> {createdUser.password}</p>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <BlueLinkButton to="/teacher" text="Powrót"/>
+                    <ColorfulLinkButton color="blue" to="/parent/receivers" text="Powrót"/>
                     <ColorfulButton text="Utwórz kolejne" color="green" onClick={() => {
                         setCreatedUser(null)
                     }} />

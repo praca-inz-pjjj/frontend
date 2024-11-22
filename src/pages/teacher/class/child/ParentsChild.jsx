@@ -7,6 +7,8 @@ import Body from '../../../../components/Body';
 import { ParentsTable } from './ParentsTable';
 import ColorfulButton from '../../../../components/buttons/ColorfulButton';
 import ErrorNotification from '../../../../components/ErrorNotification';
+import WideBox from '../../../../components/WideBox';
+import DetailsCard from '../../../../components/DetailsCard';
 
 const compareByLastNameAndFirstName = (a, b) => {
   if (a.last_name === b.last_name) {
@@ -92,9 +94,9 @@ export const ParentsOfChild = () => {
   return (
     <Body>
       <Navigation />
-      {isLoading ? <LoadingSpinner marginTop={10}/> :
-      <div className="flex flex-col items-center justify-center mt-6">
-          <div className="bg-white shadow-md rounded-lg px-20 py-10 w-full max-w-[1200px]">
+      {isLoading ? <LoadingSpinner marginTop={10} /> :
+        <div className="flex flex-col items-center justify-center mt-6">
+          <WideBox>
             <h2 className="text-gray-600 text-lg mb-12">
               <Link to='/teacher'>Panel Nauczyciela</Link>{" > "}
               <span>Klasy</span>{" > "}
@@ -102,16 +104,27 @@ export const ParentsOfChild = () => {
               <span className="text-black font-semibold text-xl">{getChildName()}</span>
             </h2>
 
-            <ParentsTable 
-              title={"Rodzice"}
-              no_data_message={"Dziecko nie ma przypisanych rodziców."} 
-              parents={parents}
-              handleRemoveParent={handleDeleteParent}
-            />
+            <DetailsCard
+              title="Dane Dziecka"
+              headerContent={
+                <div className="flex flex-col items-start">
+                  <div className="text-lg font-semibold text-gray-800 mb-2">{getChildName()}</div>
+                  <div className="text-gray-600">Data urodzenia: {child?.birth_date}</div>
+                  <div className="text-gray-600">Klasa: {classroom?.name}</div>
+                </div>
+              }
+            >
+              <ParentsTable
+                title="Rodzice"
+                no_data_message="Dziecko nie ma przypisanych rodziców."
+                parents={parents}
+                handleRemoveParent={handleDeleteParent}
+              />
+            </DetailsCard>
 
             <div className="overflow-x-auto mb-6 px-4 pt-3 pb-6 bg-white border border-slate-200 rounded-lg shadow-lg mt-6">
               <h3 className="text-xl mb-4">Przypisz Rodzica</h3>
-              
+
               <input
                 type="text"
                 placeholder="Wyszukaj osobę po imieniu, nazwisku lub emailu"
@@ -119,7 +132,7 @@ export const ParentsOfChild = () => {
                 value={searchTerm}
                 onChange={handleSearch}
               />
-              
+
               {isOpen && (
                 <div className="mt-2 border border-gray-300 rounded-lg max-h-[122px] overflow-y-auto shadow-md bg-white">
                   {filteredPeople.length > 0 ? (
@@ -127,9 +140,8 @@ export const ParentsOfChild = () => {
                       <div
                         key={person.id}
                         onClick={() => handlePerson(person)}
-                        className={`cursor-pointer px-4 py-2 transition-colors ${
-                          selectedPersonId === person.id ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"
-                        }`}
+                        className={`cursor-pointer px-4 py-2 transition-colors ${selectedPersonId === person.id ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"
+                          }`}
                       >
                         {person.first_name} {person.last_name} ({person.email})
                       </div>
@@ -147,12 +159,12 @@ export const ParentsOfChild = () => {
                     onClick={() => handleAddParent(selectedPersonId)}
                     text={"Przypisz rodzica"}
                   />
-              </div>
+                </div>
               )}
             </div>
-          </div>
+          </WideBox>
           {error && <ErrorNotification message={error} />}
-      </div>
+        </div>
       }
     </Body>
   );

@@ -19,7 +19,7 @@ export const ClassroomsTable = ({
         <ColorfulLinkButton
             key={id}
             to={`/teacher/class/${id}`}
-            text="Przejdź"
+            text="Zarządzaj"
             color="blue"
         />,
       ]).filter((permission)=> permission[4] !== "PERMANENT")

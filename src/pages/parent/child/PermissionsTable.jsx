@@ -6,22 +6,27 @@ import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
 export const PermissionsTable = ({ 
     permssions,
+    handleDeletePermission,
     ...props
   }) => {
   const [data_rows, setDataRows] = useState([])
-  const labels = ["#", "Odbierający", "Początek ważności", "Koniec ważności","Status", "Wycofaj zgodę"]
+  const labels = ["#", "Odbierający", "Początek ważności", "Koniec ważności", "Status", "Dostępne opcje"]
 
   useEffect(()=>{
-    const permissions_data = Object.entries(permssions)?.map(([id, permission], index)=>[
+    const permissions_data = Object.entries(permssions)?.filter(([id, permission]) => permission.state !== "PERMANENT").map(([id, permission], index)=>[
         index+1,
         permission.user_name,
         permission.start_date,
         permission.end_date,
         permission.state === "SLEEP" ? "Oczekujące" : permission.state,
-        <ColorfulButton text="Wycofaj" color="red" onClick={()=>{console.log("Wycofaj")}}/>
-      ]).filter((permission)=> permission[4] !== "PERMANENT")
+        <ColorfulButton
+          text="Usuń zgodę"
+          color="red"
+          onClick={handleDeletePermission(permission.permission_id)}
+        />
+      ])
     setDataRows(permissions_data)
-  }, [permssions])
+  }, [permssions, handleDeletePermission])
 
   return (
     <DataTable 

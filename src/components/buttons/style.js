@@ -1,12 +1,13 @@
-export const BTN_CLASSES = "px-4 py-2 rounded focus:outline-none"
+export const BTN_CLASSES = "inline-block px-4 py-2 rounded-md focus:outline-none font-semibold text-center text-sm transition-all duration-200 ease-in-out";
 
 export const COLOR_CLASSES = {
-    blue: "bg-blue-500 hover:bg-blue-600 text-white",
-    orange: "bg-primorange text-white hover:bg-primdarkorange",
-    yellow: "bg-yellow-500 hover:bg-yellow-600 text-black",
-    green: "bg-green-500 text-white hover:bg-green-600",
-    red: "bg-red-500 text-white hover:bg-red-600",
-    transparent: "text-black bg-blue-300 hover:bg-orange-400",
+    blue: "bg-transparent text-blue-500 border border-blue-400 hover:bg-blue-500 hover:text-white hover:border-blue-500 focus:bg-blue-500 focus:border-blue-500 focus:text-white",
+    orange: "bg-transparent text-orange-500 border border-orange-300 hover:bg-orange-500 hover:text-white hover:border-orange-500 focus:bg-orange-500 focus:border-orange-500 focus:text-white",
+    yellow: "bg-transparent text-yellow-500 border border-yellow-400 hover:bg-yellow-500 hover:text-black hover:border-yellow-500 focus:bg-yellow-500 focus:border-yellow-500 focus:text-black",
+    green: "bg-transparent text-green-500 border border-green-400 hover:bg-green-500 hover:text-white hover:border-green-500 focus:bg-green-500 focus:border-green-500 focus:text-white",
+    red: "bg-transparent text-red-600 border border-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 focus:bg-red-500 focus:border-red-500 focus:text-white",
+    transparent: "bg-transparent text-gray-500 border border-gray-300 hover:bg-orange-400 hover:text-white hover:border-orange-400 focus:bg-orange-400 focus:border-orange-400 focus:text-white",
+    outlined: "bg-transparent text-slate-700 border border-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-700 focus:bg-slate-700 focus:border-slate-700 focus:text-white",
 };
 
 export const CARD_BG_CLASSES = {

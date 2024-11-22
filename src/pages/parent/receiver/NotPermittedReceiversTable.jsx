@@ -27,11 +27,12 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
     ...props
   }) => {
     const [data_rows, setDataRows] = useState([])
-    const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Status podpisu", "Dostarcz zgodę"]
+    const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Pisemna zgoda", "Dostępne opcje"]
 
 
   useEffect(()=>{
-    const permitted_user_data_rows: Array[never] = receivers_data?.filter(({is_parent}) => !is_parent)
+    const permitted_user_data_rows: Array[never] = receivers_data
+      ?.filter(({is_parent}) => !is_parent)
       .map((data, index)=>[
         index+1,
         <Link to={`/parent/receiver/${data.receiver_id}?child=${data.child_id}`}>{data.receiver_name}</Link>,
@@ -39,12 +40,12 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
         data.parent_name,
         data.date,
         <span className={(data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
-          {data.signature ? "Dostarczony" : "Niedostarczony"}
+          {data.signature ? "Dostarczona" : "Niedostarczona"}
         </span>,
         <ColorfulButton
           onClick={handleSignatureSubmit(data.receiver_id, data.child_id)}
-          text={"Dostarcz"}
-          color="blue"
+          text={"Dostarcz zgodę"}
+          color="green"
         />
       ])
     setDataRows(permitted_user_data_rows)
