@@ -49,7 +49,7 @@ const DataTable: FC<DataTableProps> = ({
           ))}
         </div>
       </div>
-      <div className="overflow-y-auto max-h-[221px]">
+      <div className="overflow-y-auto">
         <table className="min-w-full bg-white rounded-lg">
           <thead>
             <tr className="text-gray-800 sticky top-0 bg-white">

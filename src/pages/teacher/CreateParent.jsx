@@ -3,12 +3,13 @@ import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Navigation } from "../../components/Navigation";
-import { BACKEND_ADDRESS } from '../../constances';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { generatePassword } from "../../helpers/generatePassword";
 import Body from "../../components/Body";
 import ColorfulButton from "../../components/buttons/ColorfulButton";
 import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
+import CenteredContainer from "../../components/CenteredContainer";
+import CopyableTextBox from "../../components/CopableTextBox";
 
 // Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({
@@ -19,6 +20,11 @@ const validationSchema = Yup.object().shape({
     .matches(/^[0-9]{9}$/, 'Numer telefonu musi mieć 9 cyfr')
     .required('Numer telefonu jest wymagany'),
 });
+
+const resultClass = "text-gray-900 text-md flex flex-row space-x-2";
+const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5";
+const errorClass = "text-red-600 text-sm";
+const buttonClass = "w-full text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center";
 
 export const CreateParent = () => {
   const [isLoading, setLoading] = useState(false);
@@ -38,7 +44,7 @@ export const CreateParent = () => {
     try {
       setLoading(true);
       // Utworzenie nowego rodzica
-      const { data } = await axios.post(`${BACKEND_ADDRESS}/teacher/create-parent`, newParent);
+      const { data } = await axios.post(`/teacher/create-parent`, newParent);
 
       if (!data) {
         setStatus('Nie udało się dodać rodzica.');
@@ -58,117 +64,122 @@ export const CreateParent = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const ResultTextBox = ({ labelText, text, canCopy = false }) => (
+    <div className={resultClass}>
+        <p>{labelText}:</p>
+        <strong>
+            <CopyableTextBox text={text} canCopy={canCopy} />
+        </strong>
+    </div>
+  );
 
   return (
     <Body>
       <Navigation />
-      <div className="mt-[160px]">
-        <section className="flex justify-center">
-          <div className="w-full max-w-[400px] bg-white rounded-lg shadow p-10 space-y-4">
-            <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Utwórz konto Rodzica</h1>
-            {createdUser ? (
-              <div>
-                <h2 className="text-lg font-semibold mb-4 text-gray-900">Konto Rodzica zostało pomyślnie utworzone!</h2>
-                  <div className="flex flex-col space-y-2 mb-8">
-                  <p className="text-gray-900"><strong>Imię:</strong> {createdUser.first_name}</p>
-                  <p className="text-gray-900"><strong>Nazwisko:</strong> {createdUser.second_name}</p>
-                  <p className="text-gray-900"><strong>Email:</strong> {createdUser.email}</p>
-                  <p className="text-gray-900"><strong>Telefon:</strong> {createdUser.phone}</p>
-                  <p className="text-gray-900"><strong>Wygenerowane hasło:</strong> {createdUser.password}</p>
-                </div>
-                <div className="flex flex-row justify-between">
-                    <ColorfulLinkButton color="blue" to="/parent/receivers" text="Powrót"/>
-                    <ColorfulButton text="Utwórz kolejne" color="green" onClick={() => {
-                        setCreatedUser(null)
-                    }} />
-                </div>
+      <CenteredContainer>
+        <h1 className="text-xl font-bold text-gray-900">Utwórz konto Rodzica</h1>
+          {createdUser ? (
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900">Konto zostało utworzone pomyślnie!</h2>
+              <div className="flex flex-col space-y-2 mb-8">
+                <ResultTextBox labelText="Imię" text={createdUser.first_name} />
+                <ResultTextBox labelText="Nazwisko" text={createdUser.second_name} />
+                <ResultTextBox labelText="Email" text={createdUser.email} />
+                <ResultTextBox labelText="Telefon" text={createdUser.phone} />
+                <ResultTextBox labelText="Wygenerowane hasło" text={createdUser.password} canCopy={true} />
               </div>
-            ) : (
-              <Formik
-                initialValues={{
-                  first_name: '',
-                  second_name: '',
-                  email: '',
-                  phone: '',
-                }}
-                validationSchema={validationSchema}
-                onSubmit={submit}
-              >
-                {({ values, status, handleChange, handleBlur, handleSubmit }) => (
-                  <form
-                    className="space-y-4 md:space-y-6"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleSubmit();
-                    }}
-                  >
-                    <div>
-                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">Imię</label>
-                      <input
-                        value={values.first_name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type="text"
-                        name="first_name"
-                        id="first_name"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
-                      />
-                      <ErrorMessage name="first_name" component="div" className="text-red-600 text-sm" />
+              <div className="flex flex-row justify-between">
+                <ColorfulLinkButton color="blue" to="/teacher" text="Powrót" />
+                <ColorfulButton text="Utwórz kolejne" color="green" onClick={() => {
+                    setCreatedUser(null);
+                }} />
+              </div>
+            </div>
+          ) : (
+            <Formik
+              initialValues={{
+                first_name: '',
+                second_name: '',
+                email: '',
+                phone: '',
+              }}
+              validationSchema={validationSchema}
+              onSubmit={submit}
+            >
+              {({ values, status, handleChange, handleBlur, handleSubmit }) => (
+                <form
+                  className="space-y-4 md:space-y-6"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
+                >
+                  <div>
+                    <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">Imię</label>
+                    <input
+                      value={values.first_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      name="first_name"
+                      id="first_name"
+                      className={inputClass}
+                    />
+                    <ErrorMessage name="first_name" component="div" className={errorClass} />
 
-                      <label htmlFor="second_name" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Nazwisko</label>
-                      <input
-                        value={values.second_name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type="text"
-                        name="second_name"
-                        id="second_name"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
-                      />
-                      <ErrorMessage name="second_name" component="div" className="text-red-600 text-sm" />
+                    <label htmlFor="second_name" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Nazwisko</label>
+                    <input
+                      value={values.second_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      name="second_name"
+                      id="second_name"
+                      className={inputClass}
+                    />
+                    <ErrorMessage name="second_name" component="div" className={errorClass} />
 
-                      <label htmlFor="email" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Email</label>
-                      <input
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type="email"
-                        name="email"
-                        id="email"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
-                      />
-                      <ErrorMessage name="email" component="div" className="text-red-600 text-sm" />
+                    <label htmlFor="email" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Email</label>
+                    <input
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="email"
+                      name="email"
+                      id="email"
+                      className={inputClass}
+                    />
+                    <ErrorMessage name="email" component="div" className={errorClass} />
 
-                      <label htmlFor="phone" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Telefon</label>
-                      <input
-                        value={values.phone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type="text"
-                        name="phone"
-                        id="phone"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3"
-                      />
-                      <ErrorMessage name="phone" component="div" className="text-red-600 text-sm" />
-                    </div>
+                    <label htmlFor="phone" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Telefon</label>
+                    <input
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      name="phone"
+                      id="phone"
+                      className={inputClass}
+                    />
+                    <ErrorMessage name="phone" component="div" className={errorClass} />
+                  </div>
 
-                    {!!status && <div className="text-red-600">{status}</div>}
-                    {isLoading ? <LoadingSpinner /> :
-                      <button
-                        type="submit"
-                        className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center"
-                      >
-                        Dodaj rodzica
-                      </button>
-                    }
-                  </form>
-                )}
-              </Formik>
-            )}
-          </div>
-        </section>
-      </div>
+                  {!!status && <div className="text-red-600">{status}</div>}
+                  {isLoading ? <LoadingSpinner /> :
+                    <button
+                      type="submit"
+                      className={buttonClass}
+                    >
+                      Utwórz
+                    </button>
+                  }
+                </form>
+              )}
+            </Formik>
+          )}
+      </CenteredContainer>
     </Body>
   );
-}
+};
