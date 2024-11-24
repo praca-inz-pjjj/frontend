@@ -9,7 +9,7 @@ import Body from "../../components/Body";
 import ColorfulButton from "../../components/buttons/ColorfulButton";
 import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
 import CenteredContainer from "../../components/CenteredContainer";
-import CopyableTextBox from "../../components/CopableTextBox";
+import CopyableTextBox from "../../components/CopyableTextBox";
 
 // Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({

@@ -9,7 +9,7 @@ import { generatePassword } from "../../../helpers/generatePassword";
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
 import Body from "../../../components/Body";
 import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
-import CopyableTextBox from "../../../components/CopableTextBox";
+import CopyableTextBox from "../../../components/CopyableTextBox";
 import CenteredContainer from "../../../components/CenteredContainer";
 
 // Validation schema for form fields using Yup
