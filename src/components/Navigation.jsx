@@ -20,20 +20,18 @@ export function Navigation() {
     }
   }, []);
 
-  // Define base and state-specific classes
   const baseLinkClass = "block py-2 px-3 rounded";
   const defaultTextClass = "text-gray-800 hover:bg-gray-200 font-semibold";
   const authTeacherClass = "bg-blue-100 text-blue-800 hover:bg-blue-200 font-semibold";
   const authParentClass = "bg-green-100 text-green-800 hover:bg-green-200 font-semibold";
   const loginLinkClass = `${baseLinkClass} ${isAuth ? defaultTextClass : "bg-blue-100 text-blue-800 hover:bg-blue-200 font-semibold rounded"}`;
 
-  // Combine base and condition-based classes
   const teacherLinkClass = `${baseLinkClass} ${isAuth && isTeacher ? authTeacherClass : defaultTextClass}`;
   const parentLinkClass = `${baseLinkClass} ${isAuth && isParent ? authParentClass : defaultTextClass}`;
 
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto pr-4">
         <div className="flex items-start space-x-4 md:space-x-8 items-center">
           <Link className="hover:bg-gray-200 p-4" to="/">
             <img
