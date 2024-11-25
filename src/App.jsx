@@ -27,6 +27,10 @@ import { Receiver } from "./pages/parent/receiver/Receiver";
 import { ResetPassword } from "./pages/Reset";
 import { PasswordResetConfirm } from "./pages/ResetPasswordConfirm";
 
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
 
@@ -133,12 +137,26 @@ const router = createHashRouter([
 function App() {
   return (
     <RecoilRoot>
-      <AppWithRecoil></AppWithRecoil>
+      <AppWithRecoil>
+        <RouterProvider router={router} />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={4000}
+          hideProgressBar={true}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          theme="light"
+          transition={Slide}
+        />
+      </AppWithRecoil>
     </RecoilRoot>
   );
 }
 
-function AppWithRecoil() {
+function AppWithRecoil({children}) {
   const setAuth = useSetRecoilState(authState);
   useEffect(() => {
     setAuth({
@@ -147,7 +165,7 @@ function AppWithRecoil() {
   }, [setAuth]);
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      {children}
     </div>
   );
 }
