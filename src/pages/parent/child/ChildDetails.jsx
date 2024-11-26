@@ -10,10 +10,6 @@ import ColorfulButton from "../../../components/buttons/ColorfulButton";
 import Body from "../../../components/Body";
 import WideBox from "../../../components/WideBox";
 import { toast } from "react-toastify";
-import DetailsCard from "../../../components/DetailsCard";
-import InfoCardContainer from "../../../components/InfoCard/InfoCardContainer";
-import InfoCard from "../../../components/InfoCard/InfoCard";
-import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
 export const ChildDetails = () => {
     let { id } = useParams();

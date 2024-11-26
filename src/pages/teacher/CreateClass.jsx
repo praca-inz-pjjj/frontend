@@ -6,6 +6,7 @@ import { Navigation } from "../../components/Navigation";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import Body from "../../components/Body";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
   className: Yup.string().required('Nazwa klasy jest wymagana')
@@ -32,6 +33,7 @@ export const CreateClass = () => {
       }
 
       // Przekierowanie do strony głównej nauczyciela
+      toast.success('Klasa została utworzona.');
       navigate('/teacher');
     } catch (error) {
       if (error?.response?.status === 400) {

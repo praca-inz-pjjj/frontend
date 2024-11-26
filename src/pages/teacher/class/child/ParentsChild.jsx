@@ -75,6 +75,7 @@ export const ParentsOfChild = () => {
   const handleAddParent = async (parentId) => {
     try {
       await axios.post(`/teacher/child/${id}`, { id: parentId });
+      toast.success('Rodzic został przypisany.');
       fetchData();
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Nie udało się przypisać rodzica.');
@@ -86,6 +87,7 @@ export const ParentsOfChild = () => {
       await axios.delete(`/teacher/child/${id}`, {
         data: { id: parent_id }
       });
+      toast.success('Usunięto przypisanie rodzica.');
       fetchData();
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Nie udało się usunąć rodzica.');
