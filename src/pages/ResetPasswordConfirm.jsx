@@ -6,7 +6,7 @@ import { Navigation } from "../components/Navigation";
 import { useParams, useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import Body from "../components/Body";
-// import { BACKEND_ADDRESS } from "../constances";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
   newPassword: Yup.string()
@@ -25,7 +25,7 @@ export const PasswordResetConfirm = () => {
       await axios.post(`/password-reset-confirm/${uid}/${token}/`, {
         new_password: values.newPassword,
       });
-      alert('Hasło zostało pomyślnie zmienione.');
+      toast.success('Hasło zostało zmienione.');
       navigate('/');
     } catch (error) {
       if (error?.response?.status === 400) {
