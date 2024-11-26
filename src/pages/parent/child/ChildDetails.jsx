@@ -9,14 +9,17 @@ import { PermissionsTable } from "./PermissionsTable";
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
 import Body from "../../../components/Body";
 import WideBox from "../../../components/WideBox";
-import ErrorNotification from "../../../components/ErrorNotification";
+import { toast } from "react-toastify";
+import DetailsCard from "../../../components/DetailsCard";
+import InfoCardContainer from "../../../components/InfoCard/InfoCardContainer";
+import InfoCard from "../../../components/InfoCard/InfoCard";
+import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
 export const ChildDetails = () => {
     let { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [childData, setChildData] = useState(null);
-    const [error, setError] = useState(null);
 
     const fetchData = async () => {
         setLoading(true);
@@ -27,7 +30,10 @@ export const ChildDetails = () => {
                 setChildData(data);
             }
         } catch (error) {
-            setError("Błąd podczas pobierania danych dziecka.");
+            if (!error.response) {
+                toast.error("Błąd połączenia z serwerem.");
+                return;
+            }
         } finally {
             setLoading(false);
         }
@@ -38,18 +44,16 @@ export const ChildDetails = () => {
     }, [id]); // eslint-disable-line
 
     const handleAddPermision = () => {
-        // Logika do dodania nowej permisji
-        // Formularz można zrobić za pomocą Formik -> Patrz Login.jsx
         navigate(`/parent/child/${id}/create-permission`);
     };
 
     const handleDeletePermission = useCallback((perm_id) => async () => {
         try {
-            setError(null);
             await axios.delete(`/parent/permission/${perm_id}`);
+            toast.success("Usunięto pomyślnie zgodę.");
             fetchData();
         } catch (error) {
-            setError(error?.response?.data?.message || "Błąd podczas usuwania zgody.");
+            toast.error(error?.response?.data?.message || "Błąd podczas usuwania zgody.");
         }
     }, []);  // eslint-disable-line
 
@@ -58,41 +62,40 @@ export const ChildDetails = () => {
             <Navigation />
             <div className="flex flex-col items-center justify-center mt-6">
                 {isLoading ? (
-                    <LoadingSpinner marginTop={10} />
+                    <LoadingSpinner/>
                 ) : (
                     <WideBox>
                         {childData && (
                         <>
                         <h2 className="text-gray-600 text-lg mb-12">
-                            <Link to='/parent'>Panel Rodzica</Link>{` > `}
-                            <span>Dzieci</span>{` > `}
-                            <Link className="text-black font-semibold text-xl" to={`/parent/child/${childData.child_id}`}>{childData.child_name}</Link>
+                                <Link to='/parent'>Panel Rodzica</Link>{` > `}
+                                <span>Dzieci</span>{` > `}
+                                <Link className="text-black font-semibold text-xl" to={`/parent/child/${childData.child_id}`}>{childData.child_name}</Link>
                         </h2>
-
-                        <div className="space-y-16">
-                            {childData?.permissions &&
+                        <div className="space-y-8">
+                            <div className="space-y-2">
+                                <div className="flex justify-end">
+                                    <ColorfulButton color="green" text="Wydaj zgodę" onClick={handleAddPermision} />
+                                </div>
                                 <PermissionsTable
                                     title={"Wydane zgody"}
-                                    permssions={childData?.permissions}
+                                    permssions={childData?.permissions || []}
                                     no_data_message={"Nie znaleziono żadnych zgód."}
                                     handleDeletePermission={handleDeletePermission}
-                                    buttons={[
-                                        <ColorfulButton color="green" text="Wydaj zgodę" onClick={handleAddPermision} />
-                                    ]}
-                                />}
-                            {childData?.permitted_users &&
-                                <ChildPermittedUsersTable
-                                    title={"Upoważnione osoby"}
-                                    permitted_users_data={childData?.permitted_users}
-                                    no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
-                                    child_id={childData.child_id}
-                                />}
+                                />
+                            </div>
+                                {childData?.permitted_users &&
+                            <ChildPermittedUsersTable
+                                title={"Upoważnione osoby"}
+                                permitted_users_data={childData?.permitted_users}
+                                no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
+                                child_id={childData.child_id}
+                            />}
                         </div>
                         </>
                         )}
                     </WideBox>
                 )}
-                {error && <ErrorNotification message={error} />}
             </div>
         </Body>
     );

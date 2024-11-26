@@ -11,6 +11,7 @@ import Body from "../../../components/Body";
 import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 import CopyableTextBox from "../../../components/CopyableTextBox";
 import CenteredContainer from "../../../components/CenteredContainer";
+import { toast } from "react-toastify";
 
 // Validation schema for form fields using Yup
 const validationSchema = Yup.object().shape({
@@ -43,7 +44,10 @@ export const CreateReceiver = () => {
                     setChildrenList(children_data);
                 }
             } catch (error) {
-                return;
+                if (!error.response) {
+                    toast.error("Błąd połączenia z serwerem.");
+                    return;
+                }
             }
         };
 

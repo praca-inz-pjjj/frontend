@@ -6,6 +6,7 @@ import { Navigation } from "../../../components/Navigation";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import Body from "../../../components/Body";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -41,7 +42,10 @@ export const CreatePermission = () => {
         const { data } = await axios.get(`/parent/child/${id}/permitted-users`);
         setPermittedUsers(data.permitted_users || []);
       } catch (error) {
-        console.error("Error fetching permitted users:", error);
+        if (!error.response) {
+          toast.error("Błąd połączenia z serwerem.");
+          return;
+        }
       } finally {
         setFetching(false);
       }
@@ -59,10 +63,9 @@ export const CreatePermission = () => {
         return;
       }
 
+      toast.success("Wydano pomyślnie zgodę.");
       if (values.two_factor_verification === true) {
-        // TODO additional: custom confirmation with user mail
-        navigate(`/parent/child/confirmation`);
-        return;
+        toast.info("Kod do weryfikacji znajdziesz w swojej skrzynce mailowej.");
       }
 
       navigate(`/parent/child/${id}`);
@@ -122,7 +125,7 @@ export const CreatePermission = () => {
                         id="permitted_user"
                         className={inputClass}
                       >
-                        <option value="">-- Wybierz odbierającego --</option>
+                        <option key="" value="">Wybierz odbierającego</option>
                         {Object.entries(permittedUsers).map(([key, value]) => (
                           <option key={key} value={value.id}>{value.user}</option>
                         ))}

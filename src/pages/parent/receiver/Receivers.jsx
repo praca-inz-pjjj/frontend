@@ -5,15 +5,14 @@ import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { PermittedReceiversTable } from "./PermittedReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
-import ErrorNotification from "../../../components/ErrorNotification";
 import Body from "../../../components/Body";
 import WideBox from "../../../components/WideBox";
+import { toast } from "react-toastify";
 
 export const Receivers = () => {
     const [isLoading, setLoading] = useState(false);
-    const [permitted_receivers, setPermittedReceivers] = useState(null);
-    const [not_permitted_receivers, setNotPermittedReceivers] = useState(null);
-    const [error, setError] = useState(null);
+    const [permitted_receivers, setPermittedReceivers] = useState([]);
+    const [not_permitted_receivers, setNotPermittedReceivers] = useState([]);
 
     const fetchData = async () => {
         setLoading(true);
@@ -25,7 +24,10 @@ export const Receivers = () => {
                 setNotPermittedReceivers(receivers.filter(({ signature }) => !signature));
             }
         } catch (error) {
-            setError("Błąd podczas pobierania upoważnień.");
+            if (!error.response) {
+                toast.error("Błąd połączenia z serwerem.");
+                return;
+            }
         } finally {
             setLoading(false);
         }
@@ -37,20 +39,30 @@ export const Receivers = () => {
 
     const handleSignatureSubmit = useCallback((receiver_id, child_id) => async () => {
         try {
-            setError(null);
             await axios.post(`/parent/receiver/${receiver_id}/signature`, { child_id });
             fetchData();
         } catch (error) {
-            setError(error?.response?.data?.message || "Błąd podczas dostarczania zgody.");
+            toast.error(error?.response?.data?.message || "Błąd podczas dostarczania zgody.");
         }
     }, []);
+
+    if (isLoading) {
+        return (
+          <Body>
+            <Navigation />
+            <div className="flex flex-col items-center justify-center mt-6">
+              <WideBox>
+                <LoadingSpinner size={48} />
+              </WideBox>
+            </div>
+          </Body>
+        );
+      }
 
     return (
         <Body>
             <Navigation />
             <div className="flex flex-col items-center justify-center mt-6">
-                {isLoading && <LoadingSpinner marginTop={10} />}
-                {isLoading || (
                 <WideBox className="space-y-16">
                     <h2 className="text-gray-600 text-lg mb-12">
                         <Link to='/parent'>Panel Rodzica</Link>
@@ -73,8 +85,6 @@ export const Receivers = () => {
                     />
                     )}
                 </WideBox>
-                )}
-                {error && <ErrorNotification message={error} />}
             </div>
         </Body>
     );
