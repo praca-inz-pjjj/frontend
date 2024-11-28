@@ -54,7 +54,7 @@ export const Login = () => {
 
       if (data.temp_password) {
         localStorage.setItem("temp_user_id", data.user);
-        navigate("/parent/change-password");
+        navigate("/change-password");
         return;
       }
       
