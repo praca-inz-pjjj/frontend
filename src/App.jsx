@@ -99,7 +99,7 @@ const router = createHashRouter([
     element: <CreateParent />
   },
   {
-    path: PARENT_PATH + "/change-password",
+    path: "/change-password",
     element: <ChangePassword />
   },
   {

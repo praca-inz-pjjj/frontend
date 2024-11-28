@@ -33,7 +33,7 @@ export const ChangePassword = () => {
 
     try {
         setLoading(true);
-      const response = await axios.post('/parent/change-password',
+      const response = await axios.post('/change-password',
         { userId: tempUserId, password: values.new_password }
       );
       console.log(response);

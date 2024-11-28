@@ -8,6 +8,7 @@ import { ClassroomsTable } from "./ClassroomsTable";
 import InfoCard from "../../components/InfoCard/InfoCard";
 import InfoCardContainer from "../../components/InfoCard/InfoCardContainer";
 import NewUserIcon from "../../icons/NewUserIcon";
+import ChangePasswordIcon from "../../icons/ChangePasswordIcon";
 import AddClassIcon from "../../icons/AddClassIcon";
 import WideBox from "../../components/WideBox";
 
@@ -69,6 +70,13 @@ export const Home = () => {
                   href="/teacher/create-parent"
                   icon={<NewUserIcon/>}
               />
+              <InfoCard
+                  title="Zmiana hasła"
+                  description="Zmień istniejące hasło na nowe."
+                  color="red"
+                  href="/change-password"
+                  icon={<ChangePasswordIcon />}
+                />
             </InfoCardContainer>
             </>
             )}

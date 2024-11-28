@@ -11,7 +11,11 @@ import { toast } from "react-toastify";
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
   second_name: Yup.string().required('Nazwisko jest wymagane'),
-  birth_date: Yup.date().required('Data urodzenia jest wymagana')
+  birth_date: Yup.date()
+  .required('Data urodzenia jest wymagana')
+  .test("Data jest w przeszłości",
+    "Data urodzenia musi być w przeszłości",
+    (value) => value && new Date(value) < new Date())
 });
 
 export const CreateChild = () => {
@@ -28,7 +32,6 @@ export const CreateChild = () => {
       };
       try {
         setLoading(true)
-        // Utworzenie nowego ucznia i przypisanie go do klasy
         const { data } = await 
           axios.post(`/teacher/class/${id}/child`, newChild);
 
@@ -37,7 +40,6 @@ export const CreateChild = () => {
           return;
         }
 
-        // Przekierowanie do strony głównej nauczyciela
         toast.success('Dziecko zostało dodane.');
         navigate(`/teacher/class/${id}`);
       } catch (error) {

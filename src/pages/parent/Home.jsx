@@ -10,6 +10,7 @@ import NewUserIcon from "../../icons/NewUserIcon";
 import AddClassIcon from "../../icons/AddClassIcon";
 import HistoryIcon from "../../icons/HistoryIcon";
 import WideBox from "../../components/WideBox";
+import ChangePasswordIcon from "../../icons/ChangePasswordIcon";
 import InfoCardContainer from "../../components/InfoCard/InfoCardContainer";
 import { toast } from "react-toastify";
 
@@ -99,6 +100,13 @@ export const Home = () => {
                   color="blue"
                   href="/parent/receivers"
                   icon={<AddClassIcon />}
+                />
+                <InfoCard
+                  title="Zmiana hasła"
+                  description="Zmień istniejące hasło na nowe."
+                  color="red"
+                  href="/change-password"
+                  icon={<ChangePasswordIcon />}
                 />
               </InfoCardContainer>
               </div>
