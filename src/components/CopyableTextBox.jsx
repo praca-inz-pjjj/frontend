@@ -1,9 +1,10 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 const CopyableTextBox = ({ text, canCopy=false }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
-    alert('Skopiowano do schowka');
+    toast.success("Skopiowano do schowka.", {autoClose: 2000});
   };
 
   return (

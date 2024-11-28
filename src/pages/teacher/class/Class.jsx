@@ -5,8 +5,8 @@ import { useParams, Link } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import Body from "../../../components/Body";
 import { ChildrenTable } from "./ChildrenTable";
-import InfoCardContainer from "../../../components/InfoCardContainer";
-import InfoCard from "../../../components/InfoCard";
+import InfoCardContainer from "../../../components/InfoCard/InfoCardContainer";
+import InfoCard from "../../../components/InfoCard/InfoCard";
 import NewUserIcon from "../../../icons/NewUserIcon";
 import ImportIcon from "../../../icons/ImportIcon";
 import DownloadIcon from "../../../icons/DownloadIcon";
@@ -57,11 +57,10 @@ export const Class = () => {
   return (
     <Body>
       <Navigation />
-      {isLoading ? (
-        <LoadingSpinner marginTop={10} />
-      ) : (
         <div className="flex flex-col items-center justify-center mt-6">
           <WideBox>
+            {isLoading ? <LoadingSpinner size={48} /> : (
+            <>
             <h2 className="text-gray-600 text-lg mb-12">
               <Link to='/teacher'>Panel Nauczyciela</Link>{" > "}
               <span>Klasy</span>{" > "}
@@ -106,9 +105,10 @@ export const Class = () => {
                 icon={<DownloadIcon />}
               />
             </InfoCardContainer>
+            </>
+            )}
           </WideBox>
         </div>
-      )}
     </Body>
   );
 };

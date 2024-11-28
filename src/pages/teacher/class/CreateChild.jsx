@@ -6,6 +6,7 @@ import { Navigation } from "../../../components/Navigation";
 import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import Body from "../../../components/Body";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
@@ -37,7 +38,8 @@ export const CreateChild = () => {
         }
 
         // Przekierowanie do strony głównej nauczyciela
-       navigate(`/teacher/class/${id}`);
+        toast.success('Dziecko zostało dodane.');
+        navigate(`/teacher/class/${id}`);
       } catch (error) {
         if (error?.response?.status === 400){
           setStatus('Nie udało się dodać dziecka.');

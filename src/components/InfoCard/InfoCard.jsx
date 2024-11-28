@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { CARD_BG_CLASSES, CARD_ICON_CLASSES, CARD_RING_CLASSES, CARD_TEXT_CLASSES } from './buttons/style';
+import { CARD_BG_CLASSES, CARD_ICON_CLASSES, CARD_RING_CLASSES, CARD_TEXT_CLASSES } from '../buttons/style';
 
 interface InfoCardProps {
     title: string;

@@ -146,7 +146,7 @@ export const Login = () => {
                     </div>
                     {!!status && <div className="text-red-600">{status}</div>}
                     {isLoading ? (
-                      <LoadingSpinner />
+                      <LoadingSpinner size={32} className="p-[4px]"/>
                     ) : (
                       <button
                         type="submit"

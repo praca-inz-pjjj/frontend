@@ -5,7 +5,6 @@ import { Login } from "./pages/Login";
 import { Login as ParentLogin } from "./pages/parent/Login";
 import { ChildDetails as ParentChildDetails} from "./pages/parent/child/ChildDetails";
 import { CreatePermission } from "./pages/parent/child/CreatePermission";
-import { PermissionConfirmation } from "./pages/parent/child/PermissionConfirmation";
 import { Root } from "./pages/Root";
 import { Home as TeacherHome } from "./pages/teacher/Home";
 import { Class } from "./pages/teacher/class/Class";
@@ -26,6 +25,10 @@ import { NotFoundPage } from "./pages/errors/NotFound";
 import { Receiver } from "./pages/parent/receiver/Receiver";
 import { ResetPassword } from "./pages/Reset";
 import { PasswordResetConfirm } from "./pages/ResetPasswordConfirm";
+
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -88,10 +91,6 @@ const router = createHashRouter([
     element: <CreatePermission />,
   },
   {
-    path: PARENT_PATH + "/child/confirmation",
-    element: <PermissionConfirmation />,
-  },
-  {
     path: TEACHER_PATH + "/child/:id",
     element: <ParentsOfChild />
   },
@@ -133,12 +132,26 @@ const router = createHashRouter([
 function App() {
   return (
     <RecoilRoot>
-      <AppWithRecoil></AppWithRecoil>
+      <AppWithRecoil>
+        <RouterProvider router={router} />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={4000}
+          hideProgressBar={true}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          theme="light"
+          transition={Slide}
+        />
+      </AppWithRecoil>
     </RecoilRoot>
   );
 }
 
-function AppWithRecoil() {
+function AppWithRecoil({children}) {
   const setAuth = useSetRecoilState(authState);
   useEffect(() => {
     setAuth({
@@ -147,7 +160,7 @@ function AppWithRecoil() {
   }, [setAuth]);
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      {children}
     </div>
   );
 }

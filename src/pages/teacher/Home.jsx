@@ -5,8 +5,8 @@ import {Link} from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import Body from "../../components/Body";
 import { ClassroomsTable } from "./ClassroomsTable";
-import InfoCard from "../../components/InfoCard";
-import InfoCardContainer from "../../components/InfoCardContainer";
+import InfoCard from "../../components/InfoCard/InfoCard";
+import InfoCardContainer from "../../components/InfoCard/InfoCardContainer";
 import NewUserIcon from "../../icons/NewUserIcon";
 import AddClassIcon from "../../icons/AddClassIcon";
 import WideBox from "../../components/WideBox";
@@ -38,9 +38,10 @@ export const Home = () => {
   return (
     <Body>
         <Navigation />
-        { isLoading ? <LoadingSpinner marginTop={10}/> :
         <div className="flex flex-col items-center justify-center mt-6">
           <WideBox>
+            {isLoading ? <LoadingSpinner size={48}/> : (
+            <>
             <h2 className="text-gray-600 text-lg mb-4">
               <Link to='/teacher'>Panel Nauczyciela</Link>
             </h2>
@@ -53,7 +54,7 @@ export const Home = () => {
                 classrooms={classes}
               />
             </div>
-            <InfoCardContainer title="Zarządzanie ogólne">
+            <InfoCardContainer>
               <InfoCard
                   title="Nowa Klasa"
                   description="Utwórz nową klasę."
@@ -69,9 +70,10 @@ export const Home = () => {
                   icon={<NewUserIcon/>}
               />
             </InfoCardContainer>
+            </>
+            )}
           </WideBox>
         </div>
-        }
     </Body>
   );
 }

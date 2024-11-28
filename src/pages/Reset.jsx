@@ -6,6 +6,7 @@ import { Navigation } from "../components/Navigation";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import Body from "../components/Body";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required('Email jest wymagany')
@@ -24,6 +25,7 @@ export const ResetPassword = () => {
       // Wysyłanie adresu email na serwer
       await axios.post('/reset-password', emailData);
       // Przekierowanie do strony głównej
+      toast.success('Link do resetowania hasła został wysłany na podany adres email.');
       navigate('/login');
     } catch (error) {
       const msg = error.response?.data?.message || 'Wystąpił błąd. Spróbuj ponownie.';

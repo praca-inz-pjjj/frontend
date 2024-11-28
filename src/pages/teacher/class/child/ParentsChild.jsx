@@ -6,9 +6,9 @@ import { LoadingSpinner } from '../../../../components/LoadingSpinner';
 import Body from '../../../../components/Body';
 import { ParentsTable } from './ParentsTable';
 import ColorfulButton from '../../../../components/buttons/ColorfulButton';
-import ErrorNotification from '../../../../components/ErrorNotification';
 import WideBox from '../../../../components/WideBox';
 import DetailsCard from '../../../../components/DetailsCard';
+import { toast } from 'react-toastify';
 
 const compareByLastNameAndFirstName = (a, b) => {
   if (a.last_name === b.last_name) {
@@ -29,7 +29,6 @@ export const ParentsOfChild = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersonId, setSelectedPersonId] = useState(null);
-  const [error, setError] = useState(null);
   const getChildName = () => `${child?.first_name} ${child?.last_name}`;
 
   const fetchData = async () => {
@@ -43,7 +42,10 @@ export const ParentsOfChild = () => {
         setClassroom(response.data.classroom);
       }
     } catch (error) {
-      console.error("Error fetching data", error);
+      if (!error.response) {
+        toast.error('Błąd połączenia z serwerem.');
+        return;
+      }
     } finally {
       setLoading(false);
     }
@@ -73,28 +75,29 @@ export const ParentsOfChild = () => {
   const handleAddParent = async (parentId) => {
     try {
       await axios.post(`/teacher/child/${id}`, { id: parentId });
+      toast.success('Rodzic został przypisany.');
       fetchData();
     } catch (error) {
-      setError(error?.response?.data?.message || 'Nie udało się przypisać rodzica.');
+      toast.error(error?.response?.data?.message || 'Nie udało się przypisać rodzica.');
     }
   };
 
   const handleDeleteParent = useCallback((parent_id) => async () => {
     try {
-      setError(null);
       await axios.delete(`/teacher/child/${id}`, {
         data: { id: parent_id }
       });
+      toast.success('Usunięto przypisanie rodzica.');
       fetchData();
     } catch (error) {
-      setError(error?.response?.data?.message || 'Nie udało się usunąć rodzica.');
+      toast.error(error?.response?.data?.message || 'Nie udało się usunąć rodzica.');
     }
   }, [id]); // eslint-disable-line
 
   return (
     <Body>
       <Navigation />
-      {isLoading ? <LoadingSpinner marginTop={10} /> :
+      {isLoading ? <LoadingSpinner/> :
         <div className="flex flex-col items-center justify-center mt-6">
           <WideBox>
             <h2 className="text-gray-600 text-lg mb-12">
@@ -163,7 +166,6 @@ export const ParentsOfChild = () => {
               )}
             </div>
           </WideBox>
-          {error && <ErrorNotification message={error} />}
         </div>
       }
     </Body>
