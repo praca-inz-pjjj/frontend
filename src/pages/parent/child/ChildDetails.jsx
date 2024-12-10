@@ -70,14 +70,14 @@ export const ChildDetails = () => {
                         </h2>
                         <div className="space-y-8">
                             <div className="space-y-2">
-                                <div className="flex justify-end">
-                                    <ColorfulButton color="green" text="Wydaj zgodę" onClick={handleAddPermision} />
-                                </div>
                                 <PermissionsTable
                                     title={"Wydane zgody"}
                                     permssions={childData?.permissions || []}
                                     no_data_message={"Nie znaleziono żadnych zgód."}
                                     handleDeletePermission={handleDeletePermission}
+                                    buttons={[
+                                        <ColorfulButton color="primary_green" text="Wydaj zgodę" onClick={handleAddPermision} />
+                                    ]}
                                 />
                             </div>
                                 {childData?.permitted_users &&

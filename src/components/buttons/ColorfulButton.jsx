@@ -3,7 +3,7 @@ import { BTN_CLASSES, COLOR_CLASSES } from "./style";
 
 interface ColorfulButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     text: string;
-    color?: "blue" | "orange" | "yellow" | "green" | "red" | "transparent";
+    color?: "blue" | "orange" | "yellow" | "green" | "red" | "transparent" | "outlined" | "primary_green";
     onClick?: () => void;
 }
 

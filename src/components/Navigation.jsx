@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../resources/logo/logo.png';
 
 export function Navigation() {
   const [isAuth, setIsAuth] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
   const [isParent, setIsParent] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem('access_token') !== null) {
@@ -39,12 +38,6 @@ export function Navigation() {
               className="h-8"
             />
           </Link>
-          <button
-            onClick={() => navigate(-1)}
-            className="text-gray-800 px-4 py-2 hover:bg-gray-200 rounded font-semibold"
-          >
-            Powrót
-          </button>
         </div>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul className="flex flex-col p-4 md:flex-row md:space-x-8 md:p-0">
