@@ -43,10 +43,10 @@ export const Class = () => {
       const { data } = await axios.get(`/teacher/class/${id}/download`, {
         responseType: "blob",
       });
-
+      const filename = classData?.class_name ? classData?.class_name : id
       const link = document.createElement("a");
       link.href = URL.createObjectURL(data);
-      link.download = `rodzice_klasy_${id}.csv`;
+      link.download = `rodzice_klasy_${filename}.csv`;
       link.click();
     }
     catch (error) {
