@@ -29,6 +29,7 @@ import { PasswordResetConfirm } from "./pages/ResetPasswordConfirm";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
+import ParentHistory from "./pages/parent/ParentHistory";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -113,6 +114,10 @@ const router = createHashRouter([
   {
     path: PARENT_PATH + "/receiver/:id",
     element: <Receiver />
+  },
+  {
+    path: PARENT_PATH + "/history",
+    element: <ParentHistory />,
   },
   {
     path: "*",

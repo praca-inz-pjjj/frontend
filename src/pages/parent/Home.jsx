@@ -84,7 +84,7 @@ export const Home = () => {
                   title="Historia Odbiorów"
                   description="Przeglądaj historię odbiorów swoich dzieci."
                   color="blue"
-                  onClick={() => { toast.info("Funkcja w przygotowaniu.") }}
+                  href="/parent/history"
                   icon={<HistoryIcon/>}
                 />
                 <InfoCard
