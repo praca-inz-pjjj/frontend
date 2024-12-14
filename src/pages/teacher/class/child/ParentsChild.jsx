@@ -1,14 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Navigation } from "../../../../components/Navigation";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner';
-import Body from '../../../../components/Body';
 import { ParentsTable } from './ParentsTable';
 import ColorfulButton from '../../../../components/buttons/ColorfulButton';
-import WideBox from '../../../../components/WideBox';
+import WideBox from '../../../../components/layout/WideBox';
 import DetailsCard from '../../../../components/DetailsCard';
 import { toast } from 'react-toastify';
+import Breadcrumbs from '../../../../components/breadcrumbs/Breadcrumbs';
+import Layout from '../../../../components/layout/Layout';
 
 const compareByLastNameAndFirstName = (a, b) => {
   if (a.last_name === b.last_name) {
@@ -30,6 +30,11 @@ export const ParentsOfChild = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersonId, setSelectedPersonId] = useState(null);
   const getChildName = () => `${child?.first_name} ${child?.last_name}`;
+  const breadcrumbs = [
+    { label: "Klasy", link: "/teacher" },
+    { label: classroom?.name, link: `/teacher/class/${classroom?.id}` },
+    { label: getChildName(), isActive: true },
+  ];
 
   const fetchData = async () => {
     setLoading(true);
@@ -95,79 +100,73 @@ export const ParentsOfChild = () => {
   }, [id]); // eslint-disable-line
 
   return (
-    <Body>
-      <Navigation />
-      {isLoading ? <LoadingSpinner/> :
-        <div className="flex flex-col items-center justify-center mt-6">
-          <WideBox>
-            <h2 className="text-gray-600 text-lg mb-12">
-              <Link to='/teacher'>Panel Nauczyciela</Link>{" > "}
-              <span>Klasy</span>{" > "}
-              <Link to={`/teacher/class/${classroom?.id}`}>{classroom?.name}</Link>{" > "}
-              <span className="text-black font-semibold text-xl">{getChildName()}</span>
-            </h2>
+    <Layout>
+        <WideBox>
+          {isLoading ? <LoadingSpinner size={48} /> : (
+            <>
+              <Breadcrumbs breadcrumbs={breadcrumbs} backTo={classroom ? `/teacher/class/${classroom.id}` : ""} />
 
-            <DetailsCard
-              title="Dane Dziecka"
-              headerContent={
-                <div className="flex flex-col items-start">
-                  <div className="text-lg font-semibold text-gray-800 mb-2">{getChildName()}</div>
-                  <div className="text-gray-600">Data urodzenia: {child?.birth_date}</div>
-                  <div className="text-gray-600">Klasa: {classroom?.name}</div>
-                </div>
-              }
-            >
-              <ParentsTable
-                title="Rodzice"
-                no_data_message="Dziecko nie ma przypisanych rodziców."
-                parents={parents}
-                handleRemoveParent={handleDeleteParent}
-              />
-            </DetailsCard>
+              <DetailsCard
+                title="Dane Dziecka"
+                headerContent={
+                  <div className="flex flex-col items-start">
+                    <div className="text-lg font-semibold text-gray-800 mb-2">{getChildName()}</div>
+                    <div className="text-gray-600">Data urodzenia: {child?.birth_date}</div>
+                    <div className="text-gray-600">Klasa: {classroom?.name}</div>
+                  </div>
+                }
+              >
+                <ParentsTable
+                  title="Rodzice"
+                  no_data_message="Dziecko nie ma przypisanych rodziców."
+                  parents={parents}
+                  handleRemoveParent={handleDeleteParent}
+                />
+              </DetailsCard>
 
-            <div className="overflow-x-auto mb-6 px-4 pt-3 pb-6 bg-white border border-slate-200 rounded-lg shadow-lg mt-6">
-              <h3 className="text-xl mb-4">Przypisz Rodzica</h3>
+              <div className="overflow-x-auto mb-6 px-4 pt-3 pb-6 bg-white border border-slate-200 rounded-lg shadow-lg mt-6">
+                <h3 className="text-xl mb-4">Przypisz Rodzica</h3>
 
-              <input
-                type="text"
-                placeholder="Wyszukaj osobę po imieniu, nazwisku lub emailu"
-                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={searchTerm}
-                onChange={handleSearch}
-              />
+                <input
+                  type="text"
+                  placeholder="Wyszukaj osobę po imieniu, nazwisku lub emailu"
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
 
-              {isOpen && (
-                <div className="mt-2 border border-gray-300 rounded-lg max-h-[122px] overflow-y-auto shadow-md bg-white">
-                  {filteredPeople.length > 0 ? (
-                    filteredPeople.map((person) => (
-                      <div
-                        key={person.id}
-                        onClick={() => handlePerson(person)}
-                        className={`cursor-pointer px-4 py-2 transition-colors ${selectedPersonId === person.id ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"
-                          }`}
-                      >
-                        {person.first_name} {person.last_name} ({person.email})
-                      </div>
-                    ))
-                  ) : (
-                    <div className="px-4 py-2 text-gray-500 text-center">Brak wyników</div>
-                  )}
-                </div>
-              )}
+                {isOpen && (
+                  <div className="mt-2 border border-gray-300 rounded-lg max-h-[122px] overflow-y-auto shadow-md bg-white">
+                    {filteredPeople.length > 0 ? (
+                      filteredPeople.map((person) => (
+                        <div
+                          key={person.id}
+                          onClick={() => handlePerson(person)}
+                          className={`cursor-pointer px-4 py-2 transition-colors ${selectedPersonId === person.id ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"
+                            }`}
+                        >
+                          {person.first_name} {person.last_name} ({person.email})
+                        </div>
+                      ))
+                    ) : (
+                      <div className="px-4 py-2 text-gray-500 text-center">Brak wyników</div>
+                    )}
+                  </div>
+                )}
 
-              {selectedPersonId && (
-                <div className="mt-2">
-                  <ColorfulButton
-                    color="green"
-                    onClick={() => handleAddParent(selectedPersonId)}
-                    text={"Przypisz rodzica"}
-                  />
-                </div>
-              )}
-            </div>
-          </WideBox>
-        </div>
-      }
-    </Body>
+                {selectedPersonId && (
+                  <div className="mt-2">
+                    <ColorfulButton
+                      color="green"
+                      onClick={() => handleAddParent(selectedPersonId)}
+                      text={"Przypisz rodzica"}
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </WideBox>
+      </Layout>
   );
 };

@@ -5,7 +5,7 @@ import { BTN_CLASSES, COLOR_CLASSES } from "./style";
 interface ColorfulLinkButtonProps extends LinkProps {
     to: string;
     text: string;
-    color?: "blue" | "orange" | "yellow" | "green" | "red" | "transparent" | "outlined";
+    color?: "blue" | "orange" | "yellow" | "green" | "red" | "transparent" | "outlined" | "primary_green";
 }
 
 const ColorfulLinkButton: FC<ColorfulLinkButtonProps> = ({ 

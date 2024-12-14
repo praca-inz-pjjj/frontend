@@ -8,7 +8,7 @@ import { generatePassword } from "../../helpers/generatePassword";
 import Body from "../../components/Body";
 import ColorfulButton from "../../components/buttons/ColorfulButton";
 import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
-import CenteredContainer from "../../components/CenteredContainer";
+import FormBox from "../../components/layout/FormBox";
 import CopyableTextBox from "../../components/CopyableTextBox";
 
 // Walidacja pól za pomocą Yup
@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const resultClass = "text-gray-900 text-md flex flex-row space-x-2";
-const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5";
+const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5";
 const errorClass = "text-red-600 text-sm";
 const buttonClass = "w-full text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center";
 
@@ -78,7 +78,7 @@ export const CreateParent = () => {
   return (
     <Body>
       <Navigation />
-      <CenteredContainer>
+      <FormBox>
         <h1 className="text-xl font-bold text-gray-900">Utwórz konto Rodzica</h1>
           {createdUser ? (
             <div>
@@ -179,7 +179,7 @@ export const CreateParent = () => {
               )}
             </Formik>
           )}
-      </CenteredContainer>
+      </FormBox>
     </Body>
   );
 };

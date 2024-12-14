@@ -19,7 +19,7 @@ export const ChildrenTable = ({
         <ColorfulLinkButton
             key={id}
             to={`/teacher/child/${id}`}
-            text="Zobacz"
+            text="Szczegóły"
             color="blue"
         />,
       ])

@@ -1,4 +1,4 @@
-export const BTN_CLASSES = "inline-block px-4 py-2 rounded-md focus:outline-none font-semibold text-center text-sm transition-all duration-200 ease-in-out";
+export const BTN_CLASSES = "inline-block px-4 py-[4px] rounded-full focus:outline-none font-semibold text-center text-sm transition-all duration-200 ease-in-out text-nowrap";
 
 export const COLOR_CLASSES = {
     blue: "bg-transparent text-blue-500 border border-blue-400 hover:bg-blue-500 hover:text-white hover:border-blue-500 focus:bg-blue-500 focus:border-blue-500 focus:text-white",
@@ -8,6 +8,7 @@ export const COLOR_CLASSES = {
     red: "bg-transparent text-red-600 border border-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 focus:bg-red-500 focus:border-red-500 focus:text-white",
     transparent: "bg-transparent text-gray-500 border border-gray-300 hover:bg-orange-400 hover:text-white hover:border-orange-400 focus:bg-orange-400 focus:border-orange-400 focus:text-white",
     outlined: "bg-transparent text-slate-700 border border-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-700 focus:bg-slate-700 focus:border-slate-700 focus:text-white",
+    primary_green: "bg-green-500 text-white border border-green-500 hover:bg-transparent hover:text-green-500 hover:border-green-500 focus:bg-transparent focus:border-green-500 focus:text-green-500",
 };
 
 export const CARD_BG_CLASSES = {

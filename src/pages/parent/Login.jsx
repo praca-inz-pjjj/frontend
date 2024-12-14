@@ -6,6 +6,7 @@ import { Navigation } from "../../components/Navigation";
 import { useNavigate, Link } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import Body from "../../components/Body";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -60,6 +61,10 @@ export const Login = () => {
       
       navigate("/parent");
     } catch (error) {
+      if (!error.response) {
+        toast.error("Błąd połączenia z serwerem.");
+        return;
+      }
       const { data } = error?.response;
       if (data?.non_field_errors?.length > 0) {
         setStatus(`${data.non_field_errors[0]}.`);
