@@ -9,7 +9,7 @@ export const ClassroomsTable = ({
     ...props
   }) => {
   const [data_rows, setDataRows] = useState([])
-  const labels = ["#", "Nazwa", "Liczba dzieci", "Dostępne opcje"]
+  const labels = ["#", "Nazwa", "Rozmiar klasy", "Dostępne opcje"]
 
   useEffect(()=>{
     const classrooms_data = classrooms?.map(({id, name, size}, index)=>[

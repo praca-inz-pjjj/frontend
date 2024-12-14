@@ -1,6 +1,6 @@
 import React from "react";
 import Body from "../../components/Body";
-import WideBox from "../../components/WideBox";
+import WideBox from "../../components/layout/WideBox";
 import { Navigation } from "../../components/Navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";

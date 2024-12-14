@@ -10,7 +10,7 @@ import ColorfulButton from "../../../components/buttons/ColorfulButton";
 import Body from "../../../components/Body";
 import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 import CopyableTextBox from "../../../components/CopyableTextBox";
-import CenteredContainer from "../../../components/CenteredContainer";
+import FormBox from "../../../components/layout/FormBox";
 import { toast } from "react-toastify";
 
 // Validation schema for form fields using Yup
@@ -94,7 +94,7 @@ export const CreateReceiver = () => {
     return (
         <Body>
             <Navigation />
-            <CenteredContainer>
+                <FormBox>
                 <h1 className="text-xl font-bold text-gray-900">Utwórz konto Odbierającego</h1>
                 {user_creation_success ? (
                     <div>
@@ -186,7 +186,7 @@ export const CreateReceiver = () => {
                         )}
                     </Formik>
                 )}
-            </CenteredContainer>
+            </FormBox>
         </Body>
     );
 };

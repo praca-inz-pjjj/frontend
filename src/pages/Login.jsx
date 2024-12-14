@@ -41,7 +41,7 @@ export const Login = () => {
               <div className="absolute bottom-0">
                 <ColorfulLinkButton
                   color="blue"
-                  style={{ padding: "1rem 2rem"}}
+                  style={{ padding: "0.5rem 1.5rem"}}
                   to="/teacher/login"
                   text="Przejdź do logowania"
                 />
@@ -64,7 +64,7 @@ export const Login = () => {
               <div className="absolute bottom-0">
                 <ColorfulLinkButton
                   color="green"
-                  style={{ padding: "1rem 2rem" }}
+                  style={{ padding: "0.5rem 1.5rem" }}
                   to="/parent/login"
                   text="Przejdź do logowania"
                 />

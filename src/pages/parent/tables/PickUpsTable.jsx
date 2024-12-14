@@ -43,9 +43,9 @@ export const PickUpsTable: FC<PickUpsTableProps> = ({
         `${row.receiver_name} ${row.receiver_surname}`,
         `${row.teacher_name} ${row.teacher_surname}`,
         row.decision ? (
-          <span className="text-green-500">Odbiór</span>
+          <span className="text-green-500 font-semibold">Odbiór</span>
         ) : (
-          <span className="text-red-500">Brak odbioru</span>
+          <span className="text-red-500 font-semibold">Brak odbioru</span>
         ),
         new Date(row.date).toLocaleString(),
       ]

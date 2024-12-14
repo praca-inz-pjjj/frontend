@@ -18,8 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REACT_APP_BACKEND_URL: https://bizapp-api.azurewebsites.net
-  REACT_APP_BASENAME: frontend
+  REACT_APP_BACKEND_URL: https://safekid.azurewebsites.net
 
 jobs:
   build:

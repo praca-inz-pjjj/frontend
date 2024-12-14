@@ -1,7 +1,6 @@
 // ChildrenTable.jsx
 import React, { FC, useEffect, useState } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable"
-import { Link } from "react-router-dom";
 import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
 
@@ -30,7 +29,7 @@ export const PermittedReceiversTable: FC<PermittedReceiversTableProps> = ({
     const permitted_user_data_rows: Array[never] = receivers_data?.filter(({is_parent}) => !is_parent)
       .map((data, index)=>[
         index+1,
-        <Link to={`/parent/receiver/${data.receiver_id}`}>{data.receiver_name}</Link>,
+        data.receiver_name,
         data.child_name,
         data.parent_name,
         data.date,

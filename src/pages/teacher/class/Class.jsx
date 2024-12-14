@@ -1,22 +1,27 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Navigation } from "../../../components/Navigation";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
-import Body from "../../../components/Body";
 import { ChildrenTable } from "./ChildrenTable";
 import InfoCardContainer from "../../../components/InfoCard/InfoCardContainer";
 import InfoCard from "../../../components/InfoCard/InfoCard";
 import NewUserIcon from "../../../icons/NewUserIcon";
 import ImportIcon from "../../../icons/ImportIcon";
 import DownloadIcon from "../../../icons/DownloadIcon";
-import WideBox from "../../../components/WideBox";
+import WideBox from "../../../components/layout/WideBox";
 import DetailsCard from "../../../components/DetailsCard";
+import Breadcrumbs from "../../../components/breadcrumbs/Breadcrumbs";
+import Layout from "../../../components/layout/Layout";
+import { toast } from "react-toastify";
 
 export const Class = () => {
   let { id } = useParams();
   const [isLoading, setLoading] = useState(false);
   const [classData, setClassData] = useState(null);
+  const breadcrumbs = [
+    { label: "Klasy", link: "/teacher" },
+    { label: classData?.class_name, isActive: true }
+  ];
 
   useEffect(() => {
     setLoading(true);
@@ -50,22 +55,16 @@ export const Class = () => {
       link.click();
     }
     catch (error) {
-      alert(error)
+      toast.error("Błąd podczas pobierania pliku.");
     }
   };
 
   return (
-    <Body>
-      <Navigation />
-        <div className="flex flex-col items-center justify-center mt-6">
-          <WideBox>
-            {isLoading ? <LoadingSpinner size={48} /> : (
-            <>
-            <h2 className="text-gray-600 text-lg mb-12">
-              <Link to='/teacher'>Panel Nauczyciela</Link>{" > "}
-              <span>Klasy</span>{" > "}
-              <span className="text-black font-semibold text-xl" >{classData?.class_name}</span>
-            </h2>
+    <Layout>
+      <WideBox>
+        {isLoading ? <LoadingSpinner size={48} /> : (
+          <>
+            <Breadcrumbs breadcrumbs={breadcrumbs} backTo="/teacher" />
             <DetailsCard
               title="Dane Klasy"
               headerContent={
@@ -75,13 +74,13 @@ export const Class = () => {
               }
             >
               {classData && (
-              <ChildrenTable
-                title="Lista dzieci"
-                no_data_message="Nie dodano jeszcze żadnych dzieci do tej klasy."
-                children={classData.children} />
-            )}
+                <ChildrenTable
+                  title="Lista dzieci"
+                  no_data_message="Nie dodano jeszcze żadnych dzieci do tej klasy."
+                  children={classData.children} />
+              )}
             </DetailsCard>
-            
+
             <InfoCardContainer title="Zarządzanie klasą">
               <InfoCard
                 title="Nowe Dziecko"
@@ -105,10 +104,9 @@ export const Class = () => {
                 icon={<DownloadIcon />}
               />
             </InfoCardContainer>
-            </>
-            )}
-          </WideBox>
-        </div>
-    </Body>
+          </>
+        )}
+      </WideBox>
+    </Layout>
   );
 };
