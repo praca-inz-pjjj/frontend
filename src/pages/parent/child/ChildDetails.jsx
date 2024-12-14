@@ -1,21 +1,25 @@
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
-import { Navigation } from "../../../components/Navigation";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { ChildPermittedUsersTable } from "./ChildPermittedUsersTable";
 import { PermissionsTable } from "./PermissionsTable";
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
-import Body from "../../../components/Body";
-import WideBox from "../../../components/WideBox";
+import WideBox from "../../../components/layout/WideBox";
 import { toast } from "react-toastify";
+import Layout from "../../../components/layout/Layout";
+import Breadcrumbs from "../../../components/breadcrumbs/Breadcrumbs";
 
 export const ChildDetails = () => {
     let { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [childData, setChildData] = useState(null);
+    const breadcrumbs = [
+        { label: "Dzieci", link: "/parent" },
+        { label: childData?.child_name, isActive: true },
+      ];
 
     const fetchData = async () => {
         setLoading(true);
@@ -54,45 +58,36 @@ export const ChildDetails = () => {
     }, []);  // eslint-disable-line
 
     return (
-        <Body>
-            <Navigation />
-            <div className="flex flex-col items-center justify-center mt-6">
-                {isLoading ? (
-                    <LoadingSpinner/>
-                ) : (
-                    <WideBox>
-                        {childData && (
+        <Layout>
+            <WideBox>
+                {isLoading ? (<LoadingSpinner size={48} />) : (
+                    childData && (
                         <>
-                        <h2 className="text-gray-600 text-lg mb-12">
-                                <Link to='/parent'>Panel Rodzica</Link>{` > `}
-                                <span>Dzieci</span>{` > `}
-                                <Link className="text-black font-semibold text-xl" to={`/parent/child/${childData.child_id}`}>{childData.child_name}</Link>
-                        </h2>
-                        <div className="space-y-8">
-                            <div className="space-y-2">
-                                <PermissionsTable
-                                    title={"Wydane zgody"}
-                                    permssions={childData?.permissions || []}
-                                    no_data_message={"Nie znaleziono żadnych zgód."}
-                                    handleDeletePermission={handleDeletePermission}
-                                    buttons={[
-                                        <ColorfulButton color="primary_green" text="Wydaj zgodę" onClick={handleAddPermision} />
-                                    ]}
-                                />
-                            </div>
+                            <Breadcrumbs breadcrumbs={breadcrumbs} backTo={"/parent"} />
+                            <div className="space-y-8">
+                                <div className="space-y-2">
+                                    <PermissionsTable
+                                        title={"Wydane zgody"}
+                                        permssions={childData?.permissions || []}
+                                        no_data_message={"Nie znaleziono żadnych zgód."}
+                                        handleDeletePermission={handleDeletePermission}
+                                        buttons={[
+                                            <ColorfulButton color="primary_green" text="Wydaj zgodę" onClick={handleAddPermision} />
+                                        ]}
+                                    />
+                                </div>
                                 {childData?.permitted_users &&
-                            <ChildPermittedUsersTable
-                                title={"Upoważnione osoby"}
-                                permitted_users_data={childData?.permitted_users}
-                                no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
-                                child_id={childData.child_id}
-                            />}
-                        </div>
+                                    <ChildPermittedUsersTable
+                                        title={"Upoważnione osoby"}
+                                        permitted_users_data={childData?.permitted_users}
+                                        no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
+                                        child_id={childData.child_id}
+                                    />}
+                            </div>
                         </>
-                        )}
-                    </WideBox>
+                    )
                 )}
-            </div>
-        </Body>
+            </WideBox>
+        </Layout>
     );
 };

@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import DataTable, { TableProps } from "../../../components/DataTable"
 import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
@@ -21,7 +20,7 @@ export const ChildrenTable: FC<ChildrenTableProps> = ({ title, children_data, no
     useEffect(()=>{
       const children_data_rows: Array[never] = children_data?.map((child, index)=>[
         index+1,
-        <Link to={`/parent/child/${child.id}`}>{child.first_name + " " + child.last_name}</Link>,
+        child.first_name + " " + child.last_name,
         child.classroom_name,
         <ColorfulLinkButton
           color="blue"

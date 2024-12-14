@@ -1,4 +1,4 @@
-export const BTN_CLASSES = "inline-block px-4 py-[4px] rounded-2xl focus:outline-none font-semibold text-center text-sm transition-all duration-200 ease-in-out text-nowrap";
+export const BTN_CLASSES = "inline-block px-4 py-[4px] rounded-full focus:outline-none font-semibold text-center text-sm transition-all duration-200 ease-in-out text-nowrap";
 
 export const COLOR_CLASSES = {
     blue: "bg-transparent text-blue-500 border border-blue-400 hover:bg-blue-500 hover:text-white hover:border-blue-500 focus:bg-blue-500 focus:border-blue-500 focus:text-white",
