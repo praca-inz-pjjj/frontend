@@ -34,7 +34,7 @@ export const PickUpsTable: FC<PickUpsTableProps> = ({
     "Decyzja",
     "Data",
   ];
-
+  
   useEffect(() => {
     const pick_ups_data_rows: Array[never] = pick_ups_data?.map(
       (row, index) => [
