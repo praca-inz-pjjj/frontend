@@ -31,7 +31,7 @@ axios.interceptors.response.use(
     }
 
     // Don't attempt to refresh if it's a login error
-    if (originalRequest.url.includes("/token")) {
+    if (originalRequest?.url.includes("/token")) {
       return Promise.reject(error); 
     }
 

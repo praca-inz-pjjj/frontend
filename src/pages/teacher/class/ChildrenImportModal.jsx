@@ -1,27 +1,27 @@
 import AccordionWithHeader from "components/AccordionWithHeader";
 import ColorfulButton from "components/buttons/ColorfulButton";
 import CsvFileInput from "components/csv/CsvFileInput";
-import { validateParsedChildrenData } from "helpers/validateParsedClassData";
+import { validateAndMapParsedChildrenData } from "helpers/validateParsedClassData";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { ChildrenPreviewTable } from "./import/ChildrenPreviewTable";
 
-function ClassImportModal({ isOpen, onClose, onImport }) {
+function ChildrenImportModal({ isOpen, onClose, handleChildrenImport, classroom_id }) {
   const [classData, setClassData] = useState(null);
   const onFileLoad = (data) => {
-    console.log(data);
-    const result = validateParsedChildrenData(data);
+    const result = validateAndMapParsedChildrenData(data, classroom_id);
     if (result.error) {
       toast.error(`Błąd wczytywania: ${result.error}.`);
       return
     }
     setClassData(result.data);
-    toast.success("Wczytano poprawnie plik.");
   }
-  const invokeAndClearData = (fn) => {
-    return () => {
-      fn();
-      setClassData(null);
+  const clearData = () => {
+    setClassData(null);
+  }
+  const onImport = () => {
+    if (classData) {
+      handleChildrenImport(classData, clearData);
     }
   }
 
@@ -49,8 +49,8 @@ function ClassImportModal({ isOpen, onClose, onImport }) {
             </div>
           ) : (<CsvFileInput onFileLoad={onFileLoad} />) }
           <div className="flex justify-between sm:justify-end space-x-2">
-            <ColorfulButton onClick={invokeAndClearData(onClose)} text={"Zamknij"} color="slate" />
-            <ColorfulButton onClick={invokeAndClearData(onImport)} text={"Importuj"} color="primary_green" disabled={!classData}/>
+            <ColorfulButton onClick={onClose(clearData)} text={"Zamknij"} color="slate" />
+            <ColorfulButton onClick={onImport} text={"Importuj"} color="primary_green" disabled={!classData}/>
           </div>
         </div>
       </div>
@@ -58,4 +58,4 @@ function ClassImportModal({ isOpen, onClose, onImport }) {
   );
 }
 
-export default ClassImportModal;
+export default ChildrenImportModal;

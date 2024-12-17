@@ -12,9 +12,9 @@ export const ChildrenPreviewTable = ({
   useEffect(()=>{
     const children_data = children?.map((child, index)=>[
         index+1,
-        child["Imię"],
-        child["Nazwisko"],
-        child["Data urodzenia"],
+        child["first_name"],
+        child["last_name"],
+        child["birth_date"],
       ])
     setDataRows(children_data)
   }, [children])
