@@ -13,11 +13,13 @@ import DetailsCard from "../../../components/DetailsCard";
 import Breadcrumbs from "../../../components/breadcrumbs/Breadcrumbs";
 import Layout from "../../../components/layout/Layout";
 import { toast } from "react-toastify";
+import ClassImportModal from "./ClassImport";
 
 export const Class = () => {
   let { id } = useParams();
   const [isLoading, setLoading] = useState(false);
   const [classData, setClassData] = useState(null);
+  const [isImportModalOpen, setImportModalOpen] = useState(false);
   const breadcrumbs = [
     { label: "Klasy", link: "/teacher" },
     { label: classData?.class_name, isActive: true }
@@ -39,8 +41,8 @@ export const Class = () => {
     fetchData();
   }, [id]); // eslint-disable-line
 
-  const handleImportClass = () => {
-    // Logika do importu listy dzieci z pliku
+  const onClassImport = () => {
+    setImportModalOpen(false);
   };
 
   const handleDownloadParents = async () => {
@@ -81,7 +83,7 @@ export const Class = () => {
               )}
             </DetailsCard>
 
-            <InfoCardContainer title="Zarządzanie klasą">
+            <InfoCardContainer>
               <InfoCard
                 title="Nowe Dziecko"
                 description="Dodaj nowe dziecko do klasy."
@@ -93,7 +95,7 @@ export const Class = () => {
                 title="Importuj Listę Dzieci"
                 description="Zaimportuj listę dzieci z pliku w formacie CSV."
                 color="yellow"
-                onClick={handleImportClass}
+                onClick={()=>{setImportModalOpen(true)}}
                 icon={<ImportIcon />}
               />
               <InfoCard
@@ -104,6 +106,7 @@ export const Class = () => {
                 icon={<DownloadIcon />}
               />
             </InfoCardContainer>
+            <ClassImportModal isOpen={isImportModalOpen} onClose={()=>{setImportModalOpen(false)}} onImport={onClassImport} />
           </>
         )}
       </WideBox>
