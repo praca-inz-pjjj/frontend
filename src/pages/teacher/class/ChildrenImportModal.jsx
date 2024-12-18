@@ -11,7 +11,7 @@ function ChildrenImportModal({ isOpen, onClose, handleChildrenImport, classroom_
   const onFileLoad = (data) => {
     const result = validateAndMapParsedChildrenData(data, classroom_id);
     if (result.error) {
-      toast.error(`Błąd wczytywania: ${result.error}.`);
+      toast.error(result.error);
       return
     }
     setClassData(result.data);

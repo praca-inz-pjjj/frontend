@@ -8,8 +8,8 @@ export const BTN_COLORS = {
     green: "bg-transparent text-green-500 border border-green-400 focus:bg-green-500 focus:border-green-500 focus:text-white",
     red: "bg-transparent text-red-500 border border-red-400 focus:bg-red-500 focus:border-red-500 focus:text-white",
     slate: "bg-transparent text-slate-600 border border-slate-600 focus:bg-slate-600 focus:border-slate-600 focus:text-white",
-    primary_green: "bg-green-500 text-white border border-green-500 focus:bg-transparent focus:border-green-500 focus:text-green-500",
-    primary_blue: "bg-blue-500 text-white border border-blue-500 focus:bg-blue-700 focus:border-blue-700",
+    primary_green: "bg-green-500 text-white border border-green-500 focus:bg-green-600 focus:border-green-600",
+    primary_blue: "bg-blue-500 text-white border border-blue-500 focus:bg-blue-600 focus:border-blue-600",
 };
 
 export const BTN_HOVER_CLASSES = {
@@ -21,8 +21,8 @@ export const BTN_HOVER_CLASSES = {
     transparent: "hover:bg-orange-400 hover:text-white hover:border-orange-400",
     outlined: "hover:bg-slate-700 hover:text-white hover:border-slate-700",
     slate: "hover:bg-slate-600 hover:text-white hover:border-slate-600",
-    primary_green: "hover:bg-transparent hover:text-green-500 hover:border-green-500",
-    primary_blue: "hover:bg-blue-700 hover:border-blue-500",
+    primary_green: "hover:bg-green-600 hover:border-green-600",
+    primary_blue: "hover:bg-blue-600 hover:border-blue-600",
 };
 
 export const CARD_BG_CLASSES = {

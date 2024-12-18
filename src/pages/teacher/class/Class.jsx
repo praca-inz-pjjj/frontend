@@ -67,7 +67,7 @@ export const Class = () => {
     }
     catch (error) {
       const errorMsg = error.response?.data?.error;
-      const msg = errorMsg ? `Błąd: ${errorMsg}` : "Wystąpił błąd podczas importowania danych.";
+      const msg = errorMsg ? errorMsg : "Wystąpił błąd podczas importowania danych.";
       toast.error(msg);
     }
   }, [id]);
