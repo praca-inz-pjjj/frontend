@@ -70,7 +70,7 @@ export const Class = () => {
       const msg = errorMsg ? errorMsg : "Wystąpił błąd podczas importowania danych.";
       toast.error(msg);
     }
-  }, [id]);
+  }, [id]); // eslint-disable-line
 
   const onImportModalClose = (clearData) => () => {
     setImportModalOpen(false);
