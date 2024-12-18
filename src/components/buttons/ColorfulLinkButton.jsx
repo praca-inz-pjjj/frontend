@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link, LinkProps } from "react-router-dom";
-import { BTN_CLASSES, COLOR_CLASSES } from "./style";
+import { BTN_CLASSES, BTN_COLORS, BTN_HOVER_CLASSES } from "./style";
 
 interface ColorfulLinkButtonProps extends LinkProps {
     to: string;
@@ -14,13 +14,14 @@ const ColorfulLinkButton: FC<ColorfulLinkButtonProps> = ({
     color = "blue", 
     ...props 
 }) => {
-    const colorClass = COLOR_CLASSES[color] || COLOR_CLASSES["blue"];
+    const colorClass = BTN_COLORS[color] || BTN_COLORS["blue"];
+    const colorHoverClass = BTN_HOVER_CLASSES[color] || BTN_HOVER_CLASSES["blue"];
 
     return (
         <Link
             to={to}
             {...props}
-            className={`${colorClass} ${BTN_CLASSES}`}
+            className={`${colorClass} ${colorHoverClass} ${BTN_CLASSES}`}
         >
             {text}
         </Link>
