@@ -7,6 +7,9 @@ import WideBox from "../../../components/layout/WideBox";
 import { toast } from "react-toastify";
 import Layout from "../../../components/layout/Layout";
 import Breadcrumbs from "../../../components/breadcrumbs/Breadcrumbs";
+import InfoCardContainer from "components/InfoCard/InfoCardContainer";
+import InfoCard from "components/InfoCard/InfoCard";
+import AddPermissionIcon from "icons/AddPermisionIcon";
 
 export const Receivers = () => {
     const [isLoading, setLoading] = useState(false);
@@ -78,6 +81,15 @@ export const Receivers = () => {
                         handleSignatureSubmit={handleSignatureSubmit}
                     />
                 )}
+                <InfoCardContainer>
+                    <InfoCard
+                    title="Dodaj Upoważnienie"
+                    description="Dodaj upoważnienie do odbierania dziecka"
+                    color="blue"
+                    href="/parent/receivers/permission"
+                    icon={<AddPermissionIcon />}
+                    />
+                </InfoCardContainer>
             </WideBox>
         </Layout>
     );

@@ -30,6 +30,7 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import ParentHistory from "./pages/parent/ParentHistory";
+import { AddPermision } from "pages/parent/receiver/AddPermission";
 
 export const TEACHER_PATH = "/teacher";
 export const PARENT_PATH = "/parent";
@@ -130,6 +131,10 @@ const router = createHashRouter([
   {
     path: "/reset-password/:uid/:token",
     element: < PasswordResetConfirm />
+  },
+  {
+    path: PARENT_PATH + "/receivers/permission",
+    element: < AddPermision />
   }
 ]
 );
