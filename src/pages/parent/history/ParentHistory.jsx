@@ -1,16 +1,20 @@
 import React from "react";
-import Body from "../../components/Body";
-import WideBox from "../../components/layout/WideBox";
-import { Navigation } from "../../components/Navigation";
+import WideBox from "../../../components/layout/WideBox";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { PickUpsTable } from "./tables/PickUpsTable";
+import { LoadingSpinner } from "../../../components/LoadingSpinner";
+import { PickUpsTable } from "../tables/PickUpsTable";
+import Layout from "components/layout/Layout";
+import Breadcrumbs from "components/breadcrumbs/Breadcrumbs";
 
 const ParentHistory = () => {
   const [historyData, setHistoryData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const breadcrumbs = [
+    { label: "Historia Odbiórów", isActive: true },
+  ];
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -31,22 +35,22 @@ const ParentHistory = () => {
     fetchHistory();
   }, []); // eslint-disable-line
   return (
-    <Body>
-      <Navigation />
-      <div className="flex flex-col items-center justify-center mt-6">
+    <Layout>
         <WideBox>
           {loading ? (
             <LoadingSpinner size={48} />
           ) : (
+            <>
+            <Breadcrumbs breadcrumbs={breadcrumbs} backTo="/parent" />
             <PickUpsTable
-              title={"Ostatnie odbiory"}
+              title={"Historia odbiorów"}
               pick_ups_data={historyData}
               no_data_message={"Brak zarejestrowanych odbiorów."}
             />
+            </>
           )}
         </WideBox>
-      </div>
-    </Body>
+    </Layout>
   );
 };
 
