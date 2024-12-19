@@ -68,6 +68,14 @@ export const AddPermision = () => {
         label: `${item.first_name} ${item.last_name}`,
     }));
 
+    const findChild = (childrenList, values) => {
+        return childrenList.find(child => child.id === values.child_id) ? { value: values.child_id, label: `${childrenList.find(child => child.id === values.child_id).first_name} ${childrenList.find(child => child.id === values.child_id).last_name}` } : null
+    }
+
+    const findReceiver = (receiversList, values) => {
+        return receiversList.find(receiver => receiver.id === values.receiver_id) ? { value: values.receiver_id, label: `${receiversList.find(receiver => receiver.id === values.receiver_id).first_name} ${receiversList.find(receiver => receiver.id === values.receiver_id).last_name}` } : null
+    }
+
     return (
         <Body>
             <Navigation />
@@ -96,7 +104,7 @@ export const AddPermision = () => {
                                 <Select
                                     id="child_id"
                                     name="child_id"
-                                    value={childrenList.find(child => child.id === values.child_id) ? { value: values.child_id, label: `${childrenList.find(child => child.id === values.child_id).first_name} ${childrenList.find(child => child.id === values.child_id).last_name}` } : null}
+                                    value={findChild(childrenList, values)}
                                     onChange={(selectedOption) => {
                                         setFieldValue("child_id", selectedOption ? selectedOption.value : '');
                                     }}
@@ -114,7 +122,7 @@ export const AddPermision = () => {
                                 <Select
                                     id="receiver_id"
                                     name="receiver_id"
-                                    value={receiversList.find(receiver => receiver.id === values.receiver_id) ? { value: values.receiver_id, label: `${receiversList.find(receiver => receiver.id === values.receiver_id).first_name} ${receiversList.find(receiver => receiver.id === values.receiver_id).last_name}` } : null}
+                                    value={findReceiver(receiversList, values)}
                                     onChange={(selectedOption) => {
                                         setFieldValue("receiver_id", selectedOption ? selectedOption.value : '');
                                     }}
