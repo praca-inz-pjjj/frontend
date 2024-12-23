@@ -3,12 +3,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner';
 import { ParentsTable } from './ParentsTable';
-import ColorfulButton from '../../../../components/buttons/ColorfulButton';
 import WideBox from '../../../../components/layout/WideBox';
 import DetailsCard from '../../../../components/DetailsCard';
 import { toast } from 'react-toastify';
 import Breadcrumbs from '../../../../components/breadcrumbs/Breadcrumbs';
 import Layout from '../../../../components/layout/Layout';
+import InfoCardContainer from 'components/InfoCard/InfoCardContainer';
+import InfoCard from 'components/InfoCard/InfoCard';
+import AssignParentModal from './AssignParentModal';
+import LinkUserIcon from 'icons/LinkUserIcon';
+import ConfirmIcon from 'icons/ConfirmIcon';
 
 const compareByLastNameAndFirstName = (a, b) => {
   if (a.last_name === b.last_name) {
@@ -22,13 +26,11 @@ const sortAlphabetically = (people) => people.sort(compareByLastNameAndFirstName
 export const ParentsOfChild = () => {
   const [isLoading, setLoading] = useState(false);
   let { id } = useParams();
-  const [parents, setParents] = useState(null);
+  const [childParents, setChildParents] = useState(null);
   const [allParents, setAllParents] = useState(null);
+  const [isAssignParentModalOpen, setIsAssignParentModalOpen] = useState(false);
   const [child, setChild] = useState(null);
   const [classroom, setClassroom] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedPersonId, setSelectedPersonId] = useState(null);
   const getChildName = () => `${child?.first_name} ${child?.last_name}`;
   const breadcrumbs = [
     { label: "Klasy", link: "/teacher" },
@@ -41,7 +43,7 @@ export const ParentsOfChild = () => {
     try {
       const response = await axios.get(`/teacher/child/${id}`);
       if (response?.data) {
-        setParents(sortAlphabetically(response.data.parents));
+        setChildParents(sortAlphabetically(response.data.parents));
         setAllParents(sortAlphabetically(response.data.all_parents.filter(({ id }) => !response.data.parents.some((parent) => parent.id === id))));
         setChild(response.data.child);
         setClassroom(response.data.classroom);
@@ -59,23 +61,6 @@ export const ParentsOfChild = () => {
   useEffect(() => {
     fetchData();
   }, [id]); // eslint-disable-line
-
-  const filteredPeople = allParents?.filter(({ first_name, last_name, email }) => (
-    `${first_name} ${last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    email.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  const handlePerson = (person) => {
-    setSearchTerm(`${person.first_name} ${person.last_name}`);
-    setSelectedPersonId(selectedPersonId === person.id ? null : person.id);  // Deselect if already selected
-    setIsOpen(false);  // Close dropdown on selection
-  };
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setIsOpen(e.target.value !== '');  // Open dropdown when typing
-    setSelectedPersonId(null);  // Reset selection when typing
-  };
 
   const handleAddParent = async (parentId) => {
     try {
@@ -119,51 +104,33 @@ export const ParentsOfChild = () => {
                 <ParentsTable
                   title="Rodzice"
                   no_data_message="Dziecko nie ma przypisanych rodziców."
-                  parents={parents}
+                  parents={childParents}
                   handleRemoveParent={handleDeleteParent}
                 />
               </DetailsCard>
 
-              <div className="overflow-x-auto mb-6 px-4 pt-3 pb-6 bg-white border border-slate-200 rounded-lg shadow-lg mt-6">
-                <h3 className="text-xl mb-4">Przypisz Rodzica</h3>
-
-                <input
-                  type="text"
-                  placeholder="Wyszukaj osobę po imieniu, nazwisku lub emailu"
-                  className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  value={searchTerm}
-                  onChange={handleSearch}
+              <InfoCardContainer>
+                <InfoCard
+                  title="Przypisz Rodzica"
+                  description="Przypisz rodzica do dziecka."
+                  icon={<LinkUserIcon/>}
+                  color="green"
+                  onClick={() => setIsAssignParentModalOpen(true)}
                 />
+                <InfoCard
+                  title="Potwierdź dostarczenie zgody"
+                  description="Potwierdź dostarczenie zgody na odbiór dziecka przez odbierającego."
+                  icon={<ConfirmIcon/>}
+                  color="blue"
+                />
+              </InfoCardContainer>
 
-                {isOpen && (
-                  <div className="mt-2 border border-gray-300 rounded-lg max-h-[122px] overflow-y-auto shadow-md bg-white">
-                    {filteredPeople.length > 0 ? (
-                      filteredPeople.map((person) => (
-                        <div
-                          key={person.id}
-                          onClick={() => handlePerson(person)}
-                          className={`cursor-pointer px-4 py-2 transition-colors ${selectedPersonId === person.id ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"
-                            }`}
-                        >
-                          {person.first_name} {person.last_name} ({person.email})
-                        </div>
-                      ))
-                    ) : (
-                      <div className="px-4 py-2 text-gray-500 text-center">Brak wyników</div>
-                    )}
-                  </div>
-                )}
-
-                {selectedPersonId && (
-                  <div className="mt-2">
-                    <ColorfulButton
-                      color="green"
-                      onClick={() => handleAddParent(selectedPersonId)}
-                      text={"Przypisz rodzica"}
-                    />
-                  </div>
-                )}
-              </div>
+              <AssignParentModal
+                isOpen={isAssignParentModalOpen}
+                handleAddParent={handleAddParent}
+                allParents={allParents}
+                closeModal={()=>{setIsAssignParentModalOpen(false)}}
+              />
             </>
           )}
         </WideBox>

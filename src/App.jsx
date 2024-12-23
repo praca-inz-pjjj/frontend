@@ -155,6 +155,7 @@ function App() {
           pauseOnHover
           theme="light"
           transition={Slide}
+          limit={5}
         />
       </AppWithRecoil>
     </RecoilRoot>

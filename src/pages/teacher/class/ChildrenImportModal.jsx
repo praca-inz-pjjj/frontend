@@ -27,8 +27,15 @@ function ChildrenImportModal({ isOpen, onClose, handleChildrenImport, classroom_
   }
 
   return (
-    <WideModal title="Importowanie danych dzieci" isOpen={isOpen} action_buttons={<><ColorfulButton onClick={onClose(clearData)} text={"Zamknij"} color="slate" />
-      <ColorfulButton onClick={onImport} text={"Importuj"} color="primary_green" disabled={!classData} /></>} >
+    <WideModal
+      title="Importowanie danych dzieci"
+      isOpen={isOpen}
+      action_buttons={
+        <>
+        <ColorfulButton onClick={onClose(clearData)} text={"Zamknij"} color="slate" />
+        <ColorfulButton onClick={onImport} text={"Importuj"} color="primary_green" disabled={!classData} />
+        </>
+      } >
       {classData ? (
         <div className="flex flex-col space-y-4">
           <div className="text-sm text-gray-500">Wczytano pomyślnie {classData.length} rekordów.</div>

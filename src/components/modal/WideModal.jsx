@@ -8,7 +8,7 @@ function WideModal({ children, title, action_buttons, isOpen }) {
                 <div className="fixed inset-0 transition-opacity" aria-hidden="true">
                     <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                 </div>
-                <div className="flex flex-col space-y-8 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-3xl w-full px-6 py-4" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                <div className="flex flex-col overflow-visible space-y-8 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-3xl w-full px-6 py-4" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                     <h3 className="text-xl font-medium text-gray-900" id="modal-headline">
                         {title}
                     </h3>
