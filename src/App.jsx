@@ -22,14 +22,14 @@ import { CreateReceiver } from "./pages/parent/receiver/CreateReceiver";
 import { ForbiddenPage } from "./pages/errors/ForbiddenPage";
 import { ServerError } from "./pages/errors/ServerError";
 import { NotFoundPage } from "./pages/errors/NotFound";
-import { Receiver } from "./pages/parent/receiver/Receiver";
+import { Receiver } from "./pages/parent/history/ReceiverHistory";
 import { ResetPassword } from "./pages/Reset";
 import { PasswordResetConfirm } from "./pages/ResetPasswordConfirm";
 
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
-import ParentHistory from "./pages/parent/ParentHistory";
+import ParentHistory from "./pages/parent/history/ParentHistory";
 import { AddPermision } from "pages/parent/receiver/AddPermission";
 
 export const TEACHER_PATH = "/teacher";
