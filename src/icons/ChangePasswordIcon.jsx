@@ -4,7 +4,7 @@ const ChangePasswordIcon = ({ width = 20, height = 20, className = ""}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
-        viewBox="0 0 24 24"
+        viewBox="0 0 22 22"
         width={width}
         height={height}
     >

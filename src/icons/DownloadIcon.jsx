@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DownloadIcon = ({ width = 16, height = 16, className = "" }) => (
+const DownloadIcon = ({ width = 20, height = 20, className = "" }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
