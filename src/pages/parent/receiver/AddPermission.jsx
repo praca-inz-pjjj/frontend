@@ -80,7 +80,7 @@ export const AddPermision = () => {
         <Body>
             <Navigation />
             <FormBox>
-                <h1 className="text-xl font-bold text-gray-900 mb-4">Nadaj upoważnienie użytkownikowi do odbiorów twojego dziecka</h1>
+                <h1 className="text-xl font-bold text-gray-900 mb-4">Upoważnij użytkownika do odbioru</h1>
                 <Formik
                     initialValues={{
                         child_id: "",

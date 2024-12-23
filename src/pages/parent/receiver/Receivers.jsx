@@ -10,6 +10,7 @@ import Breadcrumbs from "../../../components/breadcrumbs/Breadcrumbs";
 import InfoCardContainer from "components/InfoCard/InfoCardContainer";
 import InfoCard from "components/InfoCard/InfoCard";
 import AddPermissionIcon from "icons/AddPermisionIcon";
+import DownloadIcon from "icons/DownloadIcon";
 
 export const Receivers = () => {
     const [isLoading, setLoading] = useState(false);
@@ -52,6 +53,22 @@ export const Receivers = () => {
         }
     }, []);
 
+    const downloadAuthorizationLetter = async () => {
+        try {
+            const response = await axios.get("/parent/documents/authorization-letter", { responseType: "blob" });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "wzór_pisemnej_zgody.pdf");
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            toast.error("Błąd podczas pobierania wzoru zgody.");
+        }
+    }
+
+
     if (isLoading) {
         return (
             <Layout>
@@ -84,10 +101,17 @@ export const Receivers = () => {
                 <InfoCardContainer>
                     <InfoCard
                     title="Dodaj Upoważnienie"
-                    description="Dodaj upoważnienie do odbierania dziecka"
+                    description="Upoważnij użytkownika do odbioru Twojego dziecka."
                     color="blue"
                     href="/parent/receivers/permission"
                     icon={<AddPermissionIcon />}
+                    />
+                    <InfoCard
+                    title="Pobierz wzór pisemnej zgody"
+                    description="Pobierz wzór pisemnej zgody, którą musi dostarczyć upoważniona osoba."
+                    color="orange"
+                    onClick={downloadAuthorizationLetter}
+                    icon={<DownloadIcon />}
                     />
                 </InfoCardContainer>
             </WideBox>

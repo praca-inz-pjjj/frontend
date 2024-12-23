@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HistoryIcon = ({ width = 16, height = 16, className = ""}) => (
+const HistoryIcon = ({ width = 20, height = 20, className = ""}) => (
     <svg
         className={className}
         viewBox="0 0 24 24"

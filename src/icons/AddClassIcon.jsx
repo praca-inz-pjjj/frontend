@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddClassIcon = ({ width = 16, height = 16, className = ""}) => (
+const AddClassIcon = ({ width = 20, height = 20, className = ""}) => (
     <svg
         className={className}
         xmlns="http://www.w3.org/2000/svg"

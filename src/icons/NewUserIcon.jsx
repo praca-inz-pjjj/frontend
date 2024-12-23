@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NewUserIcon = ({ width = 16, height = 16, className = "" }) => (
+const NewUserIcon = ({ width = 20, height = 20, className = "" }) => (
     <svg
         className={className}
         viewBox="0 0 512 512"
