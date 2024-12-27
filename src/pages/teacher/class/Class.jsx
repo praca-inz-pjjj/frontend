@@ -108,14 +108,14 @@ export const Class = () => {
                 icon={<NewUserIcon />}
               />
               <InfoCard
-                title="Importuj Listę Dzieci"
+                title="Importuj listę dzieci"
                 description="Zaimportuj listę dzieci z pliku w formacie CSV."
                 color="yellow"
                 onClick={() => { setImportModalOpen(true) }}
                 icon={<ImportIcon />}
               />
               <InfoCard
-                title="Pobierz Dane Rodziców"
+                title="Pobierz dane rodziców"
                 description="Pobierz dane logowania rodziców dzieci z tej klasy w formacie CSV."
                 color="orange"
                 onClick={handleDownloadParents}
