@@ -59,7 +59,7 @@ export function Receiver() {
       <WideBox>
         {isLoading ? <LoadingSpinner size={48} /> : (
           <>
-            <Breadcrumbs breadcrumbs={childName ? childBreadcrumbs : noChildBreadcrumbs} backTo="/parent/history" />
+            <Breadcrumbs breadcrumbs={childName ? childBreadcrumbs : noChildBreadcrumbs} backTo={childName ? `/parent/receiver/${id}` : '/parent/history'} />
             <PickUpsTable
               title={"Historia odbiorów"}
               pick_ups_data={historyData}
