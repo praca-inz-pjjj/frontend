@@ -22,7 +22,6 @@ export const ReceiversTable: FC<ReceiversTableProps> = ({
   receivers_data,
   ...props
 }) => {
-  const [data_rows, setDataRows] = useState([]);
   const labels = [
     "#",
     "Odbierający",
@@ -31,29 +30,24 @@ export const ReceiversTable: FC<ReceiversTableProps> = ({
     "Data dodania",
     "Historia odbiorów",
   ];
-
-  useEffect(() => {
-    const permitted_user_data_rows = receivers_data
-      ?.filter(({ is_parent }) => !is_parent)
-      .map((data, index) => [
-        index + 1,
-        <Link
-          to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
-          key={data.receiver_id}
-        >
-          {data.receiver_name}
-        </Link>,
-        data.child_name,
-        data.parent_name,
-        data.date,
-        <BlueLinkButton
-          to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
-          text={"Historia"}
-        />,
-      ]);
-
-    setDataRows(permitted_user_data_rows);
-  }, [receivers_data]);
+  const data_rows = receivers_data
+    ?.filter(({ is_parent }) => !is_parent)
+    .map((data, index) => [
+      index + 1,
+      <Link
+        to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
+        key={data.receiver_id}
+      >
+        {data.receiver_name}
+      </Link>,
+      data.child_name,
+      data.parent_name,
+      data.date,
+      <BlueLinkButton
+        to={`/parent/receiver/${data.receiver_id}?child=${data.child}`}
+        text={"Historia"}
+      />,
+    ]);
 
   return (
     <DataTable

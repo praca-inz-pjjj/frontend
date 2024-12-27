@@ -1,5 +1,5 @@
 // ChildrenTable.jsx
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable"
 import { Link } from "react-router-dom";
 import ColorfulLinkButton from "components/buttons/ColorfulLinkButton";
@@ -24,12 +24,8 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
     receivers_data,
     ...props
   }) => {
-    const [data_rows, setDataRows] = useState([])
     const labels = ["#", "Odbierający", "Odbierany", "Dodany przez", "Data dodania", "Pisemna zgoda", "Dostępne opcje"]
-
-
-  useEffect(()=>{
-    const permitted_user_data_rows: Array[never] = receivers_data
+    const data_rows: Array[never] = receivers_data
       ?.filter(({is_parent}) => !is_parent)
       .map((data, index)=>[
         index+1,
@@ -46,8 +42,6 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
         color="blue"
       />
       ])
-    setDataRows(permitted_user_data_rows)
-  }, [receivers_data])
 
   return (
     <div>
