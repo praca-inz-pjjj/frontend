@@ -40,7 +40,8 @@ const AssignParentModal = ({ isOpen, handleAddParent, allParents, closeModal }) 
 
     return (
         <WideModal
-            title={"Przypisywanie rodzica"}
+            title="Przypisywanie rodzica"
+            subtitle="Przypisana osoba uzyska uprawnienia do odbioru oraz zarządzania danym dzieckiem"
             isOpen={isOpen}
             action_buttons={
                 <>
