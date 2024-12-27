@@ -11,7 +11,7 @@ import { Class } from "./pages/teacher/class/Class";
 import { CreateClass } from "./pages/teacher/CreateClass";
 import { CreateChild } from "./pages/teacher/class/CreateChild";
 import { Home as ParentHome } from "./pages/parent/Home";
-import { ParentsOfChild } from "./pages/teacher/class/child/ParentsChild";
+import { Child } from "./pages/teacher/class/child/Child";
 import { RecoilRoot, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import { authState } from "./recoil-state/auth";
@@ -94,7 +94,7 @@ const router = createHashRouter([
   },
   {
     path: TEACHER_PATH + "/child/:id",
-    element: <ParentsOfChild />
+    element: <Child />
   },
   {
     path: TEACHER_PATH + "/create-parent",
