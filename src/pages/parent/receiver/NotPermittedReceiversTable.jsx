@@ -2,7 +2,7 @@
 import React, { FC, useEffect, useState } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable"
 import { Link } from "react-router-dom";
-import ColorfulButton from "../../../components/buttons/ColorfulButton";
+import ColorfulLinkButton from "components/buttons/ColorfulLinkButton";
 
 
 interface ReceiversData {
@@ -18,12 +18,10 @@ interface ReceiversData {
 
 export interface NotPermittedReceiversTableProps extends TableProps {
   receivers_data: ReceiversData[],
-  handleSignatureSubmit: (receiver_id: String, child_id: String) => void
 }
 
 export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({  
     receivers_data,
-    handleSignatureSubmit,
     ...props
   }) => {
     const [data_rows, setDataRows] = useState([])
@@ -42,14 +40,14 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
         <span className={(data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
           {data.signature ? "Dostarczona" : "Niedostarczona"}
         </span>,
-        <ColorfulButton
-          onClick={handleSignatureSubmit(data.receiver_id, data.child_id)}
-          text={"Dostarcz zgodę"}
-          color="green"
-        />
+        <ColorfulLinkButton
+        to={`/parent/receiver/${data.receiver_id}?child=${data.child_id}`}
+        text={"Historia odbiorów"}
+        color="blue"
+      />
       ])
     setDataRows(permitted_user_data_rows)
-  }, [receivers_data, handleSignatureSubmit])
+  }, [receivers_data])
 
   return (
     <div>

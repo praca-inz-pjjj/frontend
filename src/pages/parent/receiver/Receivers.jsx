@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { PermittedReceiversTable } from "./PermittedReceiversTable";
 import { NotPermitedReceiversTable } from "./NotPermittedReceiversTable";
@@ -44,15 +44,6 @@ export const Receivers = () => {
         fetchData();
     }, []);
 
-    const handleSignatureSubmit = useCallback((receiver_id, child_id) => async () => {
-        try {
-            await axios.post(`/parent/receiver/${receiver_id}/signature`, { child_id });
-            fetchData();
-        } catch (error) {
-            toast.error(error?.response?.data?.message || "Błąd podczas dostarczania zgody.");
-        }
-    }, []);
-
     const downloadAuthorizationLetter = async () => {
         try {
             const response = await axios.get("/parent/documents/authorization-letter", { responseType: "blob" });
@@ -95,7 +86,6 @@ export const Receivers = () => {
                         title={"Upoważnienia bez ważnej pisemnej zgody"}
                         receivers_data={not_permitted_receivers}
                         no_data_message={"Nie znaleziono żadnego upoważnienia."}
-                        handleSignatureSubmit={handleSignatureSubmit}
                     />
                 )}
                 <InfoCardContainer>
