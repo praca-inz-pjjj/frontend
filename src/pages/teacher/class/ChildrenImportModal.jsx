@@ -29,6 +29,7 @@ function ChildrenImportModal({ isOpen, onClose, handleChildrenImport, classroom_
   return (
     <WideModal
       title="Importowanie danych dzieci"
+      subtitle="Plik CSV powinien zawierać kolumny: 'Imię', 'Nazwisko' oraz 'Data urodzenia' w formacie RRRR-MM-DD."
       isOpen={isOpen}
       action_buttons={
         <>
@@ -38,7 +39,7 @@ function ChildrenImportModal({ isOpen, onClose, handleChildrenImport, classroom_
       } >
       {classData ? (
         <div className="flex flex-col space-y-4">
-          <div className="text-sm text-gray-500">Wczytano pomyślnie {classData.length} rekordów.</div>
+          <div className="text-sm text-gray-500">Liczba wczytanych rekordów: {classData.length}.</div>
           <div>
             <AccordionWithHeader header="Podgląd wczytanych danych" defaultExpanded={classData.length < 8}>
               <ChildrenPreviewTable title="" children={classData} />
