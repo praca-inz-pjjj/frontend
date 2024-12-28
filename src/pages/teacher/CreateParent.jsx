@@ -8,10 +8,9 @@ import { generatePassword } from "../../helpers/generatePassword";
 import Body from "../../components/Body";
 import ColorfulButton from "../../components/buttons/ColorfulButton";
 import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
-import FormBox from "../../components/layout/FormBox";
 import CopyableTextBox from "../../components/CopyableTextBox";
+import FormBox from "components/layout/form/FormBox";
 
-// Walidacja pól za pomocą Yup
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Imię jest wymagane'),
   second_name: Yup.string().required('Nazwisko jest wymagane'),
@@ -28,22 +27,21 @@ const buttonClass = "w-full text-white bg-primary-600 hover:bg-primary-700 font-
 
 export const CreateParent = () => {
   const [isLoading, setLoading] = useState(false);
-  const [createdUser, setCreatedUser] = useState(null); // Przechowywanie informacji o stworzonym użytkowniku
+  const [createdUser, setCreatedUser] = useState(null);
 
   const submit = async (values, { setStatus }) => {
-    const generatedPassword = generatePassword(); // Generujemy hasło automatycznie
+    const generatedPassword = generatePassword();
 
     const newParent = {
       first_name: values.first_name,
       second_name: values.second_name,
       email: values.email,
       phone: values.phone,
-      password: generatedPassword, // Hasło jest generowane automatycznie
+      password: generatedPassword,
     };
 
     try {
       setLoading(true);
-      // Utworzenie nowego rodzica
       const { data } = await axios.post(`/teacher/create-parent`, newParent);
 
       if (!data) {
@@ -51,10 +49,8 @@ export const CreateParent = () => {
         return;
       }
 
-      // Zapisz dane użytkownika i wygenerowane hasło do stanu, aby wyświetlić później
       setCreatedUser(newParent);
 
-      // Wyświetlenie informacji o użytkowniku zamiast przekierowania
     } catch (error) {
       if (error?.response?.status === 400) {
         setStatus('Nie udało się utworzyć konta.');
@@ -78,8 +74,7 @@ export const CreateParent = () => {
   return (
     <Body>
       <Navigation />
-      <FormBox>
-        <h1 className="text-xl font-bold text-gray-900">Utwórz konto Rodzica</h1>
+        <FormBox title="Utwórz konto Rodzica" cancelButton>
           {createdUser ? (
             <div>
               <h2 className="text-lg font-semibold mb-4 text-gray-900">Konto zostało utworzone pomyślnie!</h2>

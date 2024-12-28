@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Navigation } from "../../../components/Navigation";
-import { BACKEND_ADDRESS } from '../../../constances';
-import { LoadingSpinner } from "../../../components/LoadingSpinner";
-import { generatePassword } from "../../../helpers/generatePassword";
-import ColorfulButton from "../../../components/buttons/ColorfulButton";
-import Body from "../../../components/Body";
-import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
-import CopyableTextBox from "../../../components/CopyableTextBox";
-import FormBox from "../../../components/layout/FormBox";
+import { Navigation } from "../../components/Navigation";
+import { BACKEND_ADDRESS } from '../../constances';
+import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { generatePassword } from "../../helpers/generatePassword";
+import ColorfulButton from "../../components/buttons/ColorfulButton";
+import Body from "../../components/Body";
+import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
+import CopyableTextBox from "../../components/CopyableTextBox";
+import FormContainer from "../../components/layout/form/FormContainer";
 import { toast } from "react-toastify";
+import FormBox from "components/layout/form/FormBox";
 
 // Validation schema for form fields using Yup
 const validationSchema = Yup.object().shape({
@@ -94,8 +95,7 @@ export const CreateReceiver = () => {
     return (
         <Body>
             <Navigation />
-                <FormBox>
-                <h1 className="text-xl font-bold text-gray-900">Utwórz konto Odbierającego</h1>
+                <FormBox title="Utwórz konto Odbierającego" cancelButton>
                 {user_creation_success ? (
                     <div>
                         <h2 className="text-lg font-semibold mb-4 text-gray-900">Konto zostało utworzone pomyślnie!</h2>

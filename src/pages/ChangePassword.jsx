@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Navigation } from "../../components/Navigation";
+import { Navigation } from "../components/Navigation";
 import { useNavigate } from "react-router-dom";
-import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 import { toast } from "react-toastify";
-import Body from "../../components/Body";
+import Body from "../components/Body";
+import FormBox from "components/layout/form/FormBox";
 
 const validationSchema = Yup.object().shape({
   new_password: Yup.string()
@@ -55,12 +56,7 @@ export const ChangePassword = () => {
   return (
     <Body>
       <Navigation />
-      <div className="mt-[200px]">
-          <section className="flex justify-center">
-            <div className="w-full max-w-md bg-white rounded-lg shadow mt-6 p-8 space-y-4">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Zmień hasło
-            </h1>
+        <FormBox title="Zmień hasło" cancelButton>
             <Formik
               initialValues={{
                 new_password: "",
@@ -141,9 +137,7 @@ export const ChangePassword = () => {
                 </form>
               )}
             </Formik>
-          </div>
-      </section>
-      </div>
+        </FormBox>
     </Body>
   );
 };
