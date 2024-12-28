@@ -10,7 +10,6 @@ import ColorfulButton from "../../components/buttons/ColorfulButton";
 import Body from "../../components/Body";
 import ColorfulLinkButton from "../../components/buttons/ColorfulLinkButton";
 import CopyableTextBox from "../../components/CopyableTextBox";
-import FormContainer from "../../components/layout/form/FormContainer";
 import { toast } from "react-toastify";
 import FormBox from "components/layout/form/FormBox";
 
