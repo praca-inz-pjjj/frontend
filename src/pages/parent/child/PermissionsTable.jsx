@@ -3,6 +3,12 @@ import React from "react";
 import DataTable from "../../../components/DataTable"
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
+const PermissionStatusConfig = {
+  "SLEEP": "Oczekująca",
+  "ACTIVE": "Aktywna",
+  "CLOSED": "Zakończona",
+  "PERMANENT": "Stała"
+}
 
 export const PermissionsTable = ({ 
     permssions,
@@ -15,7 +21,7 @@ export const PermissionsTable = ({
       permission.user_name,
       permission.start_date,
       permission.end_date,
-      permission.state === "SLEEP" ? "Oczekujące" : permission.state,
+      PermissionStatusConfig[permission.state] || permission.state,
       <ColorfulButton
         text="Usuń zgodę"
         color="red"
