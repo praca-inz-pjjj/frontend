@@ -33,7 +33,7 @@ const ConfirmAuthLetterDeliveryModal = ({ isOpen, handleLetterDelivery, reveiver
         closeModal();
     }
 
-    const onAssign = () => {
+    const onConfirm = () => {
         handleLetterDelivery(selectedPersonId);
         onClose();
     }
@@ -46,7 +46,7 @@ const ConfirmAuthLetterDeliveryModal = ({ isOpen, handleLetterDelivery, reveiver
             action_buttons={
                 <>
                     <ColorfulButton onClick={onClose} text={"Zamknij"} color="slate" />
-                    <ColorfulButton onClick={onAssign} text={"Potwierdź"} color="primary_blue" disabled={!selectedPersonId} />
+                    <ColorfulButton onClick={onConfirm} text={"Potwierdź"} color="primary_blue" disabled={!selectedPersonId} />
                 </>
             }>
             <div className="overflow-visible">
