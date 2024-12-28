@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable";
 
 export interface PickUpData {
@@ -25,7 +25,6 @@ export const PickUpsTable: FC<PickUpsTableProps> = ({
   pick_ups_data,
   no_data_message,
 }) => {
-  const [data_rows, setDataRows] = useState([]);
   const labels = [
     "#",
     "Dziecko",
@@ -34,24 +33,20 @@ export const PickUpsTable: FC<PickUpsTableProps> = ({
     "Decyzja",
     "Data",
   ];
-  
-  useEffect(() => {
-    const pick_ups_data_rows: Array[never] = pick_ups_data?.map(
-      (row, index) => [
-        index + 1,
-        `${row.child_name} ${row.child_surname}`,
-        `${row.receiver_name} ${row.receiver_surname}`,
-        `${row.teacher_name} ${row.teacher_surname}`,
-        row.decision ? (
-          <span className="text-green-500 font-semibold">Odbiór</span>
-        ) : (
-          <span className="text-red-500 font-semibold">Brak odbioru</span>
-        ),
-        new Date(row.date).toLocaleString(),
-      ]
-    );
-    setDataRows(pick_ups_data_rows);
-  }, [pick_ups_data]);
+  const data_rows: Array[never] = pick_ups_data?.map(
+    (row, index) => [
+      index + 1,
+      `${row.child_name} ${row.child_surname}`,
+      `${row.receiver_name} ${row.receiver_surname}`,
+      `${row.teacher_name} ${row.teacher_surname}`,
+      row.decision ? (
+        <span className="text-green-500 font-semibold">Odbiór</span>
+      ) : (
+        <span className="text-red-500 font-semibold">Brak odbioru</span>
+      ),
+      new Date(row.date).toLocaleString(),
+    ]
+  );
 
   return (
     <DataTable

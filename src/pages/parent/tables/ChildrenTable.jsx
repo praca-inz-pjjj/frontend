@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import DataTable, { TableProps } from "../../../components/DataTable"
 import ColorfulLinkButton from "../../../components/buttons/ColorfulLinkButton";
 
@@ -14,22 +14,17 @@ export interface ChildrenTableProps extends TableProps {
 }
 
 export const ChildrenTable: FC<ChildrenTableProps> = ({ title, children_data, no_data_message }) => {
-    const [data_rows, setDataRows] = useState([])
     const labels = ["#", "Imię i Nazwisko", "Klasa", "Dostępne opcje"]
-
-    useEffect(()=>{
-      const children_data_rows: Array[never] = children_data?.map((child, index)=>[
-        index+1,
-        child.first_name + " " + child.last_name,
-        child.classroom_name,
-        <ColorfulLinkButton
-          color="blue"
-          to={`/parent/child/${child.id}`}
-          text={"Szczegóły"}
-        />
-      ])
-      setDataRows(children_data_rows)
-    }, [children_data])
+    const data_rows: Array[never] = children_data?.map((child, index)=>[
+      index+1,
+      child.first_name + " " + child.last_name,
+      child.classroom_name,
+      <ColorfulLinkButton
+        color="blue"
+        to={`/parent/child/${child.id}`}
+        text={"Szczegóły"}
+      />
+    ])
 
     return (
       <DataTable 

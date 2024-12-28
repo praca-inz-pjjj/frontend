@@ -1,5 +1,5 @@
 // ChildrenTable.jsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DataTable from "../../../components/DataTable"
 import ColorfulButton from "../../../components/buttons/ColorfulButton";
 
@@ -9,24 +9,19 @@ export const PermissionsTable = ({
     handleDeletePermission,
     ...props
   }) => {
-  const [data_rows, setDataRows] = useState([])
   const labels = ["#", "Odbierający", "Początek ważności", "Koniec ważności", "Status", "Dostępne opcje"]
-
-  useEffect(()=>{
-    const permissions_data = Object.entries(permssions)?.filter(([id, permission]) => permission.state !== "PERMANENT").map(([id, permission], index)=>[
-        index+1,
-        permission.user_name,
-        permission.start_date,
-        permission.end_date,
-        permission.state === "SLEEP" ? "Oczekujące" : permission.state,
-        <ColorfulButton
-          text="Usuń zgodę"
-          color="red"
-          onClick={handleDeletePermission(permission.permission_id)}
-        />
-      ])
-    setDataRows(permissions_data)
-  }, [permssions, handleDeletePermission])
+  const data_rows = Object.entries(permssions)?.filter(([id, permission]) => permission.state !== "PERMANENT").map(([id, permission], index)=>[
+      index+1,
+      permission.user_name,
+      permission.start_date,
+      permission.end_date,
+      permission.state === "SLEEP" ? "Oczekujące" : permission.state,
+      <ColorfulButton
+        text="Usuń zgodę"
+        color="red"
+        onClick={handleDeletePermission(permission.permission_id)}
+      />
+    ])
 
   return (
     <DataTable 

@@ -50,12 +50,13 @@ export const AddPermision = () => {
             const response = await axios.post("/parent/receiver/permission", {child_id: values.child_id, receiver_id: values.receiver_id})
             if (response?.status === 200) {
                 toast.success("Upoważnienie zostało dodane pomyślnie");
-                navigate('/parent');
+                navigate('/parent/receivers');
                 return;
             }
         } catch (error) {
             if (error.code === 'ERR_BAD_REQUEST'){
                 toast.error("Ten użytkownik już posiada upoważnienie do tego dziecka")
+                return;
             }
             setStatus("Wystąpił błąd. Spróbuj ponownie.");
         } finally {
