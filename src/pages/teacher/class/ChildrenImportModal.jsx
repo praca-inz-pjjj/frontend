@@ -29,6 +29,7 @@ function ChildrenImportModal({ isOpen, onClose, handleChildrenImport, classroom_
   return (
     <WideModal
       title="Importowanie danych dzieci"
+      subtitle="Plik CSV powinien zawierać kolumny: 'Imię', 'Nazwisko' oraz 'Data urodzenia' w formacie RRRR-MM-DD."
       isOpen={isOpen}
       action_buttons={
         <>
