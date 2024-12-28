@@ -27,6 +27,8 @@ axios.interceptors.response.use(
         window.location.hash = "/forbidden";
       } else if (status === 500) {
         window.location.hash = "/error";
+      } else if (status === 404) {
+        window.location.hash = "/not-found";
       }
     }
 

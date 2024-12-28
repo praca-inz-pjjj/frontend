@@ -57,6 +57,9 @@ export const Child = () => {
         toast.error('Błąd połączenia z serwerem.');
         return;
       }
+      if (error.response.status === 500) {
+        toast.error('Nie udało się pobrać danych.');
+      }
     } finally {
       setLoading(false);
     }
@@ -72,7 +75,7 @@ export const Child = () => {
       toast.success('Rodzic został przypisany.');
       fetchData();
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Nie udało się przypisać rodzica.');
+      toast.error('Nie udało się przypisać rodzica.');
     }
   }, [id]); // eslint-disable-line
 
@@ -82,7 +85,7 @@ export const Child = () => {
       toast.success('Potwierdzono dostarczenie upoważnienia.');
       fetchData();
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Nie udało się potwierdzić dostarczenia upoważnienia.');
+      toast.error('Nie udało się potwierdzić dostarczenia upoważnienia.');
     }
   }, [id]); // eslint-disable-line
 
@@ -94,7 +97,7 @@ export const Child = () => {
       toast.success('Usunięto przypisanie rodzica.');
       fetchData();
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Nie udało się usunąć rodzica.');
+      toast.error('Nie udało się usunąć rodzica.');
     }
   }, [id]); // eslint-disable-line
 
