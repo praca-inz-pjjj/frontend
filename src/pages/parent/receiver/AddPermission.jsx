@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Navigation } from "../../../components/Navigation";
+import { Navigation } from "../../../components/navigation/Navigation";
 import Body from "../../../components/Body";
 import { toast } from "react-toastify";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
-import FormBox from "components/layout/FormBox";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import FormBox from "components/layout/form/FormBox";
 
 const validationSchema = Yup.object().shape({
     child_id: Yup.string().required("Wybór dziecka jest wymagany"),
@@ -80,16 +80,15 @@ export const AddPermision = () => {
     return (
         <Body>
             <Navigation />
-            <FormBox>
-                <h1 className="text-xl font-bold text-gray-900 mb-4">Upoważnij użytkownika do odbioru</h1>
-                <Formik
-                    initialValues={{
-                        child_id: "",
-                        receiver_id: "",
-                    }}
-                    validationSchema={validationSchema}
-                    onSubmit={submit}
-                >
+                <FormBox title="Dodaj upoważnienie" cancelButton>
+                    <Formik
+                        initialValues={{
+                            child_id: "",
+                            receiver_id: "",
+                        }}
+                        validationSchema={validationSchema}
+                        onSubmit={submit}
+                    >
                     {({ values, status, handleChange, handleBlur, setFieldValue, handleSubmit }) => (
                         <form
                             className="space-y-4"

@@ -2,10 +2,10 @@ import { useEffect } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
-import { Navigation } from "../components/Navigation";
+import { Navigation } from "../components/navigation/Navigation";
 import React from "react";
 import Body from "../components/Body";
-import FormBox from "components/layout/FormBox";
+import FormContainer from "components/layout/form/FormContainer";
 
 export const Logout = () => {
   const navigate = useNavigate();
@@ -36,12 +36,12 @@ export const Logout = () => {
   return (
     <Body>
       <Navigation />
-      <FormBox>
+      <FormContainer>
           <LoadingSpinner size={48} />
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-800 mt-5">Zamykanie sesji...</h1>
           </div>
-      </FormBox>
+      </FormContainer>
     </Body>
   );
 };

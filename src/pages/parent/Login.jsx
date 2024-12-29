@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Navigation } from "../../components/Navigation";
+import { Navigation } from "../../components/navigation/Navigation";
 import { useNavigate, Link } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import Body from "../../components/Body";
 import { toast } from "react-toastify";
+import FormBox from "components/layout/form/FormBox";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -83,12 +84,7 @@ export const Login = () => {
   return (
     <Body>
       <Navigation />
-      <div className="flex flex-col items-center mt-[200px]">
-        <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Panel Rodzica
-            </h1>
+          <FormBox title="Panel Rodzica">
             <Formik
               initialValues={{
                 email: "",
@@ -175,9 +171,7 @@ export const Login = () => {
               Nie pamiętasz hasła?
               </Link>
             </div>
-          </div>
-        </div>
-      </div>
+          </FormBox>
     </Body>
   );
 };

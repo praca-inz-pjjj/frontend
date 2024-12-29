@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Navigation } from "../components/Navigation";
+import { Navigation } from "../components/navigation/Navigation";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import Body from "../components/Body";
 import { toast } from "react-toastify";
+import FormBox from "components/layout/form/FormBox";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required('Email jest wymagany')
@@ -38,11 +39,8 @@ export const ResetPassword = () => {
   return (
     <Body>
       <Navigation />
-      <div className="mt-[200px]">
-        <section className="flex justify-center">
-          <div className="w-full max-w-[400px] bg-white rounded-lg shadow mt-6 p-10 space-y-4">
-            <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Odzyskiwanie dostępu</h1>
-            <p className="text-sm">Na podany adres email zostanie wysłany link do zresetowania hasła</p>
+      <FormBox title="Odzyskiwanie dostępu" cancelButton>
+            <p className="text-sm">Na podany adres email zostanie wysłany link do zmiany hasła</p>
             <Formik
               initialValues={{
                 email: ''
@@ -83,9 +81,7 @@ export const ResetPassword = () => {
                 </form>
               )}
             </Formik>
-          </div>
-        </section>
-      </div>
+        </FormBox>
     </Body>
   );
 }
