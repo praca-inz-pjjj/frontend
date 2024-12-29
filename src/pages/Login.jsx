@@ -22,12 +22,12 @@ export const Login = () => {
   return (
     <Body>
       <Navigation />
-      <div className="flex flex-col items-center mt-[200px]">
-        <div className="bg-white py-8 rounded-lg w-full max-w-5xl min-w-[420px] shadow-lg">
-          <div className="flex flex-row divide-x divide-gray-300 relative">
+      <div className="flex flex-col items-center sm:mt-16 md:mt-32">
+        <div className="bg-white p-8 sm:rounded-lg w-full max-w-5xl sm:shadow-lg">
+          <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-300 relative">
             {/* Panel Nauczyciela */}
             <div className="flex-1 text-center flex flex-col items-center">
-              <div className="mb-20 px-10 md:px-20">
+              <div className="mb-4 sm:mb-16 sm:px-10 md:px-20">
                 <h3 className="text-2xl font-semibold text-blue-500">
                   Panel
                 </h3>
@@ -38,7 +38,7 @@ export const Login = () => {
                   Twórz i przeglądaj swoje klasy oraz zarządzaj dostępem dla rodziców.
                 </p>
               </div>
-              <div className="absolute bottom-0">
+              <div className="sm:absolute bottom-0 mb-8 sm:mb-0">
                 <ColorfulLinkButton
                   color="blue"
                   style={{ padding: "0.5rem 1.5rem"}}
@@ -50,7 +50,7 @@ export const Login = () => {
 
             {/* Panel Rodzica */}
             <div className="flex-1 text-center flex flex-col items-center">
-              <div className="mb-20 px-10 md:px-20">
+              <div className="mb-4 sm:mb-16 sm:px-10 md:px-20 mt-4 sm:mt-0">
                 <h2 className="text-2xl font-semibold text-green-500">
                   Panel
                 </h2>
@@ -61,7 +61,7 @@ export const Login = () => {
                   Zarządzaj uprawnieniami i opiekunami oraz przeglądaj historię odbiorów.
                 </p>
               </div>
-              <div className="absolute bottom-0">
+              <div className="sm:absolute bottom-0">
                 <ColorfulLinkButton
                   color="green"
                   style={{ padding: "0.5rem 1.5rem" }}
