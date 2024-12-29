@@ -20,7 +20,7 @@ const Breadcrumbs = ({ breadcrumbs, backTo="" }) => {
     return (
         <div className="flex items-center mb-12">
             <BreadcrumbsBackButton onClick={handleBack} />
-            <h2 className="text-gray-600 text-lg flex items-center">
+            <h2 className="text-gray-600 flex items-center">
                 {breadcrumbs.map((crumb, index) => (
                     <React.Fragment key={index}>
                         {crumb.link ? (
