@@ -1,6 +1,6 @@
 import React from "react";
 import Body from "../Body";
-import { Navigation } from "../Navigation";
+import { Navigation } from "../navigation/Navigation";
 import Footer from "../footer/Footer";
 import Background from "./Background";
 
@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
         <Body>
             <Background>
             <Navigation />
-                {children}
+            {children}
             <Footer />
             </Background>
         </Body>

@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
-import { Navigation } from "../components/Navigation";
+import { Navigation } from "../components/navigation/Navigation";
 import React from "react";
 import Body from "../components/Body";
 import FormContainer from "components/layout/form/FormContainer";

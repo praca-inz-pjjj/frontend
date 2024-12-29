@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import { Navigation } from '../../components/Navigation';
+import { Navigation } from '../../components/navigation/Navigation';
 import Body from '../../components/Body';
 
 export const ErrorPage = ({error_code, title, description}) => {

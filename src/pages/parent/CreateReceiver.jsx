@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Navigation } from "../../components/Navigation";
+import { Navigation } from "../../components/navigation/Navigation";
 import { BACKEND_ADDRESS } from '../../constances';
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { generatePassword } from "../../helpers/generatePassword";

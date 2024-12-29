@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Navigation } from "../../components/Navigation";
+import { Navigation } from "../../components/navigation/Navigation";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import Body from "../../components/Body";
