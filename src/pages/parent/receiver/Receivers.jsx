@@ -72,38 +72,40 @@ export const Receivers = () => {
 
     return (
         <Layout>
-            <WideBox className="space-y-16">
+            <WideBox>
                 <Breadcrumbs breadcrumbs={breadcrumbs} backTo={"/parent"} />
-                {permitted_receivers && (
-                    <PermittedReceiversTable
-                        title={"Upoważnienia z ważną pisemną zgodą"}
-                        receivers_data={permitted_receivers}
-                        no_data_message={"Nie znaleziono żadnego upoważnienia."}
-                    />
-                )}
-                {not_permitted_receivers && (
-                    <NotPermitedReceiversTable
-                        title={"Upoważnienia bez ważnej pisemnej zgody"}
-                        receivers_data={not_permitted_receivers}
-                        no_data_message={"Nie znaleziono żadnego upoważnienia."}
-                    />
-                )}
-                <InfoCardContainer>
-                    <InfoCard
-                    title="Dodaj Upoważnienie"
-                    description="Upoważnij użytkownika do odbioru Twojego dziecka."
-                    color="blue"
-                    href="/parent/receivers/permission"
-                    icon={<AddPermissionIcon />}
-                    />
-                    <InfoCard
-                    title="Pobierz wzór pisemnej zgody"
-                    description="Pobierz wzór pisemnej zgody, którą musi dostarczyć upoważniona osoba."
-                    color="orange"
-                    onClick={downloadAuthorizationLetter}
-                    icon={<DownloadIcon />}
-                    />
-                </InfoCardContainer>
+                <div className="space-y-8">
+                    {permitted_receivers && (
+                        <PermittedReceiversTable
+                            title={"Upoważnienia z ważną pisemną zgodą"}
+                            receivers_data={permitted_receivers}
+                            no_data_message={"Nie znaleziono żadnego upoważnienia."}
+                        />
+                    )}
+                    {not_permitted_receivers && (
+                        <NotPermitedReceiversTable
+                            title={"Upoważnienia bez ważnej pisemnej zgody"}
+                            receivers_data={not_permitted_receivers}
+                            no_data_message={"Nie znaleziono żadnego upoważnienia."}
+                        />
+                    )}
+                    <InfoCardContainer>
+                        <InfoCard
+                        title="Dodaj Upoważnienie"
+                        description="Upoważnij użytkownika do odbioru Twojego dziecka."
+                        color="blue"
+                        href="/parent/receivers/permission"
+                        icon={<AddPermissionIcon />}
+                        />
+                        <InfoCard
+                        title="Pobierz wzór pisemnej zgody"
+                        description="Pobierz wzór pisemnej zgody, którą musi dostarczyć upoważniona osoba."
+                        color="orange"
+                        onClick={downloadAuthorizationLetter}
+                        icon={<DownloadIcon />}
+                        />
+                    </InfoCardContainer>
+                </div>
             </WideBox>
         </Layout>
     );
