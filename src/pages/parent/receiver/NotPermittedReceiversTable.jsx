@@ -33,7 +33,7 @@ export const NotPermitedReceiversTable: FC<NotPermittedReceiversTableProps> = ({
         data.child_name,
         data.parent_name,
         data.date,
-        <span className={(data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
+        <span className={(data?.signature ? "text-green-500" : "") + " font-semibold"}>
           {data.signature ? "Dostarczona" : "Niedostarczona"}
         </span>,
         <ColorfulLinkButton

@@ -31,8 +31,8 @@ export const ChildPermittedUsersTable: FC<ChildPermittedUsersTableProps> = ({
       user_data.user_name,
       user_data.parent_name,
       user_data.date,
-      <span className={(user_data?.signature ? "text-green-500" : "text-red-500") + " font-semibold"}>
-        {user_data.signature ? "Dostarczona" : "Niedostarczona"}
+      <span className={(user_data?.signature ? "text-green-500" : "") + " font-semibold"}>
+          {user_data.signature ? "Dostarczona" : "Niedostarczona"}
       </span>,
       <ColorfulLinkButton
         color="blue"
