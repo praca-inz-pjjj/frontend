@@ -24,8 +24,8 @@ const DataTable: FC<DataTableProps> = ({
   if (data_rows?.length === 0) {
     return (
       <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
-        <div className="flex justify-between items-center px-4 py-3 rounded-t-lg bg-blue-50">
-          <h3 className="text-xl">{title}</h3>
+        <div className="flex justify-between items-center px-4 rounded-t-lg bg-blue-50">
+          <h3 className="text-xl tracking-tight py-[10px]">{title}</h3>
           <div className="flex space-x-2">
             {buttons.map((button, index) => (
               <div key={index}>{button}</div>
@@ -41,8 +41,8 @@ const DataTable: FC<DataTableProps> = ({
 
   return (
     <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200 flex flex-col">
-      <div className="flex justify-between items-center px-4 py-3 bg-blue-50">
-        <h3 className="text-xl">{title}</h3>
+      <div className="flex justify-between items-center px-4 bg-blue-50">
+        <h3 className="text-xl tracking-tight py-[10px]">{title}</h3>
         <div className="flex space-x-2">
           {buttons.map((button, index) => (
             <div key={index}>{button}</div>
@@ -76,7 +76,7 @@ const DataTable: FC<DataTableProps> = ({
                 {row.map((value, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className={`px-4 border-b border-gray-200 text-gray-700
+                    className={`px-4 border-b border-gray-200 text-gray-800
                       ${(isLastCell(cellIndex) && lastCellStyling) || "text-left py-3"}`}
                   >
                     {value}
