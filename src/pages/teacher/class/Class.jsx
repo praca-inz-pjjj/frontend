@@ -85,6 +85,7 @@ export const Class = () => {
             <Breadcrumbs breadcrumbs={breadcrumbs} backTo="/teacher" />
             <DetailsCard
               title="Klasa"
+              className="mb-8"
               headerContent={
                 <div className="flex flex-col items-start">
                   <p className="font-semibold text-gray-800 text-lg">{classData?.class_name}</p>

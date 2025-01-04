@@ -110,6 +110,7 @@ export const Child = () => {
 
             <DetailsCard
               title="Dane Dziecka"
+              className="mb-8"
               headerContent={
                 <div className="flex flex-col items-start">
                   <p className="text-lg font-semibold text-gray-800">{getChildName()}</p>
