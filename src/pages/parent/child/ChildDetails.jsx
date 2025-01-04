@@ -68,36 +68,34 @@ export const ChildDetails = () => {
                         <>
                             <Breadcrumbs breadcrumbs={breadcrumbs} backTo={"/parent"} />
                             <DetailsCard
+                                title="Szczegóły Dziecka"
                                 headerContent={
                                     <div className="flex flex-col items-start">
-                                        <p className="text-lg font-semibold text-gray-800 mb-2">{getChildName()}</p>
-                                        <p className="text-gray-600">Data urodzenia: <span className="font-semibold">{childData?.child_birth_date}</span></p>
+                                        <p className="font-semibold text-gray-800 text-lg">{getChildName()}</p>
                                         <p className="text-gray-600">Klasa: <span className="font-semibold">{childData?.child_classroom}</span></p>
                                         <p className="text-gray-600">Nauczyciel: <span className="font-semibold">{childData?.child_teacher}</span></p>
                                     </div>
                                 }
                                 >
-                                <div className="space-y-8">
-                                    <PermissionsTable
-                                        title={"Wydane zgody"}
-                                        permssions={childData?.permissions || []}
-                                        no_data_message={"Nie znaleziono żadnych zgód."}
-                                        handleDeletePermission={handleDeletePermission}
-                                        buttons={[
-                                            <ColorfulButton color="primary_green" text="Wydaj zgodę" onClick={handleAddPermision} />
-                                        ]}
-                                    />
-                                    {childData?.permitted_users &&
-                                    <ChildPermittedUsersTable
-                                        title={"Upoważnione osoby"}
-                                        permitted_users_data={childData?.permitted_users}
-                                        no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
-                                        child_id={childData.child_id}
-                                        buttons={[
-                                            <ColorfulLinkButton color="primary_blue" text="Zarządzaj" to="/parent/receivers" />
-                                        ]}
-                                    />}
-                                </div>
+                                <PermissionsTable
+                                    title={"Wydane zgody"}
+                                    permssions={childData?.permissions || []}
+                                    no_data_message={"Nie znaleziono żadnych wydanych zgód."}
+                                    handleDeletePermission={handleDeletePermission}
+                                    buttons={[
+                                        <ColorfulButton color="primary_green" text="Wydaj zgodę" onClick={handleAddPermision} />
+                                    ]}
+                                />
+                                {childData?.permitted_users &&
+                                <ChildPermittedUsersTable
+                                    title={"Upoważnione osoby"}
+                                    permitted_users_data={childData?.permitted_users}
+                                    no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
+                                    child_id={childData.child_id}
+                                    buttons={[
+                                        <ColorfulLinkButton color="primary_blue" text="Zarządzaj" to="/parent/receivers" />
+                                    ]}
+                                />}
                             </DetailsCard>
                         </>
                     )
