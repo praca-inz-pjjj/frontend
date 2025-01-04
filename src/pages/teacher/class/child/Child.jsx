@@ -112,9 +112,9 @@ export const Child = () => {
               title="Dane Dziecka"
               headerContent={
                 <div className="flex flex-col items-start">
-                  <div className="text-lg font-semibold text-gray-800 mb-2">{getChildName()}</div>
-                  <div className="text-gray-600">Data urodzenia: {child?.birth_date}</div>
-                  <div className="text-gray-600">Klasa: {classroom?.name}</div>
+                  <p className="text-lg font-semibold text-gray-800">{getChildName()}</p>
+                  <p className="text-gray-600">Data urodzenia: <span className="font-semibold">{child?.birth_date}</span></p>
+                  <p className="text-gray-600">Klasa: <span className="font-semibold">{classroom?.name}</span></p>
                 </div>
               }
             >
