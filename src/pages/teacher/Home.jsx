@@ -40,7 +40,7 @@ export const Home = () => {
           {isLoading ? <LoadingSpinner size={48} /> : (
             <>
               <h3 className="text-gray-800 text-2xl mb-12">{name ? `Witaj, ${getFirstName()}!` : ""}</h3>
-              <div className="mb-12">
+              <div className="mb-8">
                 <ClassroomsTable
                   title={"Klasy"}
                   no_data_message={"Nie znaleziono żadnych klas."}
