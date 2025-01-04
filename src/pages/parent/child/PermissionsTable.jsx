@@ -23,7 +23,7 @@ export const PermissionsTable = ({
       permission.end_date,
       PermissionStatusConfig[permission.state] || permission.state,
       <ColorfulButton
-        text="Usuń zgodę"
+        text="Anuluj"
         color="red"
         onClick={handleDeletePermission(permission.permission_id)}
       />

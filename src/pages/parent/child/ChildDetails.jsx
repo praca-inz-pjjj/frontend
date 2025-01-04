@@ -10,16 +10,19 @@ import WideBox from "../../../components/layout/WideBox";
 import { toast } from "react-toastify";
 import Layout from "../../../components/layout/Layout";
 import Breadcrumbs from "../../../components/breadcrumbs/Breadcrumbs";
+import ColorfulLinkButton from "components/buttons/ColorfulLinkButton";
+import DetailsCard from "components/DetailsCard";
 
 export const ChildDetails = () => {
     let { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [childData, setChildData] = useState(null);
+    const getChildName = () => childData?.child_name;
     const breadcrumbs = [
         { label: "Dzieci", link: "/parent" },
-        { label: childData?.child_name, isActive: true },
-      ];
+        { label: getChildName(), isActive: true },
+    ];
 
     const fetchData = async () => {
         setLoading(true);
@@ -64,8 +67,17 @@ export const ChildDetails = () => {
                     childData && (
                         <>
                             <Breadcrumbs breadcrumbs={breadcrumbs} backTo={"/parent"} />
-                            <div className="space-y-8">
-                                <div className="space-y-2">
+                            <DetailsCard
+                                headerContent={
+                                    <div className="flex flex-col items-start">
+                                        <p className="text-lg font-semibold text-gray-800 mb-2">{getChildName()}</p>
+                                        <p className="text-gray-600">Data urodzenia: <span className="font-semibold">{childData?.child_birth_date}</span></p>
+                                        <p className="text-gray-600">Klasa: <span className="font-semibold">{childData?.child_classroom}</span></p>
+                                        <p className="text-gray-600">Nauczyciel: <span className="font-semibold">{childData?.child_teacher}</span></p>
+                                    </div>
+                                }
+                                >
+                                <div className="space-y-8">
                                     <PermissionsTable
                                         title={"Wydane zgody"}
                                         permssions={childData?.permissions || []}
@@ -75,15 +87,18 @@ export const ChildDetails = () => {
                                             <ColorfulButton color="primary_green" text="Wydaj zgodę" onClick={handleAddPermision} />
                                         ]}
                                     />
-                                </div>
-                                {childData?.permitted_users &&
+                                    {childData?.permitted_users &&
                                     <ChildPermittedUsersTable
                                         title={"Upoważnione osoby"}
                                         permitted_users_data={childData?.permitted_users}
                                         no_data_message={"Nie znaleziono żadnych upoważnionych osób."}
                                         child_id={childData.child_id}
+                                        buttons={[
+                                            <ColorfulLinkButton color="primary_blue" text="Zarządzaj" to="/parent/receivers" />
+                                        ]}
                                     />}
-                            </div>
+                                </div>
+                            </DetailsCard>
                         </>
                     )
                 )}

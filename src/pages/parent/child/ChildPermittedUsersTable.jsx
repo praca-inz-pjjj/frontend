@@ -21,7 +21,8 @@ export const ChildPermittedUsersTable: FC<ChildPermittedUsersTableProps> = ({
     title, 
     no_data_message, 
     permitted_users_data,
-    child_id
+    child_id,
+    ...props
   }) => {
   const labels = ["#", "Odbierający", "Dodany przez", "Data dodania", "Status zgody", "Dostępne opcje"]
   const data_rows: Array[never] = permitted_users_data?.filter(({is_parent}) => !is_parent)
@@ -46,6 +47,7 @@ export const ChildPermittedUsersTable: FC<ChildPermittedUsersTableProps> = ({
       no_data_message={no_data_message}
       labels={labels}
       data_rows={data_rows}
+      {...props}
       />
   )
 };
