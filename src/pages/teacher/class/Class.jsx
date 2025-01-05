@@ -84,10 +84,12 @@ export const Class = () => {
           <>
             <Breadcrumbs breadcrumbs={breadcrumbs} backTo="/teacher" />
             <DetailsCard
-              title="Dane Klasy"
+              title="Klasa"
+              className="mb-8"
               headerContent={
                 <div className="flex flex-col items-start">
-                  <div className="text-lg font-semibold text-gray-800 mb-2">{classData?.class_name}</div>
+                  <p className="font-semibold text-gray-800 text-lg">{classData?.class_name}</p>
+                  <p className="text-gray-600">Rozmiar klasy: <span className="font-semibold">{classData?.children.length}</span></p>
                 </div>
               }
             >
