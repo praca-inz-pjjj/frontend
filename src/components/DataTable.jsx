@@ -76,7 +76,7 @@ const DataTable: FC<DataTableProps> = ({
                 {row.map((value, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className={`px-4 border-b border-gray-200 text-gray-800
+                    className={`px-4 border-b border-gray-200 text-gray-700
                       ${(isLastCell(cellIndex) && lastCellStyling) || "text-left py-3"}`}
                   >
                     {value}
