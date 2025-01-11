@@ -33,7 +33,7 @@ const ParentHistory = () => {
       }
     };
     fetchHistory();
-  }, []); // eslint-disable-line
+  }, []);
   return (
     <Layout>
         <WideBox>
